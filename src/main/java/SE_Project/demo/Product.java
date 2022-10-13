@@ -2,21 +2,21 @@ package SE_Project.demo;
 
 public class Product {
 
+    private String id;
     private String date;
     private String category;
     private int price;
-    private int id;
 
     public Product() {}
 
-    public Product(String category, String date, int price, int id) {
+    public Product(String id, String category, String date, int price) {
         this.id = id;
         this.date = date;
         this.category = category;
         this.price = price;
     }
 
-    public void setId(int id) {this.id = id;}
+    public void setId(String id) {this.id = id;}
 
     public void setDate(String date) {this.date = date;}
 
@@ -24,7 +24,7 @@ public class Product {
 
     public void setPrice(int price) {this.price = price;}
 
-    public int getId() {return this.id;}
+    public String getId() {return this.id;}
 
     public String getDate() {return this.date;}
 
