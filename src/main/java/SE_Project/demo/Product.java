@@ -2,10 +2,10 @@ package SE_Project.demo;
 
 public class Product {
 
-    private String id;
-    private String date;
-    private String category;
-    private int price;
+    private String id;              //user id
+    private String date;            //自定義消費日期
+    private String category;        //資金種類(消費，儲蓄，工資等)
+    private int price;              //金額
 
     public Product() {}
 
