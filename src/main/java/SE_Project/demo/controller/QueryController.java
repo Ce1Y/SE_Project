@@ -62,6 +62,30 @@ public class QueryController {
         return ResponseEntity.ok().body(products);
     }
 
+    @PatchMapping("/products/{id}")
+    public ResponseEntity<Product> replaceProduct(@PathVariable("id") String id, @RequestBody Product request) {
+        Optional<Product> productOp = virtualDB.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst();
+
+        if(productOp.isPresent()) {
+            Product product = productOp.get();
+            if(product.getDate() != request.getDate()) {
+                product.setDate(request.getDate());
+            }
+            if(product.getCategory() != request.getCategory()) {
+                product.setCategory(request.getCategory());
+            }
+            if(product.getPrice() != request.getPrice()) {
+                product.setPrice(request.getPrice());
+            }
+
+            return ResponseEntity.ok().body(product);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     private Comparator<Product> genSortComparator(String orderBy, String sortRule) {
         Comparator<Product> comparator = (p1, p2) -> 0;
