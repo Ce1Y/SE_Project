@@ -1,5 +1,13 @@
 $(document).ready(function() {
-
+    function today() {
+        var myDate = document.querySelector('#Date-name');
+        var today = new Date();
+        var tomorrow=new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1)
+        console.log(today);
+        myDate.value = tomorrow.toISOString().substr(0, 10);
+    }
+    today();
     $('#postbtn').click(function(){
         //console.log($(this).text());
         var data = {
