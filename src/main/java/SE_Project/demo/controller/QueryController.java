@@ -59,6 +59,20 @@ public class QueryController {
         }
 
     }
+    @PutMapping("/products/{productId}")
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product productRequest)
+    {
+        Product origin = productService.getProductById(id).orElse(null);
+        if(origin==null)
+        {
+            System.out.println("wrong id update");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        Product product = productService.updateProduct(id, productRequest);
+        System.out.println("update success");
+        return  ResponseEntity.status(HttpStatus.OK).body(product);
+
+    }
 
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody @Valid Product productRequest){

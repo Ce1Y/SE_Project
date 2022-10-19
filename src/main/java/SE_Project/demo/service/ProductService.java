@@ -1,12 +1,12 @@
 package SE_Project.demo.service;
 
-        import SE_Project.demo.model.Product;
-        import SE_Project.demo.repository.ProductRepo;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.stereotype.Component;
+import SE_Project.demo.model.Product;
+import SE_Project.demo.repository.ProductRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-        import java.util.List;
-        import java.util.Optional;
+import java.util.List;
+import java.util.Optional;
 @Component
 public class ProductService {
     @Autowired
@@ -32,7 +32,7 @@ public class ProductService {
     public Product createProduct(Product request){
         return repository.insert(request);
     }
-    public Product updateProduct(int productId, Product request){
+    public Product updateProduct(String productId, Product request){
         Product product = new Product();
         product.setCategory(request.getCategory());
         product.setDate(request.getDate());
