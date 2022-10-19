@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,15 +16,6 @@ public class QueryController {
 
     @Autowired
     private ProductService productService;
-    private final List<Product> virtualDB = new ArrayList<>();
-
-
-    @PostConstruct
-    private void initDB() {
-        productService.createProduct(new Product( "food", "10/17", 200));
-        productService.createProduct(new Product( "drink", "10/18", 50));
-        productService.createProduct(new Product( "statistic", "10/19", 300));
-    }
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable("id") String id) {
