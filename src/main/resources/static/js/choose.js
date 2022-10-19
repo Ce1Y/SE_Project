@@ -1,38 +1,25 @@
 $(document).ready(function() {
-    var results = $('#result') ;
-    $(function(){
+
+    $('#postbtn').click(function(){
         //console.log($(this).text());
+        var data = {
+            "date": $('#Date-name').get(),
+            "category":$('#Category-text').get(),
+            "price": $('#Price-text').get(),
+            "description":$('#description-text').get()}
+        console.log( $('#Date-name').get());
         $.ajax({
-            type: "GET",
-            url: "http://localhost:8080/products",
-            success: function(allProducts){
-                results.html("");
-                $.each(allProducts,function (i,product) {
-
-                        results.append(
-                            "<div class='card' id = o_card>" +
-                            "<div class='card-header'>" + product.id + "</div>" +
-                            "<div class='card-body bg-dark text-white'>" +
-                            "<p>" + "金額:" + product.price + "<br>" + "分類:" + product.category +"描述"+product.date+
-                            "</p>" +
-                            `<div class="card">
-                                    <div class="card-header">
-                                        <a class="btn" data-bs-toggle="collapse" href="#collapse${i}">
-                                            詳細資訊
-                                        </a>
-                                    </div>
-                                    <div id="collapse${i}" class="collapse" data-bs-parent="#accordion">
-                                        <div class="card-body">                                        
-                                             <p style="color: black;">${product.description}</p>
-                                        </div>
-                                    </div>
-                                </div>` +
-
-                            "</div>" +
-                            "</div>"
-                        )
-
-                });
+            url:'http://localhost:8080/products',
+            method:'post',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType:'JSON',
+            success:function(result){
+                if(result != null) {
+                    alert("修改成功！");
+                }
+            },
+            error:function (data) {
             }
         });
     });
