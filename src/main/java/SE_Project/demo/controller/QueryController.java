@@ -64,6 +64,7 @@ public class QueryController {
     public ResponseEntity<Product> createProduct(@RequestBody @Valid Product productRequest){
         Product product = productService.createProduct(productRequest);
 
+        System.out.println("Post Success!!!");
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
     @DeleteMapping("/products/{productId}")
