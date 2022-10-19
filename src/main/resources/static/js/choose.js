@@ -3,11 +3,11 @@ $(document).ready(function() {
     $('#postbtn').click(function(){
         //console.log($(this).text());
         var data = {
-            "date": $('#Date-name').get(),
-            "category":$('#Category-text').get(),
-            "price": $('#Price-text').get(),
-            "description":$('#description-text').get()}
-        console.log( $('#Date-name').get());
+            "date": $('#Date-name').val(),
+            "category":$('#Category-text').val(),
+            "price": $('#Price-text').val(),
+            "description":$('#description-text').val()}
+        console.log( $('#Date-name').val());
         $.ajax({
             url:'http://localhost:8080/products',
             method:'post',
