@@ -4,10 +4,12 @@ $(document).ready(function() {
         var today = new Date();
         var tomorrow=new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1)
-        console.log(today);
+        // alert(today);
         myDate.value = tomorrow.toISOString().substr(0, 10);
     }
-    today();
+    $('#Createbtn').click(function () {
+        today();
+    })
     $('#postbtn').click(function(){
         //console.log($(this).text());
         var data = {

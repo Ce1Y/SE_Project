@@ -15,22 +15,9 @@
     <script src='main.js'></script>
     <script src="locales-all.js"></script>
     <script src="modal.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/theme-chooser.js"></script>
     <link rel="stylesheet" href="style.css">
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: "zh-tw",
-                /*headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title'
-                },*/
-            });
-            calendar.render();
-        });
-
-    </script>
 </head>
 
 <body>
@@ -38,38 +25,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/choose.js"></script>
 
-    <!--<nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">logo</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#linkbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="linkbar">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">記帳</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">新增</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">圖表</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">帳戶</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">設定</a>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="搜尋">
-                    <button class="btn btn-success" type="submit">search</button>
-                </form>
-            </div>
-        </div>
-    </nav>-->
     <nav class="navbar navbar-expand-lg navbar-light bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">功能列表</a>
@@ -105,7 +60,7 @@
                         </div>
                     </li>
                     <li class = "nav-item">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="Createbtn">Create</button>
                         <!-- Modal -->
                         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable">
@@ -159,7 +114,53 @@
             <li><a href="#">設定</a></li>
         </ul>
     </nav>-->
-    <div id='calendar' style="z-index:-100;position: flex;"></div>
+    <div id='top'>
+
+        <div class='left'>
+    
+          <div id='theme-system-selector' class='selector'>
+            Theme System:
+            <select>
+              <option value='bootstrap5' selected>Bootstrap 5</option>
+            </select>
+          </div>
+    
+          <div data-theme-system="bootstrap,bootstrap5" class='selector' style='display:none'>
+            Theme Name:
+            <select>
+              <option value='solar' selected>Default</option>
+              <option value='cerulean'>Cerulean</option>
+              <option value='cosmo'>Cosmo</option>
+              <option value='cyborg'>Cyborg</option>
+              <option value='darkly'>Darkly</option>
+              <option value='flatly'>Flatly</option>
+              <option value='journal'>Journal</option>
+              <option value='litera'>Litera</option>
+              <option value='lumen'>Lumen</option>
+              <option value='lux'>Lux</option>
+              <option value='materia'>Materia</option>
+              <option value='minty'>Minty</option>
+              <option value='pulse'>Pulse</option>
+              <option value='sandstone'>Sandstone</option>
+              <option value='simplex'>Simplex</option>
+              <option value='sketchy'>Sketchy</option>
+              <option value='slate'>Slate</option>
+              <!-- <option value='solar'>Solar</option> -->
+              <option value='spacelab'>Spacelab</option>
+              <option value='superhero'>Superhero</option>
+              <option value='united'>United</option>
+              <option value='yeti'>Yeti</option>
+            </select>
+          </div>
+    
+          <span id='loading' style='display:none'>loading theme...</span>
+    
+        </div>
+    
+        <div class='clear'></div>
+      </div>
+    
+    <div id='calendar'></div>
 <div class = "container">
 
 
