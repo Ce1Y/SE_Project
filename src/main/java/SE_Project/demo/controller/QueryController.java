@@ -1,110 +1,67 @@
 package SE_Project.demo.controller;
 
 
-import org.springframework.http.MediaType;
+import SE_Project.demo.model.Product;
+import SE_Project.demo.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.PathVariable;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-import SE_Project.demo.Product;
-import SE_Project.demo.parameter.ProductQueryParameter;
-
-import javax.annotation.PostConstruct;
-import java.util.*;
-import java.util.stream.Collectors;
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.Objects;
-// import java.util.Optional;
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class QueryController {
 
-    private final List<Product> virtualDB = new ArrayList<>();
-
-    @PostConstruct
-    private void initDB() {
-        virtualDB.add(new Product("1", "food", "10/17", 200));
-        virtualDB.add(new Product("2", "drink", "10/18", 50));
-        virtualDB.add(new Product("3", "statistic", "10/19", 300));
-    }
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable("id") String id) {
-        Optional<Product> productOp = virtualDB.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst();
-
-        if (productOp.isPresent()) {
-            Product product = productOp.get();
-            return ResponseEntity.ok().body(product);
+        Product tmp= productService.getProductById(id).orElse(null);;
+        if (tmp==null) {
+            System.out.println("Having nothing");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.OK).body(tmp);
         }
     }
-
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(@ModelAttribute ProductQueryParameter param){
-        String keyword = param.getKeyword();
-        String orderBy = param.getOrderBy();
-        String sortRule = param.getSortRule();
-        Comparator<Product> comparator = genSortComparator(orderBy, sortRule);
+    public ResponseEntity<List<Product>> getProductsByQueryParm(@RequestParam(required = false) String category,@RequestParam(required = false) String date) {
 
-        List<Product> products = virtualDB.stream()
-                .filter(p -> p.getId().toUpperCase().contains(keyword.toUpperCase()))
-                .sorted(comparator)
-                .collect(Collectors.toList());
+        List<Product> tmp;
+        if(category==null&&date==null){
+            tmp=productService.getAllProducts();
+        }else if(category!=null&&date==null){
+            tmp=productService.getProductsByCategory(category);
+        }else if(category==null&&date!=null){
+            tmp=productService.getProductsByDate(date);
+        }else{
+            tmp=productService.getProductsByCategoryAndDate(category,date);
+        }
+        if (tmp.isEmpty()) {
+            System.out.println("Having nothing");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(tmp);
+        }
 
-        return ResponseEntity.ok().body(products);
     }
 
-    @PatchMapping("/products/{id}")
-    public ResponseEntity<Product> replaceProduct(@PathVariable("id") String id, @RequestBody Product request) {
-        Optional<Product> productOp = virtualDB.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst();
+    @PostMapping("/products")
+    public ResponseEntity<Product> createProduct(@RequestBody @Valid Product productRequest){
+        Product product = productService.createProduct(productRequest);
 
-        if(productOp.isPresent()) {
-            Product product = productOp.get();
-            if(product.getDate() != request.getDate()) {
-                product.setDate(request.getDate());
-            }
-            if(product.getCategory() != request.getCategory()) {
-                product.setCategory(request.getCategory());
-            }
-            if(product.getPrice() != request.getPrice()) {
-                product.setPrice(request.getPrice());
-            }
-
-            return ResponseEntity.ok().body(product);
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    }
+    @DeleteMapping("/products/{productId}")
+    public ResponseEntity<?> deleteProductById(@PathVariable String productId){
+        Product result=productService.getProductById(productId).orElse(null);
+        if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        productService.deleteProductById(productId);
+        System.out.println("Delete Successful");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    private Comparator<Product> genSortComparator(String orderBy, String sortRule) {
-        Comparator<Product> comparator = (p1, p2) -> 0;
-        if(Objects.isNull(orderBy) || Objects.isNull(sortRule)) {
-            return comparator;
-        }
-
-        if(orderBy.equalsIgnoreCase("price")) {
-            comparator = Comparator.comparing(Product::getPrice);
-        }
-        else if(orderBy.equalsIgnoreCase("date")) {
-            comparator = Comparator.comparing(Product::getDate);
-        }
-        else if(orderBy.equalsIgnoreCase("category")) {
-            comparator = Comparator.comparing(Product::getCategory);
-        }
-
-        return sortRule.equalsIgnoreCase("desc")
-                ? comparator.reversed()
-                : comparator;
-    }
 }
