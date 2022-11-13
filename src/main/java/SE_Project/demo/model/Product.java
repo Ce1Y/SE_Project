@@ -10,6 +10,15 @@ public class Product {
     private int price;
     private  String id;
     private String description;
+    private String type;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 
     public String getDescription() {
         return description;

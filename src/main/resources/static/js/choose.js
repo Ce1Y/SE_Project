@@ -4,12 +4,10 @@ $(document).ready(function() {
         var today = new Date();
         var tomorrow=new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1)
-        // alert(today);
+
         myDate.value = tomorrow.toISOString().substr(0, 10);
     }
-    $('#Createbtn').click(function () {
-        today();
-    })
+    today();
     $('#postbtn').click(function(){
         //console.log($(this).text());
         var data = {
@@ -32,5 +30,25 @@ $(document).ready(function() {
             error:function (data) {
             }
         });
+        var today = new Date();
+        var tomorrow=new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        var idDate=tomorrow.toISOString().substr(0, 10);
+        var results = $('div#idDate') ;
+
+        console.log(idDate);
+        $(function(){
+            //console.log($(this).text());
+           results.append(
+               `<div class='container' id = o_card> 
+                   <p>test</p>
+               </div>`
+
+
+           )
+
+
+        });
+
     });
 });
