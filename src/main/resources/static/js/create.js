@@ -19,3 +19,12 @@ function addOption(list, value){
     list.options[index].selected = true;
     list.selectedIndex = index;
 }
+
+document.getElementById("CreateDatabtn").addEventListener("click", function(){
+    var myDate = document.querySelector('#inputDate');
+    var today = new Date();
+    var tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    myDate.value = tomorrow.toISOString().substr(0, 10);
+    console.log(myDate.value);
+});
