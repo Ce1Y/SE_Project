@@ -1,0 +1,43 @@
+body {
+    background-color: rgb(186, 232, 245);
+}
+
+.flex-nav {
+    display: flex;
+    justify-content: center;
+}
+
+nav a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 1.2rem;
+    display: block;
+    padding: 10px;
+}
+
+
+#calendar {
+    width: 700px;
+    height: 600px;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid black;
+    border-radius: 10px;
+    box-shadow: 5px 10px 7px gray;
+    padding: 20px;
+    background-color: white;
+}
+
+@media only screen and (max-width:600px) {
+    #calendar {
+        width: 400px;
+        font-size: 10px;
+    }
+
+    #linkbar {
+        width: 30%;
+        font-size: 10px;
+    }
+}
