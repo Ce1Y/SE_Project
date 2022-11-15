@@ -11,6 +11,8 @@ public class Product {
     private  String id;
     private String description;
 
+    private Type accountingType;
+
     public String getDescription() {
         return description;
     }
@@ -43,7 +45,13 @@ public class Product {
 
     public void setPrice(int price) {this.price = price;}
 
+    public Type getType() {
+        return accountingType;
+    }
 
+    public void setType(Type accountingType) {
+        this.accountingType = accountingType;
+    }
 
     public String getDate() {return this.date;}
 
@@ -55,6 +63,7 @@ public class Product {
     public String toString() {
         return   "Date: " + date + "\n" +
                 "Category: " + category + "\n" +
-                "price: " + price + "\n";
+                "price: " + price + "\n" +
+                "Type:" + accountingType+ "\n";
     }
 }
