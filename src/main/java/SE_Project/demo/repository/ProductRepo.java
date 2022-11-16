@@ -9,12 +9,9 @@ import java.util.List;
 
 @Repository
 public interface ProductRepo extends MongoRepository<Product,String>{
-
     List<Product> findByCategory(String category);
-
-    List<Product> findByDate(String date);
-
+    List<Product> findByDate(String date);//精準
     List<Product> findByCategoryAndDate(String category ,String date);
-
+    List<Product> findByDateLike(String date);//模糊
 
 }

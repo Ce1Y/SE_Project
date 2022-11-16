@@ -11,6 +11,13 @@ public class Product {
     private  String id;
     private String description;
     private String type;
+    public Product(String date, String category, int price, String description, String type) {
+        this.date = date;
+        this.category = category;
+        this.price = price;
+        this.description = description;
+        this.type = type;
+    }
     public String getType() {
         return type;
     }
@@ -38,13 +45,6 @@ public class Product {
 
     public Product() {}
 
-    public Product(String category, String date, int price) {
-        this.date = date;
-        this.category = category;
-        this.price = price;
-    }
-
-
 
     public void setDate(String date) {this.date = date;}
 
@@ -59,6 +59,8 @@ public class Product {
     public String getCategory() {return this.category;}
 
     public int getPrice() {return this.price;}
+
+
 
     @Override
     public String toString() {
