@@ -1,7 +1,8 @@
 $(document).ready(function(){
 
 
-
+console.log($('#btnradio1').val());
+console.log($('#btnradio2').val());
 //    $('#inputGroupSelect1').append(addselect);
 //    });
 });

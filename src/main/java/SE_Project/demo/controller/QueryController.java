@@ -23,9 +23,7 @@ public class QueryController {
 
     @PostConstruct
     private void initDB() {
-        productService.createProduct(new Product( "food", "10/17", 200));
-        productService.createProduct(new Product( "drink", "10/18", 50));
-        productService.createProduct(new Product( "statistic", "10/19", 300));
+
     }
 
     @GetMapping("/products/{id}")
@@ -77,7 +75,8 @@ public class QueryController {
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody @Valid Product productRequest){
         Product product = productService.createProduct(productRequest);
-
+        System.out.println("createProduct QueryController");
+        System.out.println(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
     @DeleteMapping("/products/{productId}")

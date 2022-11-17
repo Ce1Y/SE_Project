@@ -1,20 +1,14 @@
-
-function selectOnchange_Type(selected_accountingType)
+var type = "expense";
+function selectOnchange_Type(selectedType)
 {
-        let accountingType = selected_accountingType.options[selected_accountingType.selectedIndex].value;
-        console.log(accountingType);
-        if(accountingType=="expense")
-        {
-            var type1 = Type.expense;
-            return type1;
-        }
-        else
-        {
-            var type2 = Type.income;
-            return type2;
-        }
+    var selectedValue = selectedType.options[selectedType.selectedIndex].value;
+
+    type = selectedValue;
+    return selectedValue;
 
 }
+
+
 $(document).ready(function() {
     function today() {
         var myDate = document.querySelector('#Date-name');
@@ -26,14 +20,19 @@ $(document).ready(function() {
     }
 //    $("#Type-text").on("change",selectOnchange_Type(this));
     today();
+
+
     $('#postbtn').click(function(){
+         console.log($('#Type_text').text());
         //console.log($(this).text());
+       // var type = selectOnchange_Type($('#Type_text').val())
         var data = {
             "date": $('#Date-name').val(),
             "category":$('#Category-text').val(),
             "price": $('#Price-text').val(),
             "description":$('#description-text').val(),
-            "accountingType":selectOnchange_Type( $('#Type_text') ).val() }
+            "accountingType": type}
+        console.log(data);
         console.log( $('#Date-name').val());
         $.ajax({
             url:'http://localhost:8080/products',

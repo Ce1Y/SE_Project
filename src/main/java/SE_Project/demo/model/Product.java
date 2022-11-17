@@ -45,17 +45,19 @@ public class Product {
 
     public void setPrice(int price) {this.price = price;}
 
-    public Type getType() {
-        return accountingType;
-    }
 
-    public void setType(Type accountingType) {
-        this.accountingType = accountingType;
-    }
 
     public String getDate() {return this.date;}
 
     public String getCategory() {return this.category;}
+
+    public Type getAccountingType() {
+        return accountingType;
+    }
+
+    public void setAccountingType(Type accountingType) {
+        this.accountingType = accountingType;
+    }
 
     public int getPrice() {return this.price;}
 

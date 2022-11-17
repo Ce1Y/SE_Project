@@ -30,6 +30,7 @@ public class ProductService {
         return repository.findByCategoryAndDate(category,Date);
     }
     public Product createProduct(Product request){
+        System.out.println("service"+request.toString());
         return repository.insert(request);
     }
     public Product updateProduct(String productId, Product request){
