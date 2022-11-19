@@ -94,6 +94,21 @@ public class QueryController {
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    @GetMapping("/pricebetween")
+    public ResponseEntity<List<Product>> getProductByPriceBetween(@RequestParam String pricefrom, @RequestParam String priceto){
+        List<Product> result=productService.getProductsByPriceBetween(Integer.parseInt(pricefrom), Integer.parseInt(priceto));
+        if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/pricelessthan")
+    public ResponseEntity<List<Product>> getProductByPriceLess(@RequestParam String price){
+        List<Product> result=productService.getProductsByPriceLessThan(Integer.parseInt(price));
+        if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
     @GetMapping("/monthOutcome")
     public ResponseEntity<List<Product>> monthOutcome(@RequestParam String date){
         String month = date.substring(5,7);

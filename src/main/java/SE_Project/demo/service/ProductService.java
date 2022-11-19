@@ -29,6 +29,13 @@ public class ProductService {
         return repository.findByDate(Date);
     }
 
+    public List<Product> getProductsByPriceBetween(int from, int to){
+        return repository.findByPriceBetween(from, to);
+    }
+
+    public List<Product> getProductsByPriceLessThan(int price){
+        return repository.findByPriceLessThan(price);
+    }
     public List<Product> getProductsByCategoryAndDate(String category,String Date){
         return repository.findByCategoryAndDate(category,Date);
     }
@@ -49,5 +56,6 @@ public class ProductService {
         repository.deleteById(productId);
 
     }
+
 
 }
