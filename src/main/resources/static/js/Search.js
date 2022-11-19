@@ -1,3 +1,4 @@
+var Price;
 $(document).ready(function(){
 
 
@@ -51,6 +52,6 @@ function selectOnchange(selected_obj)
 
 function selectOnchange_Price(selectPriceFnc)
 {
-
-
+    var searchPrice = selectPriceFnc.options[selectPriceFnc.selectedIndex].value;
+    Price=searchPrice;
 }

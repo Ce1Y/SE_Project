@@ -16,5 +16,6 @@ public interface ProductRepo extends MongoRepository<Product,String>{
 
     List<Product> findByCategoryAndDate(String category ,String date);
 
+    List<Product> findByDateLike(String date);
 
 }

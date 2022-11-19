@@ -22,6 +22,9 @@ public class ProductService {
         return repository.findByCategory(category);
     }
 
+    public List<Product> getProductByDateLike(String Date){
+        return repository.findByDateLike(Date);
+    }
     public List<Product> getProductsByDate(String Date){
         return repository.findByDate(Date);
     }
