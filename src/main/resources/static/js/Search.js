@@ -100,16 +100,17 @@ function selectOnchange(selected_obj)
                 <select class="form-select" id="choose2" onchange="selectOnchange_Category(this)">
                 </select>
                 `;
+                SelectedContent.append(selectCatergoryFrame);
                 $.each(allProducts, function(index, categoryCount){
                     let tmp =
                     `
-                    <option value=${index}>${categoryCount.categoryName}</option>
+                    <option value=${index+1}>${categoryCount.categoryName}</option>
                     `;
                     console.log(tmp);
-                    selectCatergoryFrame.append(tmp);
+                    SelectedContent.append(tmp);
 
                 })
-                SelectedContent.append(selectCatergoryFrame);
+
             }
         })
     }
