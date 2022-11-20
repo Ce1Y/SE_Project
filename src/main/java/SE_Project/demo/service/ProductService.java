@@ -10,55 +10,55 @@ import java.util.Optional;
 @Component
 public class ProductService {
     @Autowired
-    private ProductRepo repository2;
+    private ProductRepo repository;
     public ProductService(){}
     public List<Product> getAllProducts(){
-        return repository2.findAll();
+        return repository.findAll();
     }
     public Optional<Product> getProductById(String id){
-        return  repository2.findById(id);
+        return  repository.findById(id);
     }
     public List<Product> getProductsByCategory(String category){
-        return repository2.findByCategory(category);
+        return repository.findByCategory(category);
     }
 
     public List<Product> getProductByDateLike(String Date){
-        return repository2.findByDateLike(Date);
+        return repository.findByDateLike(Date);
     }
     public List<Product> getProductsByDate(String Date){
-        return repository2.findByDate(Date);
+        return repository.findByDate(Date);
     }
 
     public List<Product> getProductsByPriceBetween(int from, int to){
-        return repository2.findByPriceBetween(from, to);
+        return repository.findByPriceBetween(from, to);
     }
 
     public List<Product> getProductsByPriceLessThan(int price){
-        return repository2.findByPriceLessThan(price);
+        return repository.findByPriceLessThan(price);
     }
     public List<Product> getProductsByCategoryAndDate(String category,String Date){
-        return repository2.findByCategoryAndDate(category,Date);
+        return repository.findByCategoryAndDate(category,Date);
     }
 
     public long getTotalProductsNum()
     {
-        return repository2.count();
+        return repository.count();
     }
     public Product createProduct(Product request){
         System.out.println("service"+request.toString());
-        return repository2.insert(request);
+        return repository.insert(request);
     }
     public Product updateProduct(String productId, Product request){
         Product product = new Product();
         product.setCategory(request.getCategory());
         product.setDate(request.getDate());
         product.setPrice(request.getPrice());
-        return repository2.save(product);
+        return repository.save(product);
     }
     public void deleteProductById(String productId) {
         //先用get 找到哪個商品
         //再利用其id 去刪掉
-        repository2.deleteById(productId);
+        repository.deleteById(productId);
 
     }
 

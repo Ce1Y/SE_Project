@@ -1,5 +1,6 @@
 var PriceFrom;
 var PriceTo;
+var SelectedCategory;
 var choose;
 $(document).ready(function(){
     console.log($('#btnradio1').val());
@@ -24,7 +25,15 @@ $(document).ready(function(){
         }
         else if(choose==2)
         {
-
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/products/category?category=" + SelectedCategory,
+                success: function(allProducts){
+                    $.each(allProducts, function(index, product){
+                        make_card(index, product);
+                    })
+                }
+            })
         }
         else if(choose==3)
         {
@@ -32,7 +41,7 @@ $(document).ready(function(){
             {
                 $.ajax({
                    type: "GET",
-                   url: "http://localhost:8080/pricebetween?pricefrom=" + PriceFrom + "&priceto=" + PriceTo;
+                   url: "http://localhost:8080/pricebetween?pricefrom=" + PriceFrom + "&priceto=" + PriceTo,
                    success: function(allProducts){
                        $.each(allProducts, function(index, product){
                             make_card(index, product);
@@ -44,7 +53,7 @@ $(document).ready(function(){
             {
                 $.ajax({
                    type: "GET",
-                   url: "http://localhost:8080/pricelessthan?price=" + PriceFrom;
+                   url: "http://localhost:8080/pricelessthan?price=" + PriceFrom,
                    success: function(allProducts){
                        $.each(allProducts, function(index, product){
                             make_card(index, product);
@@ -82,7 +91,27 @@ function selectOnchange(selected_obj)
     }
     else if(searchType=="category")
     {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/CategoryCount" ,
+            success: function(allProducts){
+                let selectCatergoryFrame =
+                `
+                <select class="form-select" id="choose2" onchange="selectOnchange_Category(this)">
+                </select>
+                `;
+                $.each(allProducts, function(index, categoryCount){
+                    let tmp =
+                    `
+                    <option value=${index}>${categoryCount.categoryName}</option>
+                    `;
+                    console.log(tmp);
+                    selectCatergoryFrame.append(tmp);
 
+                })
+                SelectedContent.append(selectCatergoryFrame);
+            }
+        })
     }
     else if(searchType=="price")
     {
@@ -131,6 +160,12 @@ function selectOnchange_Price(selectPriceFnc)
         PriceFrom=selectPriceFnc.options[(selectPriceFnc.selectedIndex-1)].value;
         PriceTo=selectPriceFnc.options[selectPriceFnc.selectedIndex].value;
     }
+}
+
+//取得cagegory值
+function selectOnchange_Category(selectCategoryFnc)
+{
+    SelectedCategory = selectCategoryFnc.options[selectCategoryFnc.selectedIndex];
 }
 
 //做回傳值display的模板

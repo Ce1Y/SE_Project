@@ -1,4 +1,4 @@
-package SE_Project.demo.model;
+package SE_Project.demo.model2;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,13 +8,13 @@ public class CategoryCount {
     @Id
     private int id;
 
-    private String CategoryName;
+    private String categoryName;
     private int count;
 
     public CategoryCount(){}
-    public CategoryCount(String categoryName, int id, int count)
+    public CategoryCount(String CategoryName, int id, int count)
     {
-        this.CategoryName=categoryName;
+        this.categoryName=CategoryName;
         this.id = id;
         this.count=1;
     }
@@ -40,15 +40,15 @@ public class CategoryCount {
     }
 
     public String getCategoryName() {
-        return CategoryName;
+        return categoryName;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.CategoryName = categoryName;
+    public void setCategoryName(String CategoryName) {
+        this.categoryName = CategoryName;
     }
     @Override
     public String toString() {
-        return   "CategoryName: " + CategoryName + "\n" +
+        return   "CategoryName: " + categoryName + "\n" +
                 "count: " + count + "\n";
     }
 }

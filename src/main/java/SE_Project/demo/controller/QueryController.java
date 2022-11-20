@@ -2,6 +2,8 @@ package SE_Project.demo.controller;
 
 
 import SE_Project.demo.model.Product;
+import SE_Project.demo.model2.CategoryCount;
+import SE_Project.demo.service.CategoryCountService;
 import SE_Project.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ public class QueryController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CategoryCountService categoryCountService;
     private final List<Product> virtualDB = new ArrayList<>();
 
 
@@ -25,6 +29,18 @@ public class QueryController {
     private void initDB() {
 
     }
+    @GetMapping("/CategoryCount")
+    public ResponseEntity<List<CategoryCount>> getCategoryCount(){
+
+        List<CategoryCount> tmp = categoryCountService.returnallcategorys();
+        if (tmp==null) {
+            System.out.println("Having no categorys");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(tmp);
+        }
+    }
+
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable("id") String id) {
@@ -56,6 +72,14 @@ public class QueryController {
             return ResponseEntity.status(HttpStatus.OK).body(tmp);
         }
 
+    }
+
+    @GetMapping("/products/category")
+    public ResponseEntity<List<Product>> getProductsByCategory(@RequestParam(required = false) String category) {
+
+        List<Product> result = productService.getProductsByCategory(category);
+        if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     @PutMapping("/products/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product productRequest)
@@ -134,5 +158,6 @@ public class QueryController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(monthTemp);
     }
+
 
 }
