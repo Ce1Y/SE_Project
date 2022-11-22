@@ -28,7 +28,8 @@ public class CategoryCountService {
         List<CategoryCount> tmpCate = repository2.findByCategoryName(tmpcname);
         if(tmpCate.size()==0)
         {
-            int id = (int)productService.getTotalProductsNum();
+            int id = (int)repository2.count();
+            //System.out.println(id);
             CategoryCount tmpCreate = new CategoryCount(tmpcname, (id+1), 1);
             repository2.insert(tmpCreate);
         }
@@ -49,7 +50,7 @@ public class CategoryCountService {
     }
     public void InitialCheck(){
         List<Product> tmpPro =  productService.getAllProducts();
-
+        repository2.deleteAll();
         if( tmpPro!=null && (repository2.count()==0) )
         {
             for(Product i:tmpPro)

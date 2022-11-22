@@ -17,6 +17,7 @@ $(document).ready(function(){
                 type: "GET",
                 url: "http://localhost:8080/date?date=" + $('#choose1').val(),
                 success: function(allProducts){
+                    console.log("selected date success");
                     $.each(allProducts, function(index, product){
                         make_card(index, product);
                     })
@@ -97,8 +98,11 @@ function selectOnchange(selected_obj)
             success: function(allProducts){
                 let selectCatergoryFrame =
                 `
-                <select class="form-select" id="choose2" onchange="selectOnchange_Category(this)">
-                </select>
+
+                <div class="input-group">
+                       <select class="form-select" id="choose2" onchange="selectOnchange_Category(this)">
+                       </select>
+                </div>
                 `;
                 SelectedContent.append(selectCatergoryFrame);
                 $.each(allProducts, function(index, categoryCount){
@@ -107,7 +111,7 @@ function selectOnchange(selected_obj)
                     <option value=${index+1}>${categoryCount.categoryName}</option>
                     `;
                     console.log(tmp);
-                    SelectedContent.append(tmp);
+                    $('choose2').appendChild(tmp);
 
                 })
 
