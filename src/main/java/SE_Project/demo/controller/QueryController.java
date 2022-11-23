@@ -41,7 +41,7 @@ public class QueryController {
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
-    @GetMapping("/monthOutcome")
+    @GetMapping("/monthOutcome")//月花費
     public ResponseEntity<List<Product>> monthOutcome(@RequestParam String date){
         String month = date.substring(5,7);
         List<Product> temp = productService.getProductByDateLike(month);
@@ -54,7 +54,7 @@ public class QueryController {
 
         return ResponseEntity.status(HttpStatus.OK).body(monthTemp);
     }
-    @GetMapping("/monthIncome")
+    @GetMapping("/monthIncome")//月收入
     public ResponseEntity<List<Product>> monthIncome(@RequestParam String date){
         String month = date.substring(5,7);
         List<Product> temp = productService.getProductByDateLike(month);

@@ -83,6 +83,7 @@ public class ProductService {
         Product temp5 = new Product("2022-11-06","滑鼠",1000,"無","支出");
         Product temp6 = new Product("2022-11-16","零用錢",1000,"無","收入");
         Product temp8 = new Product("2022-11-15","打工",1700,"無","收入");
+        Product temp9 = new Product("2022-05-11","dinner",500,"貴族世家","支出");
 
         List<Product> tmp=new ArrayList<>();
         tmp.add(temp);
@@ -93,6 +94,7 @@ public class ProductService {
         tmp.add(temp5);
         tmp.add(temp6);
         tmp.add(temp8);
+        tmp.add(temp9);
         return args -> {
             productDao.saveAll(tmp);
             System.out.println("successful save");
