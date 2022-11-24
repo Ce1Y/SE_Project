@@ -3,71 +3,10 @@ var PriceTo;
 var SelectedCategory;
 var choose;
 $(document).ready(function(){
-    console.log($('#btnradio1').val());
-    console.log($('#btnradio2').val());
-    $("#choose1").change(function(){
-      $("#choose1").attr("value", $(this).val());
-    })
 
-    $('#click_serach').click(function(){
-        $('#search_display').html("");
-        if(choose==1)
-        {
-            $.ajax({
-                type: "GET",
-                url: "http://localhost:8080/date?date=" + $('#choose1').val(),
-                success: function(allProducts){
-                    console.log("selected date success");
-                    $.each(allProducts, function(index, product){
-                        make_card(index, product);
-                    })
-                }
-            })
-        }
-        else if(choose==2)
-        {
-            $.ajax({
-                type: "GET",
-                url: "http://localhost:8080/products/category?category=" + SelectedCategory,
-                success: function(allProducts){
-                    $.each(allProducts, function(index, product){
-                        make_card(index, product);
-                    })
-                }
-            })
-        }
-        else if(choose==3)
-        {
-            if(PriceTo!="1000+")
-            {
-                $.ajax({
-                   type: "GET",
-                   url: "http://localhost:8080/pricebetween?pricefrom=" + PriceFrom + "&priceto=" + PriceTo,
-                   success: function(allProducts){
-                       $.each(allProducts, function(index, product){
-                            make_card(index, product);
-                       })
-                   }
-                })
-            }
-            else
-            {
-                $.ajax({
-                   type: "GET",
-                   url: "http://localhost:8080/pricelessthan?price=" + PriceFrom,
-                   success: function(allProducts){
-                       $.each(allProducts, function(index, product){
-                            make_card(index, product);
-                       })
-                   }
-                })
-            }
-        }
-        else if(choose==4)
-        {
 
-        }
-    });
+
+
 
 
 });
@@ -83,12 +22,22 @@ function selectOnchange(selected_obj)
         let SelectedDate=
         `
         <form>
-        <input type="date" class="form-control" id="choose1">
+        <input type="date" class="form-control" id="choose1"  value="2022-11-16">
         </form>
 
+
         `;
+
         choose=1;
         SelectedContent.append(SelectedDate);
+        console.log($('#choose1').val());
+         $("#choose1").change(function(){
+               $("#choose1").attr("value", $(this).val());
+              console.log($("#choose1").val());
+
+
+             })
+
     }
     else if(searchType=="category")
     {
@@ -101,20 +50,20 @@ function selectOnchange(selected_obj)
 
                 <div class="input-group">
                        <select class="form-select" id="choose2" onchange="selectOnchange_Category(this)">
+                       <option value="0">測試</option>
                        </select>
                 </div>
                 `;
                 SelectedContent.append(selectCatergoryFrame);
+                var obj=document.getElementById("choose2");
+
                 $.each(allProducts, function(index, categoryCount){
-                    let tmp =
-                    `
-                    <option value=${index+1}>${categoryCount.categoryName}</option>
-                    `;
-                    console.log(tmp);
-                    $('choose2').appendChild(tmp);
+//                    var tmp = document.createElement("option");
+//                    tmp.innerHTML = "${categoryCount.categoryName}";
 
+
+                   obj.options.add(new Option(categoryCount.categoryName, index));
                 })
-
             }
         })
     }
@@ -203,3 +152,66 @@ function make_card(index, product)
     `;
     $('#search_display').append(card1);
 }
+
+$('#click_serach').click(function(){
+        $('#search_display').html("");
+
+        if(choose==1)
+        {
+        console.log("selected date success");
+        console.log($('#choose1').val());
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/date?date=" + $('#choose1').val(),
+                success: function(allProducts){
+                    console.log("selected date success");
+                    $.each(allProducts, function(index, product){
+                        make_card(index, product);
+                    })
+                }
+            })
+        }
+        else if(choose==2)
+        {
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/products/category?category=" + SelectedCategory,
+                success: function(allProducts){
+                    $.each(allProducts, function(index, product){
+                        make_card(index, product);
+                    })
+                }
+            })
+        }
+        else if(choose==3)
+        {
+            if(PriceTo!="1000+")
+            {
+                $.ajax({
+                   type: "GET",
+                   url: "http://localhost:8080/pricebetween?pricefrom=" + PriceFrom + "&priceto=" + PriceTo,
+                   success: function(allProducts){
+                       $.each(allProducts, function(index, product){
+                            make_card(index, product);
+                       })
+                   }
+                })
+            }
+            else
+            {
+                $.ajax({
+                   type: "GET",
+                   url: "http://localhost:8080/pricelessthan?price=" + PriceFrom,
+                   success: function(allProducts){
+                       $.each(allProducts, function(index, product){
+                            make_card(index, product);
+                       })
+                   }
+                })
+            }
+        }
+        else if(choose==4)
+        {
+
+        }
+});
