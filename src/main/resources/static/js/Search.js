@@ -34,10 +34,24 @@ function selectOnchange(selected_obj)
          $("#choose1").change(function(){
                $("#choose1").attr("value", $(this).val());
               console.log($("#choose1").val());
+         })
+         $('#click_search1').click(function(){
+                 $('#search_display').html("");
+                 console.log($('#choose1').val());
+                  console.log("selected date success");
+                 $.ajax({
+                     type: "GET",
+                     url: "http://localhost:8080/date?date=" + $('#choose1').val(),
+                     success: function(allProducts){
+                         console.log("selected date success1");
 
-
-             })
-
+                         $.each(allProducts, function(index, product){
+                            console.log(product);
+                             make_card(index, product);
+                         })
+                     }
+                 })
+         });
     }
     else if(searchType=="category")
     {
@@ -150,68 +164,69 @@ function make_card(index, product)
             </div>
         </div>
     `;
+    console.log(card1);
     $('#search_display').append(card1);
 }
 
-$('#click_serach').click(function(){
-        $('#search_display').html("");
-
-        if(choose==1)
-        {
-        console.log("selected date success");
-        console.log($('#choose1').val());
-            $.ajax({
-                type: "GET",
-                url: "http://localhost:8080/date?date=" + $('#choose1').val(),
-                success: function(allProducts){
-                    console.log("selected date success");
-                    $.each(allProducts, function(index, product){
-                        make_card(index, product);
-                    })
-                }
-            })
-        }
-        else if(choose==2)
-        {
-            $.ajax({
-                type: "GET",
-                url: "http://localhost:8080/products/category?category=" + SelectedCategory,
-                success: function(allProducts){
-                    $.each(allProducts, function(index, product){
-                        make_card(index, product);
-                    })
-                }
-            })
-        }
-        else if(choose==3)
-        {
-            if(PriceTo!="1000+")
-            {
-                $.ajax({
-                   type: "GET",
-                   url: "http://localhost:8080/pricebetween?pricefrom=" + PriceFrom + "&priceto=" + PriceTo,
-                   success: function(allProducts){
-                       $.each(allProducts, function(index, product){
-                            make_card(index, product);
-                       })
-                   }
-                })
-            }
-            else
-            {
-                $.ajax({
-                   type: "GET",
-                   url: "http://localhost:8080/pricelessthan?price=" + PriceFrom,
-                   success: function(allProducts){
-                       $.each(allProducts, function(index, product){
-                            make_card(index, product);
-                       })
-                   }
-                })
-            }
-        }
-        else if(choose==4)
-        {
-
-        }
-});
+//$('#click_search1').click(function(){
+//        $('#search_display').html("");
+//        console.log("chick_click");
+//        if(choose==1)
+//        {
+//        console.log("selected date success");
+//        console.log($('#choose1').val());
+//            $.ajax({
+//                type: "GET",
+//                url: "http://localhost:8080/date?date=" + $('#choose1').val(),
+//                success: function(allProducts){
+//                    console.log("selected date success");
+//                    $.each(allProducts, function(index, product){
+//                        make_card(index, product);
+//                    })
+//                }
+//            })
+//        }
+//        else if(choose==2)
+//        {
+//            $.ajax({
+//                type: "GET",
+//                url: "http://localhost:8080/products/category?category=" + SelectedCategory,
+//                success: function(allProducts){
+//                    $.each(allProducts, function(index, product){
+//                        make_card(index, product);
+//                    })
+//                }
+//            })
+//        }
+//        else if(choose==3)
+//        {
+//            if(PriceTo!="1000+")
+//            {
+//                $.ajax({
+//                   type: "GET",
+//                   url: "http://localhost:8080/pricebetween?pricefrom=" + PriceFrom + "&priceto=" + PriceTo,
+//                   success: function(allProducts){
+//                       $.each(allProducts, function(index, product){
+//                            make_card(index, product);
+//                       })
+//                   }
+//                })
+//            }
+//            else
+//            {
+//                $.ajax({
+//                   type: "GET",
+//                   url: "http://localhost:8080/pricelessthan?price=" + PriceFrom,
+//                   success: function(allProducts){
+//                       $.each(allProducts, function(index, product){
+//                            make_card(index, product);
+//                       })
+//                   }
+//                })
+//            }
+//        }
+//        else if(choose==4)
+//        {
+//
+//        }
+//});
