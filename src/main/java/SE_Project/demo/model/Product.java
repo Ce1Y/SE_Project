@@ -36,7 +36,14 @@ public class Product {
         this.category = category;
         this.price = price;
     }
-
+    public Product(String date, String category, int price, String description, Type accountingType)
+    {
+        this.date = date;
+        this.category = category;
+        this.price = price;
+        this.description=description;
+        this.accountingType=accountingType;
+    }
 
 
     public void setDate(String date) {this.date = date;}

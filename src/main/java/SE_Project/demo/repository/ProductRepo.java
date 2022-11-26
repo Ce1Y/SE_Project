@@ -18,11 +18,12 @@ public interface ProductRepo extends MongoRepository<Product,String>{
     List<Product> findByCategoryAndDate(String category ,String date);
 
     List<Product> findByDateLike(String date);
+    List<Product> findByDescriptionLike(String description);
 
     @Query("{'price': {'$gte': ?0, '$lte': ?1}}")
     List<Product> findByPriceBetween(int from, int to);
 
-    List<Product> findByPriceLessThan(int price);
+    List<Product> findByPriceGreaterThan(int price);
 
 }
 

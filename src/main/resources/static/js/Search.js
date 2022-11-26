@@ -1,59 +1,113 @@
-var PriceFrom;
-var PriceTo;
+var PriceFrom="0";
+var PriceTo="100";
 var SelectedCategory;
-var choose;
+var searchType;
+
 $(document).ready(function(){
 
+    $('#click_search1').click(function(){
+       $('#search_display').html("");
+       console.log("happentime");
+       if(searchType=="Date")
+       {
+           $.ajax({
+               type: "GET",
+               url: "http://localhost:8080/date?date=" + $('#choose1').val(),
+               success: function(allProducts){
+                   console.log("selected date success1");
 
+                   $.each(allProducts, function(index, product){
+                      console.log(product);
+                       make_card(index, product);
+                   })
+               }
+           })
+       }
+       else if(searchType=="Category")
+       {
 
+           console.log("selectedCategory="+SelectedCategory);
+           $.ajax({
+               type: "GET",
+               url: "http://localhost:8080/products/category?category=" + SelectedCategory,
+               success: function(allProducts){
+                   console.log("selected cate success");
+                   $.each(allProducts, function(index, product){
+                       make_card(index, product);
+                   })
+               }
+           })
+       }
+       else if(searchType=="Price")
+       {
+           if(PriceTo!="1000+")
+           {
 
-
-
+               $.ajax({
+                  type: "GET",
+                  url: "http://localhost:8080/pricebetween?pricefrom=" + PriceFrom + "&priceto=" + PriceTo,
+                  success: function(allProducts){
+                      $.each(allProducts, function(index, product){
+                           console.log("selected price1 success");
+                           make_card(index, product);
+                      })
+                  }
+               })
+           }
+           else
+           {
+               console.log("pricefrom="+PriceFrom);
+               console.log("priceto=");
+               console.log(PriceTo);
+               $.ajax({
+                  type: "GET",
+                  url: "http://localhost:8080/pricegreaterthan?price=" + PriceFrom,
+                  success: function(allProducts){
+                      $.each(allProducts, function(index, product){
+                      console.log("selected price2 success");
+                           make_card(index, product);
+                      })
+                  }
+               })
+           }
+       }
+       else if(searchType=="Description")
+       {
+                console.log($("#choose4").val());
+                $.ajax({
+                  type: "GET",
+                  url: "http://localhost:8080/products/description?description=" + $("#choose4").val(),
+                  success: function(allProducts){
+                      $.each(allProducts, function(index, product){
+                      console.log("selected price4 success");
+                           make_card(index, product);
+                      })
+                  }
+               })
+       }
+    });
 });
 
 //製造右側選擇器
 function selectOnchange(selected_obj)
 {
-    var searchType = selected_obj.options[selected_obj.selectedIndex].value;
+    searchType = selected_obj.options[selected_obj.selectedIndex].value;
     var SelectedContent = $('#SelectContent');
     SelectedContent.html("");
     if(searchType=="Date")
     {
-        let SelectedDate=
-        `
-        <form>
-        <input type="date" class="form-control" id="choose1"  value="2022-11-16">
-        </form>
-
-
-        `;
-
-        choose=1;
-        SelectedContent.append(SelectedDate);
-        console.log($('#choose1').val());
+         let SelectedDate=
+         `
+         <form>
+         <input type="date" class="form-control" id="choose1"  value="2022-11-16">
+         </form>
+         `;
+         SelectedContent.append(SelectedDate);
          $("#choose1").change(function(){
                $("#choose1").attr("value", $(this).val());
-              console.log($("#choose1").val());
          })
-         $('#click_search1').click(function(){
-                 $('#search_display').html("");
-                 console.log($('#choose1').val());
-                  console.log("selected date success");
-                 $.ajax({
-                     type: "GET",
-                     url: "http://localhost:8080/date?date=" + $('#choose1').val(),
-                     success: function(allProducts){
-                         console.log("selected date success1");
-
-                         $.each(allProducts, function(index, product){
-                            console.log(product);
-                             make_card(index, product);
-                         })
-                     }
-                 })
-         });
     }
-    else if(searchType=="category")
+    else if(searchType=="Category")
     {
         $.ajax({
             type: "GET",
@@ -61,50 +115,48 @@ function selectOnchange(selected_obj)
             success: function(allProducts){
                 let selectCatergoryFrame =
                 `
-
                 <div class="input-group">
-                       <select class="form-select" id="choose2" onchange="selectOnchange_Category(this)">
-                       <option value="0">測試</option>
+                       <select class="form-select" id="choose2">
                        </select>
                 </div>
                 `;
                 SelectedContent.append(selectCatergoryFrame);
                 var obj=document.getElementById("choose2");
-
                 $.each(allProducts, function(index, categoryCount){
-//                    var tmp = document.createElement("option");
-//                    tmp.innerHTML = "${categoryCount.categoryName}";
-
-
                    obj.options.add(new Option(categoryCount.categoryName, index));
                 })
+                $("#choose2").change(function(){
+                    SelectedCategory=obj.options[obj.selectedIndex].text;
+
+                    console.log(SelectedCategory);
+                })
+//                const obj1=document.getElementById("choose2");
+//                obj1.addEventListener("change", selectOnchange_Category);
             }
         })
     }
-    else if(searchType=="price")
+    else if(searchType=="Price")
     {
         let SelectedPrice =
         `
         <div class="input-group">
              <select class="form-select" id="choose3" onchange="selectOnchange_Price(this)">
-                 <option value="100"> 金額<100 </option>
-                 <option value="200"> 金額<200 </option>
-                 <option value="500"> 金額<500 </option>
-                 <option value="1000"> 金額<1000 </option>
+                 <option value="100"> 0<金額<100 </option>
+                 <option value="200"> 100<金額<200 </option>
+                 <option value="500"> 200<金額<500 </option>
+                 <option value="1000"> 500<金額<1000 </option>
                  <option value="1000+"> 金額>1000 </option>
              </select>
         </div>
         `;
-        choose=3;
         SelectedContent.append(SelectedPrice);
     }
-    else if(searchType=="description")
+    else if(searchType=="Description")
     {
         let SelectedDiscr=
         `
         <textarea class="form-control" id="choose4" ></textarea>
         `;
-        choose=4;
         SelectedContent.append(SelectedDiscr);
     }
     console.log(searchType);
@@ -130,12 +182,6 @@ function selectOnchange_Price(selectPriceFnc)
     }
 }
 
-//取得cagegory值
-function selectOnchange_Category(selectCategoryFnc)
-{
-    SelectedCategory = selectCategoryFnc.options[selectCategoryFnc.selectedIndex];
-}
-
 //做回傳值display的模板
 function make_card(index, product)
 {
@@ -143,7 +189,7 @@ function make_card(index, product)
     `
         <div class="card">
             <div class="card-header">
-                ${product.category};
+                ${product.category}
             </div>
             <div class="card-body bg-dark text-white">
             <p>
@@ -164,69 +210,7 @@ function make_card(index, product)
             </div>
         </div>
     `;
-    console.log(card1);
     $('#search_display').append(card1);
 }
 
-//$('#click_search1').click(function(){
-//        $('#search_display').html("");
-//        console.log("chick_click");
-//        if(choose==1)
-//        {
-//        console.log("selected date success");
-//        console.log($('#choose1').val());
-//            $.ajax({
-//                type: "GET",
-//                url: "http://localhost:8080/date?date=" + $('#choose1').val(),
-//                success: function(allProducts){
-//                    console.log("selected date success");
-//                    $.each(allProducts, function(index, product){
-//                        make_card(index, product);
-//                    })
-//                }
-//            })
-//        }
-//        else if(choose==2)
-//        {
-//            $.ajax({
-//                type: "GET",
-//                url: "http://localhost:8080/products/category?category=" + SelectedCategory,
-//                success: function(allProducts){
-//                    $.each(allProducts, function(index, product){
-//                        make_card(index, product);
-//                    })
-//                }
-//            })
-//        }
-//        else if(choose==3)
-//        {
-//            if(PriceTo!="1000+")
-//            {
-//                $.ajax({
-//                   type: "GET",
-//                   url: "http://localhost:8080/pricebetween?pricefrom=" + PriceFrom + "&priceto=" + PriceTo,
-//                   success: function(allProducts){
-//                       $.each(allProducts, function(index, product){
-//                            make_card(index, product);
-//                       })
-//                   }
-//                })
-//            }
-//            else
-//            {
-//                $.ajax({
-//                   type: "GET",
-//                   url: "http://localhost:8080/pricelessthan?price=" + PriceFrom,
-//                   success: function(allProducts){
-//                       $.each(allProducts, function(index, product){
-//                            make_card(index, product);
-//                       })
-//                   }
-//                })
-//            }
-//        }
-//        else if(choose==4)
-//        {
-//
-//        }
-//});
+

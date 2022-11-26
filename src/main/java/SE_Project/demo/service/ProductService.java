@@ -15,13 +15,16 @@ public class ProductService {
     public List<Product> getAllProducts(){
         return repository.findAll();
     }
+    public int getAllProductsNum(){
+        return (int)repository.count();
+    }
     public Optional<Product> getProductById(String id){
         return  repository.findById(id);
     }
     public List<Product> getProductsByCategory(String category){
         return repository.findByCategory(category);
     }
-
+    public List<Product> getProductsByDescriptionLike(String description){return  repository.findByDescriptionLike(description);}
     public List<Product> getProductByDateLike(String Date){
         return repository.findByDateLike(Date);
     }
@@ -33,8 +36,8 @@ public class ProductService {
         return repository.findByPriceBetween(from, to);
     }
 
-    public List<Product> getProductsByPriceLessThan(int price){
-        return repository.findByPriceLessThan(price);
+    public List<Product> getProductsByPriceGreaterThan(int price){
+        return repository.findByPriceGreaterThan(price);
     }
     public List<Product> getProductsByCategoryAndDate(String category,String Date){
         return repository.findByCategoryAndDate(category,Date);

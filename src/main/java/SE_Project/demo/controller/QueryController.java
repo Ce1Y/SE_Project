@@ -81,6 +81,13 @@ public class QueryController {
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+    @GetMapping("/products/description")
+    public ResponseEntity<List<Product>> getProductsByDescriptionLike(@RequestParam(required = false) String description) {
+
+        List<Product> result = productService.getProductsByDescriptionLike(description);
+        if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
     @PutMapping("/products/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product productRequest)
     {
@@ -126,9 +133,9 @@ public class QueryController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping("/pricelessthan")
-    public ResponseEntity<List<Product>> getProductByPriceLess(@RequestParam String price){
-        List<Product> result=productService.getProductsByPriceLessThan(Integer.parseInt(price));
+    @GetMapping("/pricegreaterthan")
+    public ResponseEntity<List<Product>> getProductByPriceGreater(@RequestParam String price){
+        List<Product> result=productService.getProductsByPriceGreaterThan(Integer.parseInt(price));
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
