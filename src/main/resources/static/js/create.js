@@ -1,6 +1,6 @@
 function deleteOption(list){
     var index = list.selectedIndex;
-    if(index >= 3){
+    if(index > 3){
         list.options[index] = null;
     }
     else{
@@ -20,11 +20,13 @@ function addOption(list, value){
     list.selectedIndex = index;
 }
 
-document.getElementById("CreateDatabtn").addEventListener("click", function(){
+// if CreateData modal is open then fill the value of inputDate
+$('#CreateData').on('shown.bs.modal', function () {
+    // show me this is work
+    console.log("CreateData modal is open");
     var myDate = document.querySelector('#inputDate');
     var today = new Date();
     var tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setDate(tomorrow.getDate());
     myDate.value = tomorrow.toISOString().substr(0, 10);
-    console.log(myDate.value);
 });
