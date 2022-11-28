@@ -22,17 +22,20 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 <div class="container unauthenticated">
-With GitHub:<a href = "/oauth2/authorization/github">GitHub</a>
+    With GitHub:<a href = "/oauth2/authorization/github">GitHub</a>
 <div>
-With Google: <a href = "/oauth2/authorization/google">Google</a>
+<!--    With Google: <a href = "/oauth2/authorization/google">Google</a>-->
+   With Facebook: <a href = "/oauth2/authorization/facebook">Facebook</a>
 </div>
 
-    <div class="google-btn">
+    <div class="google-btn" onclick="location.href='/oauth2/authorization/google'">
         <div class="google-icon-wrapper">
             <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
         </div>
         <p class="btn-text"><b>Sign in with google</b></p>
     </div>
+
+    <div id="fb-root"></div>
 </div>
 
 <div class="container authenticated" style="display: none" >
@@ -75,34 +78,6 @@ With Google: <a href = "/oauth2/authorization/google">Google</a>
 
 
 
-
-
-
-<!--<div class="g-signin2" data-onsuccess="onSignIn"></div>-->
-<!--<div
-        id="g_id_onload"
-        data-client_id="159519841144-9ai8rcbak4i1bl36i72crp612kv2jlkr.apps.googleusercontent.com"
-        data-callback="handleCallback"
-        data-auto_prompt="false"
-></div>
-<div
-        class="g_id_signin"
-        data-type="standard"
-        data-size="large"
-        data-theme="outline"
-        data-text="sign_in_with"
-        data-shape="pill"
-        data-logo_alignment="left"
-></div>
-<div class="data">
-    <p>Name</p>
-    <p id="name"></p>
-    <p>Image</p>
-    <img id="image" class="rounded-circle" width="100" height="100" />
-    <p>Email</p>
-    <p id="email"></p>
-    <button type="button" class="btn btn-danger" onclick="signOut();">Sign Out</button>
-</div>-->
 
 </body>
 

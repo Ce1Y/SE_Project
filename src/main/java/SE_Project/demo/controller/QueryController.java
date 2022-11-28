@@ -37,14 +37,18 @@ public class QueryController {
     }
     @GetMapping("/date")//當日所有花費
     public ResponseEntity<List<Product>> DateTotal(@RequestParam String date){
-        List<Product> result=productService.getProductByDate(date);
+        List<Product> result=productService.getProductsByDate(date);
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        System.out.println("Date");
+        System.out.println(result);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     @GetMapping("/monthOutcome")//月花費
     public ResponseEntity<List<Product>> monthOutcome(@RequestParam String date){
         String month = date.substring(5,7);
         List<Product> temp = productService.getProductByDateLike(month);
+        System.out.println("month");
+        System.out.println(temp);
         List<Product> monthTemp = new ArrayList<>();
         for(Product tmp:temp){
             if(tmp.getDate().substring(5,7).equals(month)&&tmp.getType().equals("支出")){
