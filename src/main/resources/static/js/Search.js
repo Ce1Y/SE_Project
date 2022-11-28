@@ -125,6 +125,9 @@ function selectOnchange(selected_obj)
                 $.each(allProducts, function(index, categoryCount){
                    obj.options.add(new Option(categoryCount.categoryName, index));
                 })
+                console.log(obj);
+                SelectedCategory=obj.options[0].text;
+                console.log(SelectedCategory);
                 $("#choose2").change(function(){
                     SelectedCategory=obj.options[obj.selectedIndex].text;
 

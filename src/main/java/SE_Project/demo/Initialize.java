@@ -23,7 +23,6 @@ public class Initialize implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception
     {
-        categoryCountService.InitialCheck();
         if(productService.getAllProductsNum()<15)
         {
             for(int i=0; i<5; i++)
@@ -32,6 +31,8 @@ public class Initialize implements CommandLineRunner {
                 repository.save(tmp);
             }
         }
+        categoryCountService.InitialCheck();
+
 
 
     }
