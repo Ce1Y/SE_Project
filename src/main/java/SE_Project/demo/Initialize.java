@@ -28,7 +28,9 @@ public class Initialize implements CommandLineRunner {
             for(int i=0; i<5; i++)
             {
                 Product tmp = new Product("2022-11-26", "測試", 500, "測試用描述", Type.income);
+                Product tmp1 = new Product("2022-11-30", "晚餐", 100, "讚", Type.expense);
                 repository.save(tmp);
+                repository.save(tmp1);
             }
         }
         categoryCountService.InitialCheck();

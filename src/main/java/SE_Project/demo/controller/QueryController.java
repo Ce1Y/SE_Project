@@ -106,10 +106,13 @@ public class QueryController {
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody @Valid Product productRequest){
         Product product = productService.createProduct(productRequest);
+        categoryCountService.checkCategoryCount(product.getCategory());
         System.out.println("createProduct QueryController");
         System.out.println(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
+
+
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<?> deleteProductById(@PathVariable String productId){
         Product result=productService.getProductById(productId).orElse(null);

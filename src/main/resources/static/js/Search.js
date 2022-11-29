@@ -6,7 +6,6 @@ var searchType;
 $(document).ready(function(){
     $('#click_search1').click(function(){
        $('#search_display').html("");
-       console.log("selected_btnType="+$('#accountingType_btn input:radio:checked').val());
        if(searchType=="Date")
        {
            $.ajax({
@@ -65,7 +64,6 @@ $(document).ready(function(){
                   url: "http://localhost:8080/products/description?description=" + $("#choose4").val(),
                   success: function(allProducts){
                       $.each(allProducts, function(index, product){
-                      console.log("selected price4 success");
                            make_card(index, product);
                       })
                   }
@@ -111,9 +109,7 @@ function selectOnchange(selected_obj)
                 $.each(allProducts, function(index, categoryCount){
                    obj.options.add(new Option(categoryCount.categoryName, index));
                 })
-                console.log(obj);
                 SelectedCategory=obj.options[0].text;
-                console.log(SelectedCategory);
                 $("#choose2").change(function(){
                     SelectedCategory=obj.options[obj.selectedIndex].text;
                 })
@@ -169,8 +165,6 @@ function selectOnchange_Price(selectPriceFnc)
 //做回傳值display的模板
 function make_card(index, product)
 {
-    console.log($('#accountingType_btn input:radio:checked').val());
-    console.log(product.accountingType);
     if( product.accountingType == $('#accountingType_btn input:radio:checked').val() )
     {
         let card1 =

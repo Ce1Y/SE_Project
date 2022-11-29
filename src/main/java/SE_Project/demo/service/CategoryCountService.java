@@ -40,7 +40,7 @@ public class CategoryCountService {
                 c.setCount((c.getCount()+1));
                 repository2.save(c);
             }
-            System.out.println(tmpcname);
+//            System.out.println(tmpcname);
         }
     }
     public List<CategoryCount> returnallcategorys()
