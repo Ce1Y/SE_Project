@@ -80,10 +80,12 @@ function selectOnchange(selected_obj)
     SelectedContent.html("");
     if(searchType=="Date")
     {
+         var today = new Date();
+         var myday = today.toISOString().substr(0, 10);
          let SelectedDate=
          `
          <form>
-         <input type="date" class="form-control" id="choose1"  value="2022-11-16">
+         <input type="date" class="form-control" id="choose1"  value=${myday}>
          </form>
          `;
          SelectedContent.append(SelectedDate);
