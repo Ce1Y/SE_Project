@@ -4,20 +4,16 @@ var SelectedCategory;
 var searchType;
 
 $(document).ready(function(){
-
     $('#click_search1').click(function(){
        $('#search_display').html("");
-       console.log("happentime");
+       console.log("selected_btnType="+$('#accountingType_btn input:radio:checked').val());
        if(searchType=="Date")
        {
            $.ajax({
                type: "GET",
                url: "http://localhost:8080/date?date=" + $('#choose1').val(),
                success: function(allProducts){
-                   console.log("selected date success1");
-
                    $.each(allProducts, function(index, product){
-                      console.log(product);
                        make_card(index, product);
                    })
                }
@@ -25,13 +21,10 @@ $(document).ready(function(){
        }
        else if(searchType=="Category")
        {
-
-           console.log("selectedCategory="+SelectedCategory);
            $.ajax({
                type: "GET",
                url: "http://localhost:8080/products/category?category=" + SelectedCategory,
                success: function(allProducts){
-                   console.log("selected cate success");
                    $.each(allProducts, function(index, product){
                        make_card(index, product);
                    })
@@ -42,13 +35,11 @@ $(document).ready(function(){
        {
            if(PriceTo!="1000+")
            {
-
                $.ajax({
                   type: "GET",
                   url: "http://localhost:8080/pricebetween?pricefrom=" + PriceFrom + "&priceto=" + PriceTo,
                   success: function(allProducts){
                       $.each(allProducts, function(index, product){
-                           console.log("selected price1 success");
                            make_card(index, product);
                       })
                   }
@@ -56,15 +47,11 @@ $(document).ready(function(){
            }
            else
            {
-               console.log("pricefrom="+PriceFrom);
-               console.log("priceto=");
-               console.log(PriceTo);
                $.ajax({
                   type: "GET",
                   url: "http://localhost:8080/pricegreaterthan?price=" + PriceFrom,
                   success: function(allProducts){
                       $.each(allProducts, function(index, product){
-                      console.log("selected price2 success");
                            make_card(index, product);
                       })
                   }
@@ -73,7 +60,6 @@ $(document).ready(function(){
        }
        else if(searchType=="Description")
        {
-                console.log($("#choose4").val());
                 $.ajax({
                   type: "GET",
                   url: "http://localhost:8080/products/description?description=" + $("#choose4").val(),
@@ -127,11 +113,7 @@ function selectOnchange(selected_obj)
                 })
                 $("#choose2").change(function(){
                     SelectedCategory=obj.options[obj.selectedIndex].text;
-
-                    console.log(SelectedCategory);
                 })
-//                const obj1=document.getElementById("choose2");
-//                obj1.addEventListener("change", selectOnchange_Category);
             }
         })
     }
@@ -159,7 +141,6 @@ function selectOnchange(selected_obj)
         `;
         SelectedContent.append(SelectedDiscr);
     }
-    console.log(searchType);
 }
 
 //取得price值
@@ -185,32 +166,37 @@ function selectOnchange_Price(selectPriceFnc)
 //做回傳值display的模板
 function make_card(index, product)
 {
-    let card1 =
-    `
-        <div class="card">
-            <div class="card-header">
-                ${product.category}
+    console.log($('#accountingType_btn input:radio:checked').val());
+    console.log(product.accountingType);
+    if( product.accountingType == $('#accountingType_btn input:radio:checked').val() )
+    {
+        let card1 =
+        `
+            <div class="card">
+                <div class="card-header">
+                    ${product.category}
+                </div>
+                <div class="card-body bg-dark text-white">
+                <p>
+                金額:${product.price} </br>
+                時間:${product.date}
+                </p>
             </div>
-            <div class="card-body bg-dark text-white">
-            <p>
-            金額:${product.price} </br>
-            時間:${product.date}
-            </p>
-        </div>
-        <div class"card">
-            <div class="card-header">
-                <a class="btn" data-bs-toggle="collapse" href="#collapse${index}">
-                    詳細資訊
-                </a>
-            </div>
-            <div id="collapse${index}" class="collapse" data-bs-parent="#accordion">
-                <div class="card-body">
-                     <p style="color: black;">${product.description}</p>
+            <div class"card">
+                <div class="card-header">
+                    <a class="btn" data-bs-toggle="collapse" href="#collapse${index}">
+                        詳細資訊
+                    </a>
+                </div>
+                <div id="collapse${index}" class="collapse" data-bs-parent="#accordion">
+                    <div class="card-body">
+                         <p style="color: black;">${product.description}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
-    $('#search_display').append(card1);
+        `;
+        $('#search_display').append(card1);
+    }
 }
 
 
