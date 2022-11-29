@@ -125,6 +125,7 @@ public class QueryController {
     public ResponseEntity<Product> createProduct(@RequestBody Product productRequest){
         System.out.println("aaaaaaaaaaaaaa");
         Product product = productService.createProduct(productRequest);
+        categoryCountService.checkCategoryCount(product.getCategory());
         System.out.println("createProduct QueryController");
         System.out.println(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
