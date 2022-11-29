@@ -13,7 +13,7 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
     <link rel="stylesheet" href="css/google-button.css">
-
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -34,8 +34,36 @@
         </div>
         <p class="btn-text"><b>Sign in with google</b></p>
     </div>
+    <button type="button" class="btn btn-info text" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        第三方登入
+    </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">第三方登入</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
 
-    <div id="fb-root"></div>
+                    <a href="/oauth2/authorization/facebook" target="_blank"><img class="facebook-icon"
+                                                                             src="https://cdn-icons-png.flaticon.com/512/145/145802.png" width="100"
+                                                                             alt="google logo png suite everything you need know about google newest" /></a>
+                    <a href="/oauth2/authorization/github" target="_blank"><img class="github-icon"
+                                                                       src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="100"
+                                                                       alt="google logo png suite everything you need know about google newest" /></a>
+                    <a href="/oauth2/authorization/google" target="_blank"><img class="google-icon"
+                                                                                src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" width="100"
+                                                                                alt="google logo png suite everything you need know about google newest" /></a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <div class="container authenticated" style="display: none" >
@@ -59,10 +87,11 @@
         }
     });
     $.get("/user",function(data){
+        location.replace(" http://localhost:8080/home.html") ;
         $("#user").html(data.name);
         $(".unauthenticated").hide();
         $(".authenticated").show();
-        location.replace(" http://localhost:8080/home.html") ;
+
     })
     var logout = function(){
         $.post("/logout",function(){
