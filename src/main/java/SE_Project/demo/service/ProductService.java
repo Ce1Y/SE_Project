@@ -39,8 +39,6 @@ public class ProductService {
     }
 
     public List<Product> getProductsByDate(String Date) {
-        System.out.println(Date);
-        System.out.println(repository.findByDate(Date));
         return repository.findByDate(Date);
     }
     public Product updateProduct(int productId, Product request) {

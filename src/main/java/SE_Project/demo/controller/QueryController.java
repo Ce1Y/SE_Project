@@ -61,16 +61,14 @@ public class QueryController {
     public ResponseEntity<List<Product>> DateTotal(@RequestParam String date){
         List<Product> result=productService.getProductsByDate(date);
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        System.out.println("Date");
-        System.out.println(result);
+
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     @GetMapping("/monthOutcome")//月花費
     public ResponseEntity<List<Product>> monthOutcome(@RequestParam String date){
         String month = date.substring(5,7);
         List<Product> temp = productService.getProductByDateLike(month);
-        System.out.println("month");
-        System.out.println(temp);
+
         List<Product> monthTemp = new ArrayList<>();
         for(Product tmp:temp){
             if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType()== Type.expense){
@@ -123,10 +121,10 @@ public class QueryController {
 
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody Product productRequest){
-        System.out.println("aaaaaaaaaaaaaa");
+
         Product product = productService.createProduct(productRequest);
-        System.out.println("createProduct QueryController");
-        System.out.println(product);
+        categoryCountService.checkCategoryCount(product.getCategory());
+
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
     @DeleteMapping("/products/{productId}")
@@ -134,7 +132,7 @@ public class QueryController {
         Product result=productService.getProductById(productId).orElse(null);
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         productService.deleteProductById(productId);
-        System.out.println("Delete Successful");
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     @GetMapping("/pricebetween")
