@@ -84,7 +84,8 @@ $(document).ready(function () {
                     dayOutcome = dayOutcome + product.price;
                 });
                 var outcome = document.querySelector('#todayOutcome');
-                outcome.value="當天支出 $"+dayOutcome;
+                //outcome.value="當天支出 $"+dayOutcome;
+                outcome.innerHTML="當天支出 <br>$:"+dayOutcome;
             }
         });
 
@@ -166,7 +167,8 @@ $(document).ready(function () {
                     dayOutcome = dayOutcome + product.price;
                 });
                 var outcome = document.querySelector('#todayOutcome');
-                outcome.value="當天支出 $"+dayOutcome;
+                //outcome.value="當天支出 $"+dayOutcome;
+                outcome.innerHTML="當天支出 <br>$:"+dayOutcome;
             }
         });
 
