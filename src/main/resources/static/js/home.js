@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var results = $('#display');
-    $(function () {
+    $(function () {//頁面初始
         $("#time").attr("value", $(this).val());
         var myDate = document.querySelector('#time');
         var today = new Date();
@@ -90,7 +90,7 @@ $(document).ready(function () {
 
 
     });
-    $('#time').change(function () {
+    $('#time').change(function () {//時間更改
         $("#time").attr("value", $(this).val());
         $.ajax({
             type: "GET",
@@ -159,6 +159,8 @@ $(document).ready(function () {
             type: "GET",
             url: "http://localhost:8080/date?date=" + $('#time').val(),
             success: function (allProducts) {
+                console.log($('#time').val());
+                console.log(allProducts);
                 var dayOutcome =0;
                 $.each(allProducts, function (i, product) {
                     dayOutcome = dayOutcome + product.price;
