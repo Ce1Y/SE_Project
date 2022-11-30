@@ -193,26 +193,8 @@
     $.get("/user",function(data){
     console.log(123);
         location.replace(" http://localhost:8080/home.html") ;
-        $("#user").html(data.name);
-        $(".unauthenticated").hide();
-        $(".authenticated").show();
-
     })
-    var logout = function(){
-        $.post("/logout",function(){
-            $("#user").html("");
-            $(".unauthenticated").show();
-            $(".authenticated").hide();
-        })
-        return true;
-    }
-
-
-
 
 </script>
-
-
 </body>
-
 </html>
