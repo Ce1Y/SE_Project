@@ -23,16 +23,13 @@ $(document).ready(function() {
 
 
     $('#postbtn').click(function(){
-        console.log("create");
-         console.log($('#Type_text').text());
-        //console.log($(this).text());
-       // var type = selectOnchange_Type($('#Type_text').val())
         var data = {
             "date": $('#Date-name').val(),
             "category":$('#Category-text').val(),
             "price": $('#Price-text').val(),
             "description":$('#description-text').val(),
             "accountingType": type}
+
         console.log(data);
         console.log( $('#Date-name').val());
         $.ajax({
@@ -45,6 +42,7 @@ $(document).ready(function() {
                console.log(result);
                 if(result != null) {
                     alert("修改成功！");
+                    location.replace(" http://localhost:8080/home.html") ;
                }
            },
             error:function (data) {
