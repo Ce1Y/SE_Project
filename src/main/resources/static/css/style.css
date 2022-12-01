@@ -34,6 +34,11 @@ input {
     right: 0px;
 }
 
+.txt {
+    text-align: right;
+
+}
+
 @media only screen and (max-width:600px) {
     .btn {
         margin: 20px;
@@ -41,5 +46,9 @@ input {
 
     #img {
         width: 100px;
+    }
+
+    .text {
+        text-align: center;
     }
 }
