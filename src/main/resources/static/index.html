@@ -25,41 +25,56 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 <div class="container unauthenticated " >
-    <div class="info text-h-center">
-        <p class="text">帳號 <input ></p>
-        <p class="text">密碼 <input type="password"></p>
-        <p class="text">信箱 <input ></p>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-info text" id="btn1" data-bs-toggle="modal"
-                data-bs-target="#exampleModal">
-            第三方登入
-        </button>
-        <button type="button" class="btn btn-info text" id="btn2">確認</button>
-        <img id="img"
-             src="https://s1.chu0.com/src/img/gif/e0/e02d5b5e4f16407b826031bbe148a5be.gif?e=1735488000&token=1srnZGLKZ0Aqlz6dk7yF4SkiYf4eP-YrEOdM1sob:PczPbxpGSRM8C8kyO43OndFmbzU=">
-    </div>
+    <div class="container fluid">
+        <div class="info">
+            <h1 style="text-align: center;">登入</h1>
+            <div class="text text-h-center">
+                <p>帳號 <input class="text-h-center"></p>
+                <p>密碼 <input class="text-h-center" type="password"></p>
+                <div class="txt">
+                    <a href="#.html" id="forget">忘記密碼</a>
+                </div>
 
+            </div>
+            <!-- Button trigger modal -->
+            <div class="btndiv" style="text-align: center;">
+                <div>
+                    <button type="button" class="btn btn-info text" onclick="location.href='register.html'">註冊</button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-info text" id="btn1" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                        第三方登入
+                    </button>
+                    <button type="button" class="btn btn-info text" id="btn2">登入</button>
+                </div>
+            </div>
+
+
+            <img id="img"
+                 src="https://s1.chu0.com/src/img/gif/e0/e02d5b5e4f16407b826031bbe148a5be.gif?e=1735488000&token=1srnZGLKZ0Aqlz6dk7yF4SkiYf4eP-YrEOdM1sob:PczPbxpGSRM8C8kyO43OndFmbzU=">
+        </div>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-         style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">第三方登入</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="button" value="Google" onclick="location.href='/oauth2/authorization/google'">
-                    <input type="button" value="Facebook" onclick="location.href='/oauth2/authorization/facebook'">
-                    <input type="button" value="Github" onclick="location.href='/oauth2/authorization/github'">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+             style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">第三方登入</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="button" value="Google" onclick="location.href='/oauth2/authorization/google'">
+                        <input type="button" value="Facebook" onclick="location.href='/oauth2/authorization/facebook'">
+                        <input type="button" value="Github" onclick="location.href='/oauth2/authorization/github'">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 <div class="container authenticated" style="display: none">
     Logged in as: <span id="user"></span>
