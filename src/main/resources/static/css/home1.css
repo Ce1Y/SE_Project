@@ -4,7 +4,7 @@
 }
 
 body{
-  background-color: rgb(233,229,175);
+  background-color: rgb(214, 233, 251);
   background-image: radial-gradient(rgb(210, 208, 208) 1px, transparent 0);
   background-size: 40px 40px;
 }
@@ -190,7 +190,7 @@ section .wave.wave2 {
   z-index: 999;
   opacity: 0.5;
   animation-delay: -5s;
-  bottom: 5px;
+  bottom: 0px;
 }
 
 section .wave.wave3 {
@@ -198,7 +198,7 @@ section .wave.wave3 {
   z-index: 998;
   opacity: 0.2;
   animation-delay: -2s;
-  bottom: 10px;
+  bottom: 0px;
 }
 
 section .wave.wave4 {
@@ -206,7 +206,7 @@ section .wave.wave4 {
   z-index: 997;
   opacity: 0.7;
   animation-delay: -5s;
-  bottom: 15px;
+  bottom: 0px;
 }
 
 @keyframes animate {
