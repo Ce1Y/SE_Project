@@ -30,3 +30,34 @@ $('#CreateData').on('shown.bs.modal', function () {
     tomorrow.setDate(tomorrow.getDate());
     myDate.value = tomorrow.toISOString().substr(0, 10);
 });
+
+//if addbtn is clicked save the data in the modal to database
+$('#addbtn').click(function () {
+    var myDate = document.querySelector('#inputDate');
+    var myCategory = document.querySelector('#selectCategory');
+    var myAmount = document.querySelector('#inputAmount');
+    var myDescription = document.querySelector('#description');
+    var myData = {
+        date: myDate.value,
+        type: myCategory.value,
+        amount: myAmount.value,
+        note: myDescription.value
+    }
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/addData",
+        data: JSON.stringify(myData),
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            console.log("SUCCESS : ", data);
+            $("#CreateData").modal('hide');
+            location.reload();
+        },
+        error: function (e) {
+            console.log("ERROR : ", e);
+        }
+    });
+});

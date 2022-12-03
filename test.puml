@@ -1,0 +1,65 @@
+@startuml
+interface SE_Project.demo.repository.ProductRepo {
+~ List<Product> findByCategory(String)
+~ List<Product> findByDate(String)
+~ List<Product> findByCategoryAndDate(String,String)
+}
+class SE_Project.demo.model.Product {
+- String date
+- String category
+- int price
+- String id
+- String description
+- String type
++ String getType()
++ void setType(String)
++ String getDescription()
++ void setDescription(String)
++ String getId()
++ void setId(String)
++ void setDate(String)
++ void setCategory(String)
++ void setPrice(int)
++ String getDate()
++ String getCategory()
++ int getPrice()
++ String toString()
+}
+class SE_Project.demo.DemoApplication {
++ {static} void main(String[])
+}
+class SE_Project.demo.service.ProductService {
+- ProductRepo repository
++ List<Product> getAllProducts()
++ Optional<Product> getProductById(String)
++ List<Product> getProductsByCategory(String)
++ List<Product> getProductsByDate(String)
++ List<Product> getProductsByCategoryAndDate(String,String)
++ Product createProduct(Product)
++ Product updateProduct(int,Product)
++ void deleteProductById(String)
+}
+class SE_Project.demo.controller.QueryController {
+- ProductService productService
++ ResponseEntity<Product> getProduct(String)
++ ResponseEntity<List<Product>> getProductsByQueryParm(String,String)
++ ResponseEntity<Product> createProduct(Product)
++ ResponseEntity<?> deleteProductById(String)
+}
+class SE_Project.demo.Test {
+}
+class SE_Project.demo.parameter.ProductQueryParameter {
+- String keyword
+- String orderBy
+- String sortRule
++ String getKeyword()
++ void setKeyword(String)
++ String getOrderBy()
++ void setOrderBy(String)
++ String getSortRule()
++ void setSortRule(String)
+}
+
+
+org.springframework.data.mongodb.repository.MongoRepository <|-- SE_Project.demo.repository.ProductRepo
+@enduml
