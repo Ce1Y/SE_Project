@@ -25,6 +25,7 @@ $(document).ready(function(){
                url: "http://localhost:8080/products/category?category=" + SelectedCategory,
                success: function(allProducts){
                    $.each(allProducts, function(index, product){
+                   console.log(typeof product.accountingType);
                        make_card(index, product);
                    })
                }
