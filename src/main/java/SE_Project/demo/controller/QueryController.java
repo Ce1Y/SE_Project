@@ -2,6 +2,7 @@ package SE_Project.demo.controller;
 
 
 import SE_Project.demo.model.Product;
+import SE_Project.demo.model.Type;
 import SE_Project.demo.model2.CategoryCount;
 import SE_Project.demo.service.CategoryCountService;
 import SE_Project.demo.service.ProductService;
@@ -158,11 +159,13 @@ public class QueryController {
     }
     @GetMapping("/monthIncome")
     public ResponseEntity<List<Product>> monthIncome(@RequestParam String date){
+
         String month = date.substring(5,7);
         List<Product> temp = productService.getProductByDateLike(month);
         List<Product> monthTemp = new ArrayList<>();
         for(Product tmp:temp){
-            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType().equals("income")){
+            //equals要改type.income 不能直接寫"income"
+            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType().equals(Type.income)){
                 monthTemp.add(tmp);
             }
         }
