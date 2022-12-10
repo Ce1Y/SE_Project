@@ -1,4 +1,4 @@
-package SE_Project.demo.controller;
+package SE_Project.demo.controllers;
 
 
 import SE_Project.demo.model.Product;
@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 

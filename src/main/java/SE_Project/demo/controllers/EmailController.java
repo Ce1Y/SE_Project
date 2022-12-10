@@ -1,4 +1,4 @@
-package SE_Project.demo.controller;
+package SE_Project.demo.controllers;
 
 import SE_Project.demo.model.EmailDetails;
 import SE_Project.demo.service.EmailService;
