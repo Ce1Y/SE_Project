@@ -34,7 +34,7 @@ $(document).ready(function(){
             success:function(result){
                   console.log(result);
                    if(result != null) {
-                   alert("系統已成功發送驗證碼至使用者信箱！");
+                   alert("系統已成功發送驗證碼至使用者信箱！ 如未收到請確認信箱是否正確");
                    }
             },
             error:function (data) {

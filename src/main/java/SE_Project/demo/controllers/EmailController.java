@@ -20,6 +20,10 @@ public class EmailController {
     public ResponseEntity<EmailDetails>
     sendMail(@RequestBody EmailDetails details)
     {
+        if(details.getRecipient().isEmpty()||!details.getRecipient().contains("@")){
+            System.out.println("Error");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         String status
                 = emailService.sendSimpleMail(details);
         if(status.equals("Error while sending mail!!!")){
@@ -34,6 +38,9 @@ public class EmailController {
     public ResponseEntity<EmailDetails> sendMailWithAttachment(
             @RequestBody EmailDetails details)
     {
+        if(details.getRecipient().isEmpty()||!details.getRecipient().contains("@")){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         String status
                 = emailService.sendMailWithAttachment(details);
 
