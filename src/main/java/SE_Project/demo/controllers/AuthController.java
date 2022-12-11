@@ -13,30 +13,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-
 @Controller
 public class AuthController {
     @Autowired
     HttpServletResponse response1;
     @Autowired
     private CustomUserDetailsService userService;
-    
-
-
-    public void loginTest() throws IOException {
-        response1.sendRedirect("http://localhost:8080/login.html");
-    }
-
-
     @GetMapping(value = "/getSignup")
     public User signupTest() {
         User user = new User();
 
         return user;
     }
-
-
     @PostMapping(value = "/signup")
     public ResponseEntity<User> createNewUser(@RequestBody User user) {
         System.out.println(user);

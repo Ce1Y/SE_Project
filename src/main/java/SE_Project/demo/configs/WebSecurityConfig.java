@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup","/register.html","/getSignup").permitAll()
                 .antMatchers("/error","/webjars/**","/css/**","/js/**").permitAll()
+                .antMatchers("/sendMail","/sendMailWithAttachment").permitAll()
                 .anyRequest()
                 .authenticated().and().csrf().disable().cors().disable().formLogin().successHandler(customizeAuthenticationSuccessHandler)
                 .failureHandler(customizeAuthenticationFailHandler)
@@ -65,12 +66,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web
-//                .ignoring()
-//                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
-//    }
     @Bean
     public UsernamePasswordAuthenticationFilter authenticationFilter() throws Exception {
         UsernamePasswordAuthenticationFilter filter = new UsernamePasswordAuthenticationFilter();

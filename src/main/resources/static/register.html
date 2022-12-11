@@ -14,7 +14,6 @@
           integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
           crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="css/style.css">
   <style type="text/css">
   body {
     background-color: rgb(214, 233, 251);
@@ -73,14 +72,16 @@ input {
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="js/signup.js"></script>
 
-<div class="container unauthenticated " >
+
   <div class="info text-h-center">
     <h1>註冊</h1>
+    <button type="button" class="btn btn-info text" id="login">回上一頁</button>
     <p class="text">使用者名稱 <input type="text" id="fullName"></p>
     <p class="text">信箱 <input type="text" id="email"></p>
     <p class="text">密碼 <input type="password" id="password"></p>
+    <button type="button" class="btn btn-info text" id="emailVerify">取得email驗證碼</button>
+    <p class="text">email驗證碼</p><input type="text" id="verify"></p>
     <button type="button" class="btn btn-info text" id="signup">Sign up</button>
-    <a href="/login.html" class="button">Sign In</a>
         <img id="img"
              src="https://s1.chu0.com/src/img/gif/e0/e02d5b5e4f16407b826031bbe148a5be.gif?e=1735488000&token=1srnZGLKZ0Aqlz6dk7yF4SkiYf4eP-YrEOdM1sob:PczPbxpGSRM8C8kyO43OndFmbzU=">
 
@@ -89,7 +90,7 @@ input {
 
 
 
-</div>
+
 
 
 </body>

@@ -1,30 +1,77 @@
+/*生成6位隨機數*/
+function rand(){
+        validate="";
+        var str="123456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789";
+        var arr=str.split("");
+        var ranNum;
+        for(var i=0;i<6;i++){
+            ranNum=Math.floor(Math.random()*66);   //隨機數在[0,65]之間
+            validate+=arr[ranNum];
+        }
+        return validate;
+}
+
+
 $(document).ready(function(){
-    $('#signup').click(function(){
+    var validation = rand();
+    $('#login').click(function(){
+        location.replace(" http://localhost:8080/index.html") ;
+    });
+    $('#emailVerify').click(function(){
+        validation = rand();
         var data = {
-                    "email": $('#email').val(),
-                    "password":$('#password').val(),
-                    "fullname":$('#fullName').val(),
+            "recipient": $('#email').val(),
+            "msgBody":"這裡是記帳助手歡迎您註冊本系統這是您的驗證碼"+validation,
+            "subject":"記帳助手驗證信"
+        }
+        $.ajax({
+            url:'http://localhost:8080/sendMail',
+            method:'post',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType:'JSON',
+            success:function(result){
+                  console.log(result);
+                   if(result != null) {
+                   alert("系統已成功發送至使用者信箱！");
+                   }
+            },
+            error:function (data) {
+                 alert("註冊信箱無效！");
+            }
+        });
+    });
 
-                    }
-                console.log($('#email').val());
-                console.log(data);
+    $('#signup').click(function(){
+        if($('#verify').val()==validation){
+            console.log("EnterSuccess");
+            var data = {
+                                "email": $('#email').val(),
+                                "password":$('#password').val(),
+                                "fullname":$('#fullName').val(),
 
-                $.ajax({
-                    url:'http://localhost:8080/signup',
-                    method:'post',
-                    data: JSON.stringify(data),
-                   contentType: "application/json",
-                    dataType:'JSON',
-                    success:function(result){
-                       console.log(result);
-                        if(result != null) {
-                            alert("修改成功！");
+                                }
+                            console.log($('#email').val());
+                            console.log(data);
 
-                       }
-                   },
-                    error:function (data) {
-                    }
-                });
+                            $.ajax({
+                                url:'http://localhost:8080/signup',
+                                method:'post',
+                                data: JSON.stringify(data),
+                               contentType: "application/json",
+                                dataType:'JSON',
+                                success:function(result){
+                                   console.log(result);
+                                    if(result != null) {
+                                        alert("修改成功！");
+                                        location.replace(" http://localhost:8080/index.html") ;
+                                   }
+                               },
+                                error:function (data) {
+                                }
+                            });
+        }
+
     });
 });
 

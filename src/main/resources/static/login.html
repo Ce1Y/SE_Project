@@ -14,7 +14,6 @@
           integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
           crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="css/style.css">
   <style type="text/css">
   body {
     background-color: rgb(214, 233, 251);
@@ -73,40 +72,60 @@ input {
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script src="js/login.js"></script>
 
-<div class="container unauthenticated " >
-  <div class="info text-h-center">
-    <p class="text">信箱 <input type="text" id="email"></p>
-    <p class="text">密碼 <input type="password" id="password"></p>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-info text" id="btn1" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">
-      第三方登入
-    </button>
-    <button type="button" class="btn btn-info text" id="btn2">確認</button>
+<div class="container unauthenticated ">
+  <div class="container fluid">
+    <div class="info">
+      <h1 style="text-align: center;">登入</h1>
+      <div class="text text-h-center">
+        <p >信箱 <input type="text" id="email"  class="text-h-center"></p>
+        <p >密碼 <input type="password" id="password"  class="text-h-center"></p>
+        <div class="txt">
+          <a href="#.html" id="forget">忘記密碼</a>
+        </div>
+        <!-- Button trigger modal -->
 
-  </div>
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-       style="display: none;">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">第三方登入</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+      </div>
+      <div class="btndiv" style="text-align: center;">
+        <div>
+          <button type="button" class="btn btn-info text" onclick="location.href='/register.html'">註冊
+          </button>
         </div>
-        <div class="modal-body">
-          <input type="button" value="Google" onclick="location.href='/oauth2/authorization/google'">
-          <input type="button" value="Facebook" onclick="location.href='/oauth2/authorization/facebook'">
-          <input type="button" value="Github" onclick="location.href='/oauth2/authorization/github'">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div>
+          <button type="button" class="btn btn-info text" id="btn1" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal">
+            第三方登入
+          </button>
+          <button type="button" class="btn btn-info text" id="btn2">登入</button>
         </div>
       </div>
+      <img id="img"
+           src="https://s1.chu0.com/src/img/gif/e0/e02d5b5e4f16407b826031bbe148a5be.gif?e=1735488000&token=1srnZGLKZ0Aqlz6dk7yF4SkiYf4eP-YrEOdM1sob:PczPbxpGSRM8C8kyO43OndFmbzU=">
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+           aria-hidden="true"
+           style="display: none;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">第三方登入</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <input type="button" value="Google" onclick="location.href='/oauth2/authorization/google'">
+              <input type="button" value="Facebook"
+                     onclick="location.href='/oauth2/authorization/facebook'">
+              <input type="button" value="Github" onclick="location.href='/oauth2/authorization/github'">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-
-
 </div>
 <script tpye="text/javascript" src="/webjars/js-cookie/js.cookie.js">
 </script>
@@ -124,6 +143,8 @@ input {
     console.log(123);
         location.replace(" http://localhost:8080/home.html") ;
     })
+
+
 
 </script>
 
