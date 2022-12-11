@@ -18,6 +18,7 @@ $(document).ready(function(){
         location.replace(" http://localhost:8080/index.html") ;
     });
     $('#emailVerify').click(function(){
+        alert("系統目前正在寄送驗證信請稍等！");
         validation = rand();
         var data = {
             "recipient": $('#email').val(),
@@ -33,7 +34,7 @@ $(document).ready(function(){
             success:function(result){
                   console.log(result);
                    if(result != null) {
-                   alert("系統已成功發送至使用者信箱！");
+                   alert("系統已成功發送驗證碼至使用者信箱！");
                    }
             },
             error:function (data) {
