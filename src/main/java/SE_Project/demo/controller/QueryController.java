@@ -150,7 +150,7 @@ public class QueryController {
         List<Product> temp = productService.getProductByDateLike(month);
         List<Product> monthTemp = new ArrayList<>();
         for(Product tmp:temp){
-            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType().equals("expense")){
+            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType().equals(Type.expense)){
                 monthTemp.add(tmp);
             }
         }
@@ -172,5 +172,107 @@ public class QueryController {
         return ResponseEntity.status(HttpStatus.OK).body(monthTemp);
     }
 
+    @GetMapping("/yearOutcome")
+    public ResponseEntity<List<Product>> yearOutcome(@RequestParam String year){
+        List<Product> temp = productService.getProductByDateLike(year);
+        List<Product> yearTemp = new ArrayList<>();
+        for(Product tmp:temp){
+            if(tmp.getDate().substring(0,4).equals(year)&&tmp.getAccountingType().equals(Type.expense)){
+                yearTemp.add(tmp);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(yearTemp);
+    }
 
+    @GetMapping("/yearIncome")
+    public ResponseEntity<List<Product>> yearIncome(@RequestParam String year){
+        List<Product> temp = productService.getProductByDateLike(year);
+        List<Product> yearTemp = new ArrayList<>();
+        for(Product tmp:temp){
+            if(tmp.getDate().substring(0,4).equals(year)&&tmp.getAccountingType().equals(Type.income)){
+                yearTemp.add(tmp);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(yearTemp);
+    }
+    @GetMapping("/dayBalance")
+    public ResponseEntity<String> dayBalance(@RequestParam String date){
+        List<Product> result=productService.getProductsByDate(date);
+        int balance=0;
+        String returnBalance;
+        for(Product tmp:result)
+        {
+            if(tmp.getAccountingType().equals(Type.expense)){
+                balance -= tmp.getPrice();
+            }
+            else
+            {
+                balance += tmp.getPrice();
+            }
+        }
+        if(balance<0)
+        {
+            returnBalance = "-" + Integer.toString(balance);
+        }
+        else
+        {
+            returnBalance = "+" + Integer.toString(balance);
+        }
+        System.out.println(returnBalance);
+        return ResponseEntity.status(HttpStatus.OK).body(returnBalance);
+    }
+
+    @GetMapping("/monthBalance")
+    public ResponseEntity<String> monthBalance(@RequestParam String month){
+        List<Product> result=productService.getProductByDateLike(month);
+        int balance=0;
+        String returnBalance;
+        for(Product tmp:result)
+        {
+            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType().equals(Type.expense)){
+                balance -= tmp.getPrice();
+            }
+            else if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType().equals(Type.income))
+            {
+                balance += tmp.getPrice();
+            }
+        }
+        if(balance<0)
+        {
+            returnBalance = "-" + Integer.toString(balance);
+        }
+        else
+        {
+            returnBalance = "+" + Integer.toString(balance);
+        }
+        System.out.println(returnBalance);
+        return ResponseEntity.status(HttpStatus.OK).body(returnBalance);
+    }
+
+    @GetMapping("/yearBalance")
+    public ResponseEntity<String> yearBalance(@RequestParam String year){
+        List<Product> result=productService.getProductByDateLike(year);
+        int balance=0;
+        String returnBalance;
+        for(Product tmp:result)
+        {
+            if(tmp.getDate().substring(0,4).equals(year)&&tmp.getAccountingType().equals(Type.expense)){
+                balance -= tmp.getPrice();
+            }
+            else if(tmp.getDate().substring(0,4).equals(year)&&tmp.getAccountingType().equals(Type.income))
+            {
+                balance += tmp.getPrice();
+            }
+        }
+        if(balance<0)
+        {
+            returnBalance = "-" + Integer.toString(balance);
+        }
+        else
+        {
+            returnBalance = "+" + Integer.toString(balance);
+        }
+        System.out.println(returnBalance);
+        return ResponseEntity.status(HttpStatus.OK).body(returnBalance);
+    }
 }

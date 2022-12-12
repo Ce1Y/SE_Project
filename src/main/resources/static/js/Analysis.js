@@ -1,43 +1,31 @@
 //import {Chart} from 'chart.js';
 //import ChartDataLabels from 'chartjs-plugin-datalabels';
 //Chart.register(ChartDataLabels);
+var selectedYear;
+var selectedMonth;
+var selectedDate;
 $(document).ready(function(){
     $(function(){
         var today = new Date();
         var todayString = today.toISOString().substr(0, 10);
-        console.log(todayString);
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:8080/monthIncome?date=" + "2022-11-26",
-            success: function (allProducts) {
-                const categoryArr = [];
-                $.each(allProducts, function (i, product) {
-                    let categoryIndex= categoryIsPresent(product.category, categoryArr);
-                    if( categoryIndex == (-1) )
-                    {
-                        categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
-                    }
-                    else
-                    {
-                        categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
-                    }
-                });
-                makeChart(categoryArr, "月支出");
-//                Income.value="    $"+monthIncome;
-            }
-        });
+        selectedYear = todayString.substring(0,4);
+        selectedMonth = todayString.substring(5,7);
+        selectedDate = todayString.substring(8,10);
+        console.log("selectedDate="+selectedDate);
+        console.log("selectedMonth="+selectedMonth);
+        console.log("todayString="+todayString);
+        DealMonthOutcome(todayString);
+//        `<b>${selectedYear}年${selectedMonth}月</b>`
+         var mystr=new String("String");
+        $("#YearAndDate").append(`${mystr} and ${mystr.sub()} and ${mystr.sup()}`);
 
-//        $.ajax({
-//            type: "GET",
-//            url: "http://localhost:8080/monthOutcome?date=" + todayString,
-//            success: function (allProducts) {
-//                $.each(allProducts, function (i, product) {
-//                    monthOutcome = monthOutcome + product.price;
-//                });
-//                var outcome = document.querySelector('#monthOutcomeText');
-//                outcome.value="  $"+monthOutcome;
-//        }
-//        });
+
+    });
+    $("#selectTimeBack").click(function(){
+        $("#chartFather").html("");
+    });
+    $("#selectTimeForward").click(function(){
+        $("#chartFather").html("");
     });
     $("#click1").click(function(){
         $("#chartFather").html("");
@@ -59,7 +47,53 @@ function categoryIsPresent(category, categoryArr)
     }
     return (-1);
 }
-function makeChart(categoryArr, chartLabelName)
+function DealMonthOutcome(date)
+{
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/monthOutcome?date=" + date,
+        success: function (allProducts) {
+            const categoryArr = [];
+            $.each(allProducts, function (i, product) {
+                let categoryIndex= categoryIsPresent(product.category, categoryArr);
+                if( categoryIndex == (-1) )
+                {
+                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                }
+                else
+                {
+                    categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                }
+            });
+            MakeBarChart(categoryArr, "月支出");
+            //Income.value="    $"+monthIncome;
+        }
+    });
+}
+function DealMonthIncome(date)
+{
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/monthIncome?date=" + date,
+        success: function (allProducts) {
+            const categoryArr = [];
+            $.each(allProducts, function (i, product) {
+                let categoryIndex= categoryIsPresent(product.category, categoryArr);
+                if( categoryIndex == (-1) )
+                {
+                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                }
+                else
+                {
+                    categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                }
+            });
+            MakeBarChart(categoryArr, "月收入");
+            //Income.value="    $"+monthIncome;
+        }
+    });
+}
+function MakeBarChart(categoryArr, chartLabelName)
 {
     var ctx = document.getElementById('chart').getContext('2d');
     var categoryAsLabels = [];
@@ -77,7 +111,7 @@ function makeChart(categoryArr, chartLabelName)
     }
     var chart = new Chart(ctx, {
         // 要创建的图表类型
-        plugins: [ChartDataLabels],
+//        plugins: [ChartDataLabels],
         type: 'bar',
         // 数据集
         data: {
@@ -137,6 +171,4 @@ function makeChart(categoryArr, chartLabelName)
              }
         }
     });
-
-
 }

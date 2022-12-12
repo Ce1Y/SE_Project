@@ -18,25 +18,38 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script src="js/Analysis.js"></script>
+
+
 <div class="container">
     <div class="row  my-3">
         <button type="button" class="btn col-1" onclick="window.location.href='/index.html'">
-            &#9668;
+            &#60;
         </button>
         <div class="btn-group col-6 offset-2" role="group" id="analysisType_btn" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" value="expense" name="btnradio" id="analysisType1" autocomplete="off" checked>
-            <label class="btn btn-outline-warning"  for="analysisType1">支出</label>
+            <input type="radio" class="btn-check" value="expense" id="analysisTypeExpense" autocomplete="off" checked>
+            <label class="btn btn-outline-warning"  for="analysisTypeExpense">支出</label>
 
-            <input type="radio" class="btn-check" value="income" name="btnradio" id="analysisType2" autocomplete="off">
-            <label class="btn btn-outline-warning"  for="analysisType2">收入</label>
+            <input type="radio" class="btn-check" value="income" id="analysisTypeIncome" autocomplete="off">
+            <label class="btn btn-outline-warning"  for="analysisTypeIncome">收入</label>
 
-            <input type="radio" class="btn-check" value="income" name="btnradio" id="analysisType3" autocomplete="off">
-            <label class="btn btn-outline-warning"  for="analysisType3">結餘</label>
+            <input type="radio" class="btn-check" value="balance" id="analysisTypeBalance" autocomplete="off">
+            <label class="btn btn-outline-warning"  for="analysisTypeBalance">結餘</label>
         </div>
     </div>
 </div>
-<!--style="position: relative; height:20vh; width:40vw"-->
-<div class="line-top"></div>
+<hr />
+<div class="container">
+    <div class="row">
+        <button type="button" class="btn col-1 offset-2" id="selectTimeBack">
+            &#9668;
+        </button>
+        <span class="col-5" style="text-align: center; display:block;" id="YearAndDate"></span>
+        <button type="button" class="btn col-1" id="selectTimeForward">
+            &#9658;
+        </button>
+    </div>
+
+</div>
 <div class="chart-container" style="position: relative; height:270px; width:70%" id="chartFather">
     <canvas class="offset-2" id="chart"></canvas>
 </div>
