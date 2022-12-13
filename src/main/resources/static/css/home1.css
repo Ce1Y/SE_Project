@@ -30,6 +30,34 @@ body{
   border-radius: 50%;
 }
 
+table {
+  width: 300px;
+  border-collapse: separate; /* border-collapse: collapse; */
+  border: 3px solid black;
+  border-radius: 15px;
+  background-color: plum;
+  text-align: center;
+  color: white;
+  border-spacing: 0;
+  overflow: hidden;
+  /* box-shadow: 5px 5px 10px 1px black; */
+}
+
+th {
+  background-color: aquamarine;
+  border-top: none;
+}
+
+tr {
+  border: 1px solid #000;
+  border-collapse: separate;
+  border-radius: 10px;
+}
+
+td {
+    /*border-radius: 10px;*/
+}
+
 .btn-add,
 .btn-add *,
 .btn-add :after,
@@ -156,15 +184,15 @@ li a {
 }
 
 section {
-  /* width: 200px;
-  height: 200px;
-  border-radius: 50%; */
   position: relative;
   width: 200px;
   height: 200px;
   background-color: aqua;
   overflow: hidden;
+  border: 2px solid black;
   border-radius: 50%;
+  box-shadow: 0px 0px 3px 1px black;
+  /*text-align: center;*/
 }
 
 section .wave {
