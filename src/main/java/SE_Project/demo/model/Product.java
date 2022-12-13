@@ -10,15 +10,8 @@ public class Product {
     private int price;
     private  String id;
     private String description;
-    private String type;
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
+    private Type accountingType;
 
     public String getDescription() {
         return description;
@@ -43,7 +36,14 @@ public class Product {
         this.category = category;
         this.price = price;
     }
-
+    public Product(String date, String category, int price, String description, Type accountingType)
+    {
+        this.date = date;
+        this.category = category;
+        this.price = price;
+        this.description=description;
+        this.accountingType=accountingType;
+    }
 
 
     public void setDate(String date) {this.date = date;}
@@ -58,12 +58,21 @@ public class Product {
 
     public String getCategory() {return this.category;}
 
+    public Type getAccountingType() {
+        return accountingType;
+    }
+
+    public void setAccountingType(Type accountingType) {
+        this.accountingType = accountingType;
+    }
+
     public int getPrice() {return this.price;}
 
     @Override
     public String toString() {
         return   "Date: " + date + "\n" +
                 "Category: " + category + "\n" +
-                "price: " + price + "\n";
+                "price: " + price + "\n" +
+                "Type:" + accountingType+ "\n";
     }
 }
