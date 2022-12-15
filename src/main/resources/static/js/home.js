@@ -9,44 +9,63 @@ $(document).ready(function () {
         console.log(today);
         myDate.value = today.toISOString().substr(0, 10);
         console.log($('#time').val());
+
         $.ajax({
             type: "GET",
             url: "http://localhost:8080/date?date=" + $('#time').val(),
             success: function (allProducts) {
-                //https://subservices.post.gov.tw/post/internet/images/NoResult.jpg
-                results.html("");
-                results.append(`
-                <input type="image" src="https://subservices.post.gov.tw/post/internet/images/NoResult.jpg" alt="Submit" width="390" height="300">
-                `)
+
+                var str = '';
+                var flag=1;
+                if (allProducts.length==0) {
+                    flag=0;
+                }
 
                 $.each(allProducts, function (i, product) {
-                    if (i == 0) {
-                        results.html("");
+                    if(product.accountingType=='income'){
+                        str+=`
+                         <tr >
+                              <td>${product.category}</td>
+                              <td>${product.description}</td>
+                              <td>${product.price}</td>
+                         </tr>`
                     }
-                    results.append(
-                        "<div class='card' id = o_card>" +
-                        "<div class='card-header'>" + product.category + "</div>" +
-                        "<div class='card-body bg-dark text-white'>" +
-                        "<p>" + "金額:" + product.price + "<br>" + "時間" + product.date +
-                        "</p>" +
-                        `<div class="card">
-                                    <div class="card-header">
-                                        <a class="btn" data-bs-toggle="collapse" href="#collapse${i}">
-                                            詳細資訊
-                                        </a>
-                                    </div>
-                                    <div id="collapse${i}" class="collapse" data-bs-parent="#accordion">
-                                        <div class="card-body">                                        
-                                             <p style="color: black;">${product.description}</p>
-                                        </div>
-                                    </div>
-                                </div>` +
-
-                        "</div>" +
-                        "</div>"
-                    )
-
+                   else{str+=`
+                         <tr style="background: #7700FF">
+                              <td>${product.category}</td>
+                              <td>${product.description}</td>
+                              <td>${product.price}</td>
+                              <td></td>
+                         </tr>`
+                   }
                 });
+                if(flag==0){
+                    results.html("");
+                    results.append(`
+                    <input type="image" src="https://subservices.post.gov.tw/post/internet/images/NoResult.jpg" alt="Submit" width="390" height="300">
+                    `)
+                }
+                else{
+                    results.html("");
+                    results.append(`
+                     <table>
+                         <thead>
+                         <tr class="header" style="color: black;">
+                             <th>種類</th>
+                             <th>名稱</th>
+                             <th>金額</th>
+                             <th style="cursor: pointer;">X</th>
+                         </tr>
+                         </thead>
+                        <tbody>
+
+                        </tbody>
+
+                     </table>
+                    `)
+                    var obToday = document.querySelector('tbody');
+                    obToday.innerHTML = str;
+                }
 
             }
 
@@ -97,40 +116,59 @@ $(document).ready(function () {
             type: "GET",
             url: "http://localhost:8080/date?date=" + $('#time').val(),
             success: function (allProducts) {
-                results.html("");
-                results.append(`
-                <input type="image" src="https://subservices.post.gov.tw/post/internet/images/NoResult.jpg" alt="Submit" width="390" height="300">
-                `)
-
+                var str = '';
+                var flag=1;
+                if (allProducts.length==0) {
+                    flag=0;
+                }
                 $.each(allProducts, function (i, product) {
-                    if (i == 0) {
-                        results.html("");
+                    if(product.accountingType=='income'){
+                        str+=`
+                         <tr >
+                              <td>${product.category}</td>
+                              <td>${product.description}</td>
+                              <td>${product.price}</td>
+                         </tr>`
                     }
-                    results.append(
-                        "<div class='card' id = o_card>" +
-                        "<div class='card-header'>" + product.category + "</div>" +
-                        "<div class='card-body bg-dark text-white'>" +
-                        "<p>" + "金額:" + product.price + "<br>" + "時間" + product.date +
-                        "</p>" +
-                        `<div class="card">
-                                    <div class="card-header">
-                                        <a class="btn" data-bs-toggle="collapse" href="#collapse${i}">
-                                            詳細資訊
-                                        </a>
-                                    </div>
-                                    <div id="collapse${i}" class="collapse" data-bs-parent="#accordion">
-                                        <div class="card-body">                                        
-                                             <p style="color: black;">${product.description}</p>
-                                        </div>
-                                    </div>
-                                </div>` +
-
-                        "</div>" +
-                        "</div>"
-                    )
-
+                   else{str+=`
+                         <tr style="background: #7700FF">
+                              <td>${product.category}</td>
+                              <td>${product.description}</td>
+                              <td>${product.price}</td>
+                              <td></td>
+                         </tr>`
+                   }
                 });
+                if(flag==0){
+                    results.html("");
+                    results.append(`
+                    <input type="image" src="https://subservices.post.gov.tw/post/internet/images/NoResult.jpg" alt="Submit" width="390" height="300">
+                    `)
+                }
+                else{
+                    results.html("");
+                    results.append(`
+                     <table>
+                         <thead>
+                         <tr class="header" style="color: black;">
+                             <th>種類</th>
+                             <th>名稱</th>
+                             <th>金額</th>
+                             <th style="cursor: pointer;">X</th>
+                         </tr>
+                         </thead>
+                        <tbody>
+
+                        </tbody>
+
+                     </table>
+                    `)
+                    var obToday = document.querySelector('tbody');
+                    obToday.innerHTML = str;
+                }
+
             }
+
         });
         $.ajax({
             type: "GET",

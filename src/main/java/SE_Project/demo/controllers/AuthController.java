@@ -28,6 +28,8 @@ public class AuthController {
     @PostMapping(value = "/signup")
     public ResponseEntity<User> createNewUser(@RequestBody User user) {
         System.out.println(user);
+        user.setLoginMethod("local");
+        user.setEnabled(false);
         User userExists = userService.findUserByEmail(user.getEmail());
         if (userExists != null) {
             System.out.println("already exist");

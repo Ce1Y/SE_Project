@@ -24,8 +24,19 @@ public class User {
     private String password;
     private String fullname;
     private boolean enabled;
+
+
+    private String loginMethod;
+
     @DBRef
     private Set<Role> roles;
+    public String getLoginMethod() {
+        return loginMethod;
+    }
+
+    public void setLoginMethod(String loginMethod) {
+        this.loginMethod = loginMethod;
+    }
 
     public String getId() {
         return id;
