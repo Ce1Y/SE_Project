@@ -1,18 +1,16 @@
-//import {Chart} from 'chart.js';
-//import ChartDataLabels from 'chartjs-plugin-datalabels';
-//Chart.register(ChartDataLabels);
 var selectedYear;
 var selectedMonth;
 var selectedDate;
 var selectedSixMonth
+var currentCategoryArr = []
 $(document).ready(function(){
     $(function(){
         var today = new Date();
-        var todayString = today.toISOString().substr(0, 10);
-        selectedYear = todayString.substring(0,4);
-        selectedMonth = todayString.substring(5,7);
-        selectedDate = todayString.substring(8,10);
-        selectedSixMonth = selectedMonth;
+        var todayString = today.toISOString().substr(0, 10 );
+        selectedYear = parseInt( todayString.substring(0,4) );
+        selectedMonth = parseInt( todayString.substring(5,7) );
+        selectedDate = parseInt( todayString.substring(8,10) );
+        selectedSixMonth = parseInt( selectedMonth );
         DealMonthOutcome(todayString);
         $("#YearAndDate").append(`<b>${selectedYear}年${selectedMonth}月</b>`);
     });
@@ -116,31 +114,53 @@ $(document).ready(function(){
     //SearchWithExpense
     $("#analysisTypeExpense").on("change",function(){
          $("#chartFather").html("");
+         let displayDate = "" + selectedYear + "年" + selectedMonth + "月";
+         changeYearAndDate(0,displayDate);
     });
 
     //SearchWithIncome
     $("#analysisTypeIncome").on("change",function(){
          $("#chartFather").html("");
+         let displayDate = "" + selectedYear + "年" + selectedMonth + "月";
+         changeYearAndDate(0,displayDate);
     });
 
     //SearchWithBalance
     $("#analysisTypeBalance").on("change",function(){
          $("#chartFather").html("");
+         let displayDate = selectedYear + "年";
+         changeYearAndDate(0,displayDate);
     });
 
     //SearchWithMonth
     $("#SelectedTimeMonth").on("change",function(){
          $("#chartFather").html("");
+         let displayDate = selectedYear + "年" + selectedMonth + "月";
+         changeYearAndDate(0,displayDate);
     });
 
     //SearchWithSixMonth
     $("#SelectedTimeSixMonth").on("change",function(){
          $("#chartFather").html("");
+         let displayDate = "";
+         if(selectedMonth<6)
+         {
+            displayDate = selectedYear.toString() + "年" + (selectedMonth+7).toString() + "月~" +
+                              selectedYear.toString() + "年" +selectedMonth.toString() + "月";
+         }
+         else
+         {
+            displayDate = selectedYear.toString() + "年" + (selectedMonth-5).toString() + "月~" +
+                              selectedYear.toString() + "年" + selectedMonth.toString() + "月";
+         }
+         changeYearAndDate(1,displayDate);
     });
 
     //SearchWithYear
     $("#SelectedTimeYear").on("change",function(){
          $("#chartFather").html("");
+         let displayDate = selectedYear + "年";
+         changeYearAndDate(0,displayDate);
     });
 
     //SearchWithCustom
@@ -148,14 +168,70 @@ $(document).ready(function(){
          $("#chartFather").html("");
     });
 
-    $("#")
+    //由bar換成donut
+    $("#changeChart").click(function(){
+        if($("#chart").val()=="barChart")
+        {
+            $("#chartFather").html("");
+            $("#chartFather").append(`<canvas class="offset-2" id="donutChart"></canvas>`);
+            MakeDoughnutChart(currentCategoryArr, $('#SelectedTimeType input:radio:checked').val());
+        }
+        else if($("#chart").val()=="donutChart")
+        {
+            $("#chartFather").html("");
+            $("#chartFather").append(`<canvas class="offset-2" id="barChart"></canvas>`);
+            MakeBarChart(currentCategoryArr, $('#SelectedTimeType input:radio:checked').val());
+        }
+    });
 
 });
+
+//struct一個category物件
 function structCategory(category, totalPrice)
 {
   this.category = category;
   this.totalPrice = totalPrice;
 }
+
+//修改目前搜尋的日期
+function changeYearAndDate(isNotSixMonth, displayDate)
+{
+    $("#SelectSearchTime").html("");
+    if(isNotSixMonth==1)
+    {
+        let insertIn =
+        `
+            <button type="button" class="btn col-1" id="selectTimeBack">
+                &#9668;
+            </button>
+            <span class="col-8 ms-6" style="text-align: center; display:block;" id="YearAndDate"><b>
+            ${displayDate}
+            </b></span>
+            <button type="button" class="btn col-1" id="selectTimeForward">
+                &#9658;
+            </button>
+        `;
+        $("#SelectSearchTime").append(insertIn);
+    }
+    else
+    {
+        let insertIn =
+        `
+        <button type="button" class="btn col-1 offset-2" id="selectTimeBack">
+            &#9668;
+        </button>
+        <span class="col-5 ms-3" style="text-align: center; display:block;" id="YearAndDate"><b>
+        ${displayDate}
+        </b></span>
+        <button type="button" class="btn col-1" id="selectTimeForward">
+            &#9658;
+        </button>
+        `;
+
+        $("#SelectSearchTime").append(insertIn);
+    }
+}
+
 function categoryIsPresent(category, categoryArr)
 {
     for(var i=0; i<categoryArr.length; i++)
@@ -167,6 +243,7 @@ function categoryIsPresent(category, categoryArr)
     }
     return (-1);
 }
+
 function DealMonthOutcome(date)
 {
     $.ajax({
@@ -185,11 +262,14 @@ function DealMonthOutcome(date)
                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
                 }
             });
+            currentCategoryArr =  categoryArr;
+            console.log(currentCategoryArr);
             MakeBarChart(categoryArr, "月支出");
             MakeDoughnutChart(categoryArr, "月收入");
         }
     });
 }
+
 function DealMonthIncome(date)
 {
     $.ajax({
@@ -209,10 +289,30 @@ function DealMonthIncome(date)
                 }
             });
             MakeBarChart(categoryArr, "月收入");
-
         }
     });
 }
+
+function resetSelectedTimeType()
+{
+    let insertIn =
+    `
+    <input type="radio" class="btn-check" name="btnradioSecond" value="month" id="SelectedTimeMonth" autocomplete="off" checked>
+    <label class="btn btn-outline-warning col-3"  for="SelectedTimeMonth">月</label>
+
+    <input type="radio" class="btn-check" name="btnradioSecond" value="sixMonth" id="SelectedTimeSixMonth" autocomplete="off">
+    <label class="btn btn-outline-warning col-3"  for="SelectedTimeSixMonth">近六個月</label>
+
+    <input type="radio" class="btn-check" name="btnradioSecond" value="year" id="SelectedTimeYear" autocomplete="off">
+    <label class="btn btn-outline-warning col-3"  for="SelectedTimeYear">年</label>
+
+    <input type="radio" class="btn-check" name="btnradioSecond" value="custom" id="SelectedTimeCustom" autocomplete="off">
+    <label class="btn btn-outline-warning col-3"  for="SelectedTimeCustom">自訂</label>
+    `;
+    $("#SelectedTimeType").html("");
+    $("#SelectedTimeType").append(insertIn);
+}
+
 function MakeBarChart(categoryArr, chartLabelName)
 {
     var ctx = document.getElementById('chart').getContext('2d');
@@ -295,7 +395,7 @@ function MakeBarChart(categoryArr, chartLabelName)
 
 function MakeDoughnutChart(categoryArr, chartLabelName)
 {
-    var ctx = document.getElementById('charttest').getContext('2d');
+    var ctx = document.getElementById('chart').getContext('2d');
     var categoryAsLabels = [];
     var totalPriceAsLabels = [];
     var AllTotalPrice=0;
