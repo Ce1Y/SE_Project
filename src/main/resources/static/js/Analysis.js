@@ -15,9 +15,8 @@ $(document).ready(function(){
         console.log("selectedMonth="+selectedMonth);
         console.log("todayString="+todayString);
         DealMonthOutcome(todayString);
-//        `<b>${selectedYear}年${selectedMonth}月</b>`
          var mystr=new String("String");
-        $("#YearAndDate").append(`${mystr} and ${mystr.sub()} and ${mystr.sup()}`);
+        $("#YearAndDate").append(`<b>${2022}年${12}月</b>`);
 
 
     });
