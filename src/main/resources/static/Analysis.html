@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="Analysis.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
@@ -17,22 +18,22 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-<script src="js/Analysis.js"></script>
+<!--<script src="js/Analysis.js"></script>-->
 
 
-<div class="container">
+<div class="container custom-container-width">
     <div class="row  my-3">
         <button type="button" class="btn col-1" onclick="window.location.href='/index.html'">
             &#60;
         </button>
-        <div class="btn-group col-6 offset-2" role="group" id="analysisType_btn" data-toggle="buttons">
-            <input type="radio" class="btn-check" value="expense" id="analysisTypeExpense" autocomplete="off" checked>
+        <div class="btn-group col-6 offset-2" role="group" id="analysisType_btn" >
+            <input type="radio" class="btn-check" value="expense" name="btnradioFirst" id="analysisTypeExpense" autocomplete="off" checked>
             <label class="btn btn-outline-warning"  for="analysisTypeExpense">支出</label>
 
-            <input type="radio" class="btn-check" value="income" id="analysisTypeIncome" autocomplete="off">
+            <input type="radio" class="btn-check" value="income" name="btnradioFirst" id="analysisTypeIncome" autocomplete="off">
             <label class="btn btn-outline-warning"  for="analysisTypeIncome">收入</label>
 
-            <input type="radio" class="btn-check" value="balance" id="analysisTypeBalance" autocomplete="off">
+            <input type="radio" class="btn-check" value="balance" name="btnradioFirst" id="analysisTypeBalance" autocomplete="off">
             <label class="btn btn-outline-warning"  for="analysisTypeBalance">結餘</label>
         </div>
     </div>
@@ -52,38 +53,31 @@
 
 <div class="container">
     <div class="row">
-        <div class="btn-group col-12" role="group" id="SelectedTimeType" data-toggle="buttons">
-            <input type="radio" class="btn-check" value="expense" id="SelectedTimeMonth" autocomplete="off" checked>
-            <label class="btn btn-outline-warning col-3"  for="analysisTypeExpense">月</label>
+        <div class="btn-group col-12" role="group" id="SelectedTimeType" >
+            <input type="radio" class="btn-check" name="btnradioSecond" value="month" id="SelectedTimeMonth" autocomplete="off" checked>
+            <label class="btn btn-outline-warning col-3"  for="SelectedTimeMonth">月</label>
 
-            <input type="radio" class="btn-check" value="income" id="SelectedTimeSixMonth" autocomplete="off">
-            <label class="btn btn-outline-warning col-3"  for="analysisTypeIncome">近六個月</label>
+            <input type="radio" class="btn-check" name="btnradioSecond" value="sixMonth" id="SelectedTimeSixMonth" autocomplete="off">
+            <label class="btn btn-outline-warning col-3"  for="SelectedTimeSixMonth">近六個月</label>
 
-            <input type="radio" class="btn-check" value="balance" id="SelectedTimeYear" autocomplete="off">
-            <label class="btn btn-outline-warning col-3"  for="analysisTypeBalance">年</label>
+            <input type="radio" class="btn-check" name="btnradioSecond" value="year" id="SelectedTimeYear" autocomplete="off">
+            <label class="btn btn-outline-warning col-3"  for="SelectedTimeYear">年</label>
 
-            <input type="radio" class="btn-check" value="balance" id="SelectedTimeYearCustom" autocomplete="off">
-            <label class="btn btn-outline-warning col-3"  for="analysisTypeBalance">自訂</label>
+            <input type="radio" class="btn-check" name="btnradioSecond" value="custom" id="SelectedTimeCustom" autocomplete="off">
+            <label class="btn btn-outline-warning col-3"  for="SelectedTimeCustom">自訂</label>
         </div>
     </div>
 </div>
 
 
+<button type="button" class="btn" value="barChart" id="changeChart">
+    換圖型
+</button>
 <div class="chart-container" style="position: relative; height:270px; width:70%" id="chartFather">
     <canvas class="offset-2" id="chart"></canvas>
 </div>
-<div>
-    <p>
-        </br>
-        </br>
-        </br>
-        </br>
-        </br>
-        </br>
-        </br>
-    </p>
-    <button type="button" class="btn btn-warning btn-sm" id="click1" ><b>查詢</b></button>
-</div>
+
+
 
 </body>
 </html>
