@@ -16,7 +16,7 @@
 <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>>
 <script src="js/Analysis.js"></script>
 
 
@@ -38,7 +38,7 @@
     </div>
 </div>
 <hr />
-<div class="container">
+<div class="container" id="SelectSearchTimeFather">
     <div class="row" id="SelectSearchTime">
         <button type="button" class="btn col-1 offset-2" id="selectTimeBack">
             &#9668;
@@ -62,8 +62,34 @@
             <input type="radio" class="btn-check" name="btnradioSecond" value="year" id="SelectedTimeYear" autocomplete="off">
             <label class="btn btn-outline-warning col-3"  for="SelectedTimeYear">年</label>
 
-            <input type="radio" class="btn-check" name="btnradioSecond" value="custom" id="SelectedTimeCustom" autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradioSecond" value="custom" data-bs-toggle="modal"
+                   data-bs-target="#staticBackdrop" id="SelectedTimeCustom" autocomplete="off">
             <label class="btn btn-outline-warning col-3"  for="SelectedTimeCustom">自訂</label>
+
+            <div class = "modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">請選擇日期範圍</h1>
+                        </div>
+                        <div class="modal-body">
+                                <form action="">
+                                    <label for="">選擇開始日期：</label>
+                                    <input type="date" class="form-control" value="2022-12-01" id="dateStart" name="date">
+                                </form>
+                                <form action="">
+                                    <label for="">選擇結束日期：</label>
+                                    <input type="date" class="form-control" value="2022-12-30" id="dateEnd" name="date">
+                                </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                            <button id="CustomCheckBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">確認</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -71,11 +97,13 @@
 <button type="button" class="btn" value="barChart" id="changeChart">
     換圖型
 </button>
+
+
 <div class="chart-container" style="position: relative; height:270px; width:70%" id="chartFather">
     <canvas class="offset-2" value="barChart" id="chart"></canvas>
 </div>
 
 
-
+<script src=“https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 </body>
 </html>

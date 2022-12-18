@@ -1,6 +1,8 @@
 package SE_Project.demo.controller;
 
 
+import SE_Project.demo.model.BalanceDayProduct;
+import SE_Project.demo.model.CategoryOfPercent;
 import SE_Project.demo.model.Product;
 import SE_Project.demo.model.Type;
 import SE_Project.demo.model2.CategoryCount;
@@ -77,7 +79,6 @@ public class QueryController {
 
     @GetMapping("/products/category")
     public ResponseEntity<List<Product>> getProductsByCategory(@RequestParam(required = false) String category) {
-
         List<Product> result = productService.getProductsByCategory(category);
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -146,11 +147,11 @@ public class QueryController {
 
     @GetMapping("/monthOutcome")
     public ResponseEntity<List<Product>> monthOutcome(@RequestParam String date){
-        String month = date.substring(5,7);
+        String month = date.substring(0,7);
         List<Product> temp = productService.getProductByDateLike(month);
         List<Product> monthTemp = new ArrayList<>();
         for(Product tmp:temp){
-            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType().equals(Type.expense)){
+            if(tmp.getDate().substring(0,7).equals(month)&&tmp.getAccountingType().equals(Type.expense)){
                 monthTemp.add(tmp);
             }
         }
@@ -159,21 +160,117 @@ public class QueryController {
     }
     @GetMapping("/monthIncome")
     public ResponseEntity<List<Product>> monthIncome(@RequestParam String date){
-
-        String month = date.substring(5,7);
+        String month = date.substring(0,7);
         List<Product> temp = productService.getProductByDateLike(month);
         List<Product> monthTemp = new ArrayList<>();
         for(Product tmp:temp){
             //equals要改type.income 不能直接寫"income"
-            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType().equals(Type.income)){
+            if(tmp.getDate().substring(0,7).equals(month)&&tmp.getAccountingType().equals(Type.income)){
                 monthTemp.add(tmp);
             }
         }
         return ResponseEntity.status(HttpStatus.OK).body(monthTemp);
     }
 
-    @GetMapping("/yearOutcome")
-    public ResponseEntity<List<Product>> yearOutcome(@RequestParam String year){
+    @GetMapping("/sixMonthOutcome")
+    public ResponseEntity<List<Product>> sixMonthOutcome(@RequestParam String dateFrom, @RequestParam String dateTo){
+        int dateFromMonth =  Integer.parseInt(dateFrom.substring(5,7));
+        int dateToMonth =  Integer.parseInt(dateTo.substring(5,7));
+        int dateFromYear =  Integer.parseInt(dateFrom.substring(0,4));
+        int dateToYear =  Integer.parseInt(dateTo.substring(0,4));
+        String totalMonth[] =  {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+        List<Product> result = new ArrayList<>();
+
+        if(dateToYear==dateFromYear)
+        {
+            for(int i=dateFromMonth; i<=dateToMonth; i++)
+            {
+                List<Product> temp = productService.getProductByDateLike(totalMonth[i]);
+                for(Product tmp:temp){
+                    if(tmp.getDate().substring(5,7).equals(totalMonth[i])&&tmp.getAccountingType().equals(Type.expense)
+                            &&tmp.getDate().substring(0,4).equals(String.valueOf(dateFromYear) ) ){
+                        result.add(tmp);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for(int i=dateFromMonth; i<=12; i++)
+            {
+                List<Product> temp = productService.getProductByDateLike(totalMonth[i]);
+                for(Product tmp:temp){
+                    if(tmp.getDate().substring(5,7).equals(totalMonth[i])&&tmp.getAccountingType().equals(Type.expense)
+                            &&tmp.getDate().substring(0,4).equals(String.valueOf(dateFromYear) ) ){
+                        result.add(tmp);
+                    }
+                }
+            }
+            for(int i=1; i<=dateToMonth; i++)
+            {
+                List<Product> temp = productService.getProductByDateLike(totalMonth[i]);
+                for(Product tmp:temp){
+                    if(tmp.getDate().substring(5,7).equals(totalMonth[i])&&tmp.getAccountingType().equals(Type.expense)
+                            &&tmp.getDate().substring(0,4).equals(String.valueOf(dateFromYear) ) ){
+                        result.add(tmp);
+                    }
+                }
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/sixMonthIncome")
+    public ResponseEntity<List<Product>> sixMonthIncome(@RequestParam String dateFrom, @RequestParam String dateTo){
+        int dateFromMonth =  Integer.parseInt(dateFrom.substring(5,7));
+        int dateToMonth =  Integer.parseInt(dateTo.substring(5,7));
+        int dateFromYear =  Integer.parseInt(dateFrom.substring(0,4));
+        int dateToYear =  Integer.parseInt(dateTo.substring(0,4));
+        String totalMonth[] =  {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+        List<Product> result = new ArrayList<>();
+
+        if(dateToYear==dateFromYear)
+        {
+            for(int i=dateFromMonth; i<=dateToMonth; i++)
+            {
+                List<Product> temp = productService.getProductByDateLike(totalMonth[i]);
+                for(Product tmp:temp){
+                    if(tmp.getDate().substring(5,7).equals(totalMonth[i])&&tmp.getAccountingType().equals(Type.income)
+                            &&tmp.getDate().substring(0,4).equals(String.valueOf(dateFromYear) ) ){
+                        result.add(tmp);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for(int i=dateFromMonth; i<=12; i++)
+            {
+                List<Product> temp = productService.getProductByDateLike(totalMonth[i]);
+                for(Product tmp:temp){
+                    if(tmp.getDate().substring(5,7).equals(totalMonth[i])&&tmp.getAccountingType().equals(Type.income)
+                            &&tmp.getDate().substring(0,4).equals(String.valueOf(dateFromYear) ) ){
+                        result.add(tmp);
+                    }
+                }
+            }
+            for(int i=1; i<=dateToMonth; i++)
+            {
+                List<Product> temp = productService.getProductByDateLike(totalMonth[i]);
+                for(Product tmp:temp){
+                    if(tmp.getDate().substring(5,7).equals(totalMonth[i])&&tmp.getAccountingType().equals(Type.income)
+                            &&tmp.getDate().substring(0,4).equals(String.valueOf(dateFromYear) ) ){
+                        result.add(tmp);
+                    }
+                }
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+    @GetMapping("/YearOutcome")
+    public ResponseEntity<List<Product>> YearOutcome(@RequestParam String year){
         List<Product> temp = productService.getProductByDateLike(year);
         List<Product> yearTemp = new ArrayList<>();
         for(Product tmp:temp){
@@ -184,8 +281,8 @@ public class QueryController {
         return ResponseEntity.status(HttpStatus.OK).body(yearTemp);
     }
 
-    @GetMapping("/yearIncome")
-    public ResponseEntity<List<Product>> yearIncome(@RequestParam String year){
+    @GetMapping("/YearIncome")
+    public ResponseEntity<List<Product>> YearIncome(@RequestParam String year){
         List<Product> temp = productService.getProductByDateLike(year);
         List<Product> yearTemp = new ArrayList<>();
         for(Product tmp:temp){
@@ -195,58 +292,123 @@ public class QueryController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(yearTemp);
     }
-    @GetMapping("/dayBalance")
-    public ResponseEntity<String> dayBalance(@RequestParam String date){
-        List<Product> result=productService.getProductsByDate(date);
-        int balance=0;
-        String returnBalance;
-        for(Product tmp:result)
-        {
-            if(tmp.getAccountingType().equals(Type.expense)){
-                balance -= tmp.getPrice();
-            }
-            else
-            {
-                balance += tmp.getPrice();
-            }
-        }
-        if(balance<0)
-        {
-            returnBalance = "-" + Integer.toString(balance);
-        }
-        else
-        {
-            returnBalance = "+" + Integer.toString(balance);
-        }
-        System.out.println(returnBalance);
-        return ResponseEntity.status(HttpStatus.OK).body(returnBalance);
-    }
 
     @GetMapping("/monthBalance")
-    public ResponseEntity<String> monthBalance(@RequestParam String month){
-        List<Product> result=productService.getProductByDateLike(month);
-        int balance=0;
-        String returnBalance;
-        for(Product tmp:result)
+    public ResponseEntity<List<BalanceDayProduct>> monthBalance(@RequestParam String month){
+        List<Product> monthResult=productService.getProductByDateLike(month);
+        List<BalanceDayProduct> balanceResult = new ArrayList<>();
+        for(Product tmp:monthResult)
         {
-            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType().equals(Type.expense)){
-                balance -= tmp.getPrice();
-            }
-            else if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType().equals(Type.income))
+            //月份相等
+            if(tmp.getDate().substring(0,7).equals(month))
             {
-                balance += tmp.getPrice();
+                BalanceDayProduct balancetmp = new BalanceDayProduct();
+                CategoryOfPercent categorytmp = new CategoryOfPercent();
+                //這月沒有東西
+                if(balanceResult.size()==0)
+                {
+                    //將categoryOfPercent和balanceTmp填滿 丟進balanceResult
+                    balancetmp.setDate(tmp.getDate().substring(0,7));
+                    categorytmp.setPrice(tmp.getPrice());
+                    categorytmp.setCategoryName(tmp.getCategory());
+                    if(tmp.getAccountingType().equals(Type.expense))
+                    {
+                        categorytmp.setAccountingType(Type.expense);
+                        balancetmp.setDateExpense(balancetmp.getDateExpense()+tmp.getPrice());
+                        balancetmp.setAllCategory(categorytmp);
+                    }
+                    else
+                    {
+                        categorytmp.setAccountingType(Type.income);
+                        balancetmp.setDateIncome(balancetmp.getDateIncome()+tmp.getPrice());
+                        balancetmp.setAllCategory(categorytmp);
+                    }
+                    balanceResult.add(balancetmp);
+                }
+                //這月有東西
+                else
+                {
+                    for(int j=0; j<balanceResult.size(); j++)
+                    {
+                        //這個Product的日期是不是在balanceResult裡出現過了
+                        //有出現過
+                        //將existedBalance填滿
+                        if(balanceResult.get(j).getDate().equals(tmp.getDate()))
+                        {
+                            balancetmp = balanceResult.get(j);
+                            categorytmp.setPrice(tmp.getPrice());
+                            categorytmp.setCategoryName(tmp.getCategory());
+                            if(tmp.getAccountingType()==Type.expense)
+                            {
+                                categorytmp.setAccountingType(Type.expense);
+                                balancetmp.setDateExpense(balancetmp.getDateExpense()+tmp.getPrice());
+                                balancetmp.setAllCategory(categorytmp);
+                            }
+                            else
+                            {
+                                categorytmp.setAccountingType(Type.income);
+                                balancetmp.setDateExpense(balancetmp.getDateExpense()+tmp.getPrice());
+                                balancetmp.setAllCategory(categorytmp);
+                            }
+                            balanceResult.set(j, balancetmp);
+                        }
+                        //沒出現過
+                        else
+                        {
+                            //將categoryOfPercent和balanceTmp填滿 丟進balanceResult
+                            balancetmp.setDate(tmp.getDate().substring(0,7));
+                            categorytmp.setPrice(tmp.getPrice());
+                            categorytmp.setCategoryName(tmp.getCategory());
+                            if(tmp.getAccountingType().equals(Type.expense))
+                            {
+                                categorytmp.setAccountingType(Type.expense);
+                                balancetmp.setDateExpense(balancetmp.getDateExpense()+tmp.getPrice());
+                                balancetmp.setAllCategory(categorytmp);
+                            }
+                            else
+                            {
+                                categorytmp.setAccountingType(Type.income);
+                                balancetmp.setDateIncome(balancetmp.getDateIncome()+tmp.getPrice());
+                                balancetmp.setAllCategory(categorytmp);
+                            }
+                            balanceResult.add(balancetmp);
+                        }
+                    }
+                }
             }
         }
-        if(balance<0)
+        //算出每天中每個category的占比
+        for(int i=0; i<balanceResult.size(); i++)
         {
-            returnBalance = "-" + Integer.toString(balance);
+            BalanceDayProduct balancetmp = balanceResult.get(i);
+            List<CategoryOfPercent> lctmp = new ArrayList<>();
+            int dayTotalIncomePrice = balanceResult.get(i).getDateIncome();
+            int dayTotalExpensePrice =  balanceResult.get(i).getDateExpense();
+            //每天中的所有category
+            for(int j=0; j<balanceResult.get(i).getAllCategory().size(); j++)
+            {
+                CategoryOfPercent categorytmp = balanceResult.get(i).getAllCategory().get(j);
+                if(categorytmp.getAccountingType()==Type.expense)
+                {
+                    categorytmp.setPercent(
+                            Math.round( ( (double)categorytmp.getPrice()/ (double)dayTotalExpensePrice ) * 10.0) / 10.0);
+                }
+                else
+                {
+                    categorytmp.setPercent(
+                            Math.round( ( (double)categorytmp.getPrice()/ (double)dayTotalIncomePrice ) * 10.0) / 10.0);
+                }
+                lctmp.add(categorytmp);
+            }
+            balancetmp.replaceAllCategory(lctmp);
+            balanceResult.set(i, balancetmp);
         }
-        else
+
+        for(int i=0; i<balanceResult.size(); i++)
         {
-            returnBalance = "+" + Integer.toString(balance);
+            System.out.println(balanceResult.get(i));
         }
-        System.out.println(returnBalance);
-        return ResponseEntity.status(HttpStatus.OK).body(returnBalance);
+        return ResponseEntity.status(HttpStatus.OK).body(balanceResult);
     }
 
     @GetMapping("/yearBalance")
