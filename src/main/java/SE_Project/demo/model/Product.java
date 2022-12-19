@@ -10,6 +10,15 @@ public class Product {
     private int price;
     private  String id;
     private String description;
+    private String accDate;
+
+    public String getAccDate() {
+        return accDate;
+    }
+
+    public void setAccDate(String accDate) {
+        this.accDate = accDate;
+    }
 
     private Type accountingType;
 

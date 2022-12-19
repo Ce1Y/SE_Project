@@ -85,12 +85,11 @@ public class QueryController {
             }
         }
 
-        if (tmp1.isEmpty()) {
+        if (tmp1==null) {
             System.out.println("Having nothing");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(tmp1);
         }
+        return ResponseEntity.status(HttpStatus.OK).body(tmp1);
 
     }
     @GetMapping("/monthOutcome")//月花費
@@ -100,7 +99,7 @@ public class QueryController {
 
         List<Product> monthTemp = new ArrayList<>();
         for(Product tmp:temp){
-            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType()== Type.expense){
+            if(tmp.getDate().substring(0,7).equals(date)&&tmp.getAccountingType()== Type.expense){
                 monthTemp.add(tmp);
             }
         }
@@ -120,7 +119,7 @@ public class QueryController {
         List<Product> temp = productService.getProductByDateLike(month);
         List<Product> monthTemp = new ArrayList<>();
         for(Product tmp:temp){
-            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType()==Type.income){
+            if(tmp.getDate().substring(0,7).equals(date)&&tmp.getAccountingType()==Type.income){
                 monthTemp.add(tmp);
             }
         }
@@ -173,6 +172,24 @@ public class QueryController {
             return ResponseEntity.status(HttpStatus.OK).body(tmp1);
         }
     }
+    @GetMapping("/allProducts")
+    public ResponseEntity<List<Product>> getAllProducts() {
+
+        List<Product> result = productService.getAllProducts();
+        List<Product> tmp1 = new ArrayList<>();
+        for(Product tmp2:result){
+            if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
+                tmp1.add(tmp2);
+            }
+        }
+        if (tmp1.isEmpty()) {
+            System.out.println("Having nothing");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(tmp1);
+        }
+    }
+
     @PutMapping("/products/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product productRequest)
     {
@@ -190,7 +207,6 @@ public class QueryController {
 
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody Product productRequest){
-        System.out.println("1233333333333333333333");
         Product product = productService.createProduct(productRequest);
         categoryCountService.checkCategoryCount(product.getCategory());
 

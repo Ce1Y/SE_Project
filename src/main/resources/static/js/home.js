@@ -8,7 +8,8 @@ $(document).ready(function () {
         var monthIncome = 0;
         console.log(today);
         myDate.value = today.toISOString().substr(0, 10);
-        console.log($('#time').val());
+        console.log(today.toISOString().substr(0, 10))
+
 
         $.ajax({
             type: "GET",
@@ -21,13 +22,15 @@ $(document).ready(function () {
             type: "GET",
             url: "http://localhost:8080/date?date=" + $('#time').val(),
             success: function (allProducts) {
+
                 document.getElementById('email').innerHTML = localStorage.getItem('email')+"<br> By:"+localStorage.getItem('flag');
                 var str = '';
-                var flag=1;
+                var flag1=1;
                 if (allProducts.length==0) {
-                    flag=0;
-                }
+                    flag1=0;
 
+                }
+                else{
                 $.each(allProducts, function (i, product) {
                     if(product.accountingType=='income'){
                         str+=`
@@ -46,7 +49,10 @@ $(document).ready(function () {
                          </tr>`
                    }
                 });
-                if(flag==0){
+                }
+
+                if(flag1==0){
+
                     results.html("");
                     results.append(`
                     <input type="image" src="https://subservices.post.gov.tw/post/internet/images/NoResult.jpg" alt="Submit" width="390" height="300">
@@ -123,11 +129,14 @@ $(document).ready(function () {
             type: "GET",
             url: "http://localhost:8080/date?date=" + $('#time').val(),
             success: function (allProducts) {
+
                 var str = '';
-                var flag=1;
+                var flag1=1;
                 if (allProducts.length==0) {
-                    flag=0;
+                    flag1=0;
+
                 }
+                else{
                 $.each(allProducts, function (i, product) {
                     if(product.accountingType=='income'){
                         str+=`
@@ -146,7 +155,9 @@ $(document).ready(function () {
                          </tr>`
                    }
                 });
-                if(flag==0){
+                }
+                if(flag1==0){
+                    
                     results.html("");
                     results.append(`
                     <input type="image" src="https://subservices.post.gov.tw/post/internet/images/NoResult.jpg" alt="Submit" width="390" height="300">
