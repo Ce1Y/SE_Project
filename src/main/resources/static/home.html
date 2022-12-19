@@ -72,20 +72,25 @@
     </table>
 </div>
 <div class="offcanvas offcanvas-start" id="personal-information">
-    <div class="offcanvas-header">
-        <img src="images/avatar.png" style="width: 100px; height: 100px" alt="User Photo">
-        <p class="offcanvas-title" id = "email">Email: </p>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    <div class="offcanvas-header" style="margin:0">
+        <div style="background-color:black; margin:0">
+            <img src="images/avatar.png" style="width: 100px; height: 100px" alt="User Photo">
+        </div>
+        <div class="pt-3" style="width: 100px; height: 100px;">
+            <p class="offcanvas-title" id = "name">Username:</p>
+            <p class="offcanvas-title" id = "email">Email:</p>
+        </div>
+        <div class="d-flex flex-row-reverse" style="width: 100px; height: 100px;">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
     </div>
     <hr>
     <div class="offcanvas-body">
         <button type="button" class="btn" style="width: 350px; height: 50px;">圖表分析</button>
         <input type="button" class="btn" style="width: 350px; height: 50px;"value="資料查詢" onclick="location.href='/DataSearch.html'">
-
         <button type="button" class="btn" style="width: 350px; height: 50px;">固定收入/支出</button>
         <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#budgetModal" style="width: 350px; height: 50px;">新增預算</button>
         <input type="button" class="btn" style="width: 350px; height: 50px;"value="登出" onclick="logout()">
-
     </div>
 </div>
 
