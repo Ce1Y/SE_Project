@@ -12,9 +12,16 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
+            url: "http://localhost:8080/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
+        $.ajax({
+            type: "GET",
             url: "http://localhost:8080/date?date=" + $('#time').val(),
             success: function (allProducts) {
-
+                document.getElementById('email').innerHTML = localStorage.getItem('email')+"<br> By:"+localStorage.getItem('flag');
                 var str = '';
                 var flag=1;
                 if (allProducts.length==0) {

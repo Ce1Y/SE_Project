@@ -112,10 +112,10 @@ input {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <input type="button" value="Google" onclick="location.href='/oauth2/authorization/google'">
+                            <input type="button" value="Google" onclick="location.href='/oauth2/authorization/google'" id = 'google'>
                             <input type="button" value="Facebook"
-                                   onclick="location.href='/oauth2/authorization/facebook'">
-                            <input type="button" value="Github" onclick="location.href='/oauth2/authorization/github'">
+                                   onclick="location.href='/oauth2/authorization/facebook'" id = 'facebook'>
+                            <input type="button" value="Github" onclick="location.href='/oauth2/authorization/github'" id = 'github'>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -140,11 +140,21 @@ input {
         }
     });
     $.get("/user",function(data){
-    console.log(data);
-    console.log(123);
-        location.replace(" http://localhost:8080/home.html") ;
+    localStorage.setItem("email",data.email);
+    location.replace(" http://localhost:8080/home.html") ;
     })
-
+     $('#google').click(function(){
+          localStorage.setItem("flag","google");
+          console.log(localStorage.getItem("flag"));
+     });
+    $('#facebook').click(function(){
+          localStorage.setItem("flag","facebook");
+          console.log(localStorage.getItem("flag"));
+     });
+     $('#github').click(function(){
+          localStorage.setItem("flag","github");
+          console.log(localStorage.getItem("flag"));
+     });
 
 
 </script>

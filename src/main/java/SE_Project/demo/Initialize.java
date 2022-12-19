@@ -27,6 +27,8 @@ public class Initialize implements CommandLineRunner {
             for(int i=0; i<5; i++)
             {
                 Product tmp = new Product("2022-11-26", "測試", 500, "測試用描述", Type.income);
+                tmp.setLoginMethod("local");
+                tmp.setEmail("123456@gmail.com");
                 repository.save(tmp);
             }
         }

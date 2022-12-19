@@ -28,7 +28,10 @@ $(document).ready(function() {
             "category":$('#Category-text').val(),
             "price": $('#Price-text').val(),
             "description":$('#description-text').val(),
-            "accountingType": type}
+            "accountingType": type,
+            "email":localStorage.getItem("email"),
+            "loginMethod":localStorage.getItem("flag")
+            }
 
         console.log(data);
         console.log( $('#Date-name').val());

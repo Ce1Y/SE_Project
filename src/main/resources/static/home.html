@@ -140,6 +140,7 @@
 <script tpye="text/javascript">
     var logout = function(){
         $.post("/logout",function(){
+            localStorage.clear();
             location.replace(" http://localhost:8080/") ;
         })
         return true;
