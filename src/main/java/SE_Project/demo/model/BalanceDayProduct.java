@@ -51,14 +51,19 @@ public class BalanceDayProduct {
         {
             for(int i=0; i<AllCategory.size(); i++)
             {
+                System.out.println("beforeType="+AllCategory.get(i).getAccountingType()+"plus type"+newCategory.getAccountingType());
                 if(AllCategory.get(i).getCategoryName().equals(newCategory.getCategoryName())
                     &&AllCategory.get(i).getAccountingType()==newCategory.getAccountingType())
                 {
-                    AllCategory.get(i).setPrice(newCategory.getPrice()+AllCategory.get(i).getPrice());
+                    int beforePrice = AllCategory.get(i).getPrice();
+                    System.out.println("beforePrice="+beforePrice+"plus price"+newCategory.getPrice());
+
+                    AllCategory.get(i).setPrice(newCategory.getPrice()+beforePrice);
                 }
                 else if(i==AllCategory.size()-1)
                 {
                     AllCategory.add(newCategory);
+                    break;
                 }
             }
         }

@@ -1,10 +1,7 @@
 package SE_Project.demo.controller;
 
 
-import SE_Project.demo.model.BalanceDayProduct;
-import SE_Project.demo.model.CategoryOfPercent;
-import SE_Project.demo.model.Product;
-import SE_Project.demo.model.Type;
+import SE_Project.demo.model.*;
 import SE_Project.demo.model2.CategoryCount;
 import SE_Project.demo.service.CategoryCountService;
 import SE_Project.demo.service.ProductService;
@@ -295,20 +292,75 @@ public class QueryController {
 
     @GetMapping("/monthBalance")
     public ResponseEntity<List<BalanceDayProduct>> monthBalance(@RequestParam String month){
+        List<BalanceDayProduct> balanceResult = getBalanceDayProductFnc(month);
+        System.out.printf("\n\n\n\n\n\n returned balanceResult\n"+ balanceResult);
+        return ResponseEntity.status(HttpStatus.OK).body(balanceResult);
+    }
+
+    @GetMapping("/yearBalance")
+    public ResponseEntity<List<BalanceMonthProduct>> yearBalance(@RequestParam String year){
+        List<BalanceMonthProduct> balanceResult = new ArrayList<>();
+        List<BalanceDayProduct> tmpBDP;
+        List<Product> tmpProductList;
+        String totalMonth[] =  {"-00", "-01", "-02", "-03", "-04", "-05", "-06", "-07", "-08", "-09", "-10", "-11", "-12"};
+        String tmpMonth;
+        int tmpIncomePrice=0;
+        int tmpExpensePrice=0;
+        for(int i=1; i<=12; i++)
+        {
+            BalanceMonthProduct tmpBMP = new BalanceMonthProduct();
+            tmpMonth = year + totalMonth[i];
+            tmpProductList = productService.getProductByDateLike(tmpMonth);
+
+            for(Product tmp:tmpProductList){
+                tmpIncomePrice = 0;
+                tmpExpensePrice = 0;
+                if(tmp.getDate().substring(0,7).equals(tmpMonth)&&tmp.getAccountingType().equals(Type.expense))
+                {
+                    tmpExpensePrice += tmp.getPrice();
+                }
+                else if(tmp.getDate().substring(0,7).equals(tmpMonth)&&tmp.getAccountingType().equals(Type.income))
+                {
+                    tmpIncomePrice +=tmp.getPrice();
+                }
+            }
+
+            tmpBDP = getBalanceDayProductFnc(tmpMonth);
+            tmpBMP.setMonth(tmpMonth);
+            tmpBMP.setMonthExpense(tmpExpensePrice);
+            tmpBMP.setMonthIncome(tmpIncomePrice);
+            tmpBMP.setAllBalanceDayProduct(tmpBDP);
+            balanceResult.add(tmpBMP);
+        }
+        System.out.println("\n\n\nbalanceMonthResult=\n"+balanceResult);
+        return ResponseEntity.status(HttpStatus.OK).body(balanceResult);
+    }
+
+    public List<BalanceDayProduct> getBalanceDayProductFnc(String month)
+    {
         List<Product> monthResult=productService.getProductByDateLike(month);
+//        for(Product i:monthResult)
+//        {
+//            System.out.println(i);
+//        }
         List<BalanceDayProduct> balanceResult = new ArrayList<>();
+        int t=0;
         for(Product tmp:monthResult)
         {
+
+//            System.out.println(t+": "+tmp);
             //月份相等
             if(tmp.getDate().substring(0,7).equals(month))
             {
+//                System.out.println("equals");
                 BalanceDayProduct balancetmp = new BalanceDayProduct();
                 CategoryOfPercent categorytmp = new CategoryOfPercent();
                 //這月沒有東西
                 if(balanceResult.size()==0)
                 {
+//                    System.out.println("nothing in this month");
                     //將categoryOfPercent和balanceTmp填滿 丟進balanceResult
-                    balancetmp.setDate(tmp.getDate().substring(0,7));
+                    balancetmp.setDate(tmp.getDate().substring(0,10));
                     categorytmp.setPrice(tmp.getPrice());
                     categorytmp.setCategoryName(tmp.getCategory());
                     if(tmp.getAccountingType().equals(Type.expense))
@@ -323,11 +375,14 @@ public class QueryController {
                         balancetmp.setDateIncome(balancetmp.getDateIncome()+tmp.getPrice());
                         balancetmp.setAllCategory(categorytmp);
                     }
+//                    System.out.println(categorytmp);
+//                    System.out.println(balancetmp);
                     balanceResult.add(balancetmp);
                 }
                 //這月有東西
                 else
                 {
+//                    System.out.println("something in this month");
                     for(int j=0; j<balanceResult.size(); j++)
                     {
                         //這個Product的日期是不是在balanceResult裡出現過了
@@ -335,9 +390,11 @@ public class QueryController {
                         //將existedBalance填滿
                         if(balanceResult.get(j).getDate().equals(tmp.getDate()))
                         {
+//                            System.out.println("already existed");
                             balancetmp = balanceResult.get(j);
                             categorytmp.setPrice(tmp.getPrice());
                             categorytmp.setCategoryName(tmp.getCategory());
+//                            System.out.println("this categorytmp's price="+categorytmp.getPrice());
                             if(tmp.getAccountingType()==Type.expense)
                             {
                                 categorytmp.setAccountingType(Type.expense);
@@ -347,16 +404,20 @@ public class QueryController {
                             else
                             {
                                 categorytmp.setAccountingType(Type.income);
-                                balancetmp.setDateExpense(balancetmp.getDateExpense()+tmp.getPrice());
+                                balancetmp.setDateIncome(balancetmp.getDateIncome()+tmp.getPrice());
                                 balancetmp.setAllCategory(categorytmp);
                             }
+//                            System.out.println(categorytmp);
+//                            System.out.println(balancetmp);
                             balanceResult.set(j, balancetmp);
+                            break;
                         }
                         //沒出現過
-                        else
+                        else if(j==balanceResult.size()-1)
                         {
+//                            System.out.println("no same date in this month");
                             //將categoryOfPercent和balanceTmp填滿 丟進balanceResult
-                            balancetmp.setDate(tmp.getDate().substring(0,7));
+                            balancetmp.setDate(tmp.getDate().substring(0,10));
                             categorytmp.setPrice(tmp.getPrice());
                             categorytmp.setCategoryName(tmp.getCategory());
                             if(tmp.getAccountingType().equals(Type.expense))
@@ -371,10 +432,14 @@ public class QueryController {
                                 balancetmp.setDateIncome(balancetmp.getDateIncome()+tmp.getPrice());
                                 balancetmp.setAllCategory(categorytmp);
                             }
+//                            System.out.println(categorytmp);
+//                            System.out.println(balancetmp);
                             balanceResult.add(balancetmp);
+                            break;
                         }
                     }
                 }
+//                System.out.println("balanceResult="+balanceResult);
             }
         }
         //算出每天中每個category的占比
@@ -391,12 +456,12 @@ public class QueryController {
                 if(categorytmp.getAccountingType()==Type.expense)
                 {
                     categorytmp.setPercent(
-                            Math.round( ( (double)categorytmp.getPrice()/ (double)dayTotalExpensePrice ) * 10.0) / 10.0);
+                            Math.round( ( (double)categorytmp.getPrice()/ (double)dayTotalExpensePrice ) * 1000.0) /1000.0 );
                 }
                 else
                 {
                     categorytmp.setPercent(
-                            Math.round( ( (double)categorytmp.getPrice()/ (double)dayTotalIncomePrice ) * 10.0) / 10.0);
+                            Math.round( ( (double)categorytmp.getPrice()/ (double)dayTotalIncomePrice ) * 1000.0) /1000.0 );
                 }
                 lctmp.add(categorytmp);
             }
@@ -404,37 +469,10 @@ public class QueryController {
             balanceResult.set(i, balancetmp);
         }
 
-        for(int i=0; i<balanceResult.size(); i++)
-        {
-            System.out.println(balanceResult.get(i));
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(balanceResult);
-    }
 
-    @GetMapping("/yearBalance")
-    public ResponseEntity<String> yearBalance(@RequestParam String year){
-        List<Product> result=productService.getProductByDateLike(year);
-        int balance=0;
-        String returnBalance;
-        for(Product tmp:result)
-        {
-            if(tmp.getDate().substring(0,4).equals(year)&&tmp.getAccountingType().equals(Type.expense)){
-                balance -= tmp.getPrice();
-            }
-            else if(tmp.getDate().substring(0,4).equals(year)&&tmp.getAccountingType().equals(Type.income))
-            {
-                balance += tmp.getPrice();
-            }
-        }
-        if(balance<0)
-        {
-            returnBalance = "-" + Integer.toString(balance);
-        }
-        else
-        {
-            returnBalance = "+" + Integer.toString(balance);
-        }
-        System.out.println(returnBalance);
-        return ResponseEntity.status(HttpStatus.OK).body(returnBalance);
+//        System.out.printf("front already end\n\n\n\n\n\n");
+        System.out.println("balanceResult="+balanceResult);
+        return balanceResult;
     }
 }
+

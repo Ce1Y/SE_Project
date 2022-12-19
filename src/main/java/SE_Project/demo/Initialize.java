@@ -1,5 +1,6 @@
 package SE_Project.demo;
 
+import SE_Project.demo.controller.QueryController;
 import SE_Project.demo.model.Product;
 import SE_Project.demo.model.Type;
 import SE_Project.demo.repository.ProductRepo;
@@ -35,6 +36,7 @@ public class Initialize implements CommandLineRunner {
             }
         }
         categoryCountService.InitialCheck();
+
 
 
 

@@ -1,6 +1,8 @@
 var currentYear,currentMonth,currentDate;
 var selectedYear,selectedMonth,selectedDate;
 var currentCategoryArr = []
+var moneyIncomeIconArr = new Array("&#128178;", "&#129689;", "&#128176;", "&#128182;", "&#128180;");//💲 🪙 💰 💶 💴
+var moneyExpenseIconArr = new Array("&#128184;", "&#128546;", "&#128557;","&#128575;", "&#128565;");//💸 😢 😭 😿 😵
 $(document).ready(function(){
     $(function(){
         var today = new Date();
@@ -172,7 +174,7 @@ $(document).ready(function(){
          selectedMonth=currentMonth;
          let displayDate = "" + selectedYear + "年" + selectedMonth + "月";
          changeYearAndDate(0,displayDate);
-         resetSelectedTimeType();
+         inexResetSelectedTimeType();
     });
 
     //SearchWithIncome
@@ -181,7 +183,7 @@ $(document).ready(function(){
          selectedMonth=currentMonth;
          let displayDate = "" + selectedYear + "年" + selectedMonth + "月";
          changeYearAndDate(0,displayDate);
-         resetSelectedTimeType();
+         inexResetSelectedTimeType();
     });
 
     //SearchWithBalance
@@ -190,7 +192,7 @@ $(document).ready(function(){
          selectedMonth=currentMonth;
          let displayDate = selectedYear + "年";
          changeYearAndDate(0,displayDate);
-         resetSelectedTimeType();
+         balanceSelectedTimeType();
     });
 
     //SearchWithMonth
@@ -199,6 +201,7 @@ $(document).ready(function(){
          selectedMonth=currentMonth;
          let displayDate = selectedYear + "年" + selectedMonth + "月";
          changeYearAndDate(0,displayDate);
+         msmySelectedTimeType();
          if($('#analysisType_btn input:radio:checked').val() == "income")
          {
              DealMonthIncome(displayDate);
@@ -218,6 +221,7 @@ $(document).ready(function(){
          selectedYear=currentYear;
          selectedMonth=currentMonth;
          let displayDate = "";
+         msmySelectedTimeType();
          if(selectedMonth<6)
          {
             displayDate = selectedYear.toString() + "年" + (selectedMonth+7).toString() + "月~" +
@@ -246,13 +250,23 @@ $(document).ready(function(){
          selectedMonth=currentMonth;
          let displayDate = selectedYear + "年";
          changeYearAndDate(0,displayDate);
-         DealYearOutcome
+         msmySelectedTimeType();
+         DealYearOutcome(selectedYear);
     });
 
     //SearchWithCustom
     $("#SelectedTimeCustom").on("change",function(){
          $("#CustomCheckBtn").click(function(){
             console.log("selecetedDateEnd TExt")
+            let customSelectedYearFrom = parseInt( $("#dateStart").val().substring(0,4) );
+            let customSelectedMonthFrom = parseInt( $("#dateStart").val().substring(5,7) );
+            let customSelectedDayFrom = parseInt( $("#dateStart").val().substring(8,10) );
+            let customSelectedYearTo = parseInt( $("#dateEnd").val().substring(0,4) );
+            let customSelectedMonthTo = parseInt( $("#dateEnd").val().substring(5,7) );
+            let customSelectedDayTo = parseInt( $("#dateStart").val().substring(8,10) );
+            let displayDate = $("#dateStart").val() + "  ~  " + $("#dateEnd").val();
+            customSelectedTimeType();
+            changeYearAndDate(0,displayDate);
             console.log($("#dateStart").val());
             console.log($("#dateEnd").val());
          });
@@ -261,15 +275,21 @@ $(document).ready(function(){
 
     //由bar換成donut or donut to bar
     $("#changeChart").click(function(){
-        if($("#chart").val()=="barChart")
+        let donut = "&#11093;";
+        let bar = "&#128202;"
+        $("#chartFather").html("");
+        $("#changeChart").html("");
+        if($("#changeChart").val()=="barChart")
         {
-            $("#chartFather").html("");
+            document.getElementById("changeChart").value = "donutChart";
+            $("#changeChart").append(donut);
             $("#chartFather").append(`<canvas class="offset-2" id="donutChart"></canvas>`);
             MakeDoughnutChart(currentCategoryArr, $('#SelectedTimeType input:radio:checked').val());
         }
-        else if($("#chart").val()=="donutChart")
+        else
         {
-            $("#chartFather").html("");
+            document.getElementById("changeChart").value ="barChart";
+            $("#changeChart").append(bar);
             $("#chartFather").append(`<canvas class="offset-2" id="barChart"></canvas>`);
             MakeBarChart(currentCategoryArr, $('#SelectedTimeType input:radio:checked').val());
         }
@@ -317,15 +337,62 @@ function changeYearAndDate(isSixMonth, displayDate)
     console.log("change year and date end");
 }
 
-//下排按鈕重新選擇月
-function resetSelectedTimeType()
+//回到支出or收如時下排按鈕重新選擇月 再把往前搜尋和往後搜尋的按鈕恢復成可使用
+function inexResetSelectedTimeType()
 {
+    document.getElementById("SelectedTimeSixMonth").disabled=false;
+    document.getElementById("SelectedTimeCustom").disabled=false;
+
+    document.getElementById("selectTimeBack").disabled=false;
+    document.getElementById("selectTimeForward").disabled=false;
+
     document.getElementById("SelectedTimeSixMonth").checked=false;
     document.getElementById("SelectedTimeYear").checked=false;
     document.getElementById("SelectedTimeCustom").checked=false;
     document.getElementById("SelectedTimeMonth").checked=true;
 }
 
+//回到結餘時下排按鈕重新選擇年 把網自訂和6個月搜尋的按鈕設置成不可使用
+function balanceSelectedTimeType()
+{
+    document.getElementById("SelectedTimeSixMonth").disabled=true;
+    document.getElementById("SelectedTimeCustom").disabled=true;
+
+    document.getElementById("SelectedTimeSixMonth").checked=false;
+    document.getElementById("SelectedTimeCustom").checked=false;
+    document.getElementById("SelectedTimeMonth").checked=false;
+    document.getElementById("SelectedTimeYear").checked=true;
+}
+
+//使用自訂時 把往前搜尋和往後搜尋的按鈕設置成不可使用
+function customSelectedTimeType()
+{
+    document.getElementById("selectTimeBack").disabled=true;
+    document.getElementById("selectTimeForward").disabled=true;
+
+    document.getElementById("SelectedTimeSixMonth").checked=false;
+    document.getElementById("SelectedTimeMonth").checked=false;
+    document.getElementById("SelectedTimeYear").checked=false;
+    document.getElementById("SelectedTimeCustom").checked=true;
+}
+
+//使用月or六個月or年時 把按鈕enable
+function msmySelectedTimeType()
+{
+    if($('#analysisType_btn input:radio:checked').val() == "balance")
+    {
+        document.getElementById("selectTimeBack").disabled=false;
+        document.getElementById("selectTimeForward").disabled=false;
+    }
+    else
+    {
+        document.getElementById("selectTimeBack").disabled=false;
+        document.getElementById("selectTimeForward").disabled=false;
+        document.getElementById("SelectedTimeSixMonth").disabled=false;
+        document.getElementById("SelectedTimeCustom").disabled=false;
+    }
+
+}
 
 function DealMonthOutcome(date)
 {
