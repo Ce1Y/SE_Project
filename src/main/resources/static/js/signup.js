@@ -15,7 +15,7 @@ function rand(){
 $(document).ready(function(){
     var validation = rand();
     $('#login').click(function(){
-        location.replace(" http://localhost:8080/index.html") ;
+        location.replace("/index.html") ;
     });
     $('#emailVerify').click(function(){
         alert("系統目前正在寄送驗證信請稍等！");
@@ -26,7 +26,7 @@ $(document).ready(function(){
             "subject":"記帳助手驗證信"
         }
         $.ajax({
-            url:'http://localhost:8080/sendMail',
+            url:'/sendMail',
             method:'post',
             data: JSON.stringify(data),
             contentType: "application/json",
@@ -56,7 +56,7 @@ $(document).ready(function(){
                             console.log(data);
 
                             $.ajax({
-                                url:'http://localhost:8080/signup',
+                                url:'/signup',
                                 method:'post',
                                 data: JSON.stringify(data),
                                contentType: "application/json",
@@ -65,7 +65,7 @@ $(document).ready(function(){
                                    console.log(result);
                                     if(result != null) {
                                         alert("修改成功！");
-                                        location.replace(" http://localhost:8080/index.html") ;
+                                        location.replace("/index.html") ;
                                    }
                                },
                                 error:function (data) {

@@ -10,7 +10,7 @@ $(document).ready(function(){
        {
            $.ajax({
                type: "GET",
-               url: "http://localhost:8080/date?date=" + $('#choose1').val(),
+               url: "/date?date=" + $('#choose1').val(),
                success: function(allProducts){
                    $.each(allProducts, function(index, product){
                        make_card(index, product);
@@ -22,7 +22,7 @@ $(document).ready(function(){
        {
            $.ajax({
                type: "GET",
-               url: "http://localhost:8080/products/category?category=" + SelectedCategory,
+               url: "/products/category?category=" + SelectedCategory,
                success: function(allProducts){
                    $.each(allProducts, function(index, product){
                        make_card(index, product);
@@ -36,7 +36,7 @@ $(document).ready(function(){
            {
                $.ajax({
                   type: "GET",
-                  url: "http://localhost:8080/pricebetween?pricefrom=" + PriceFrom + "&priceto=" + PriceTo,
+                  url: "/pricebetween?pricefrom=" + PriceFrom + "&priceto=" + PriceTo,
                   success: function(allProducts){
                       $.each(allProducts, function(index, product){
                            make_card(index, product);
@@ -48,7 +48,7 @@ $(document).ready(function(){
            {
                $.ajax({
                   type: "GET",
-                  url: "http://localhost:8080/pricegreaterthan?price=" + PriceFrom,
+                  url: "/pricegreaterthan?price=" + PriceFrom,
                   success: function(allProducts){
                       $.each(allProducts, function(index, product){
                            make_card(index, product);
@@ -61,7 +61,7 @@ $(document).ready(function(){
        {
                 $.ajax({
                   type: "GET",
-                  url: "http://localhost:8080/products/description?description=" + $("#choose4").val(),
+                  url: "/products/description?description=" + $("#choose4").val(),
                   success: function(allProducts){
                       $.each(allProducts, function(index, product){
                            make_card(index, product);
@@ -95,7 +95,7 @@ function selectOnchange(selected_obj)
     {
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/CategoryCount" ,
+            url: "/CategoryCount" ,
             success: function(allProducts){
                 let selectCatergoryFrame =
                 `

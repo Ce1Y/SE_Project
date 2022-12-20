@@ -13,14 +13,14 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
              success: function (allProducts) {
                 console.log("setUser success");
              }
         });
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/date?date=" + $('#time').val(),
+            url: "/date?date=" + $('#time').val(),
             success: function (allProducts) {
 
                 document.getElementById('email').innerHTML = localStorage.getItem('email')+"<br> By:"+localStorage.getItem('flag');
@@ -52,11 +52,12 @@ $(document).ready(function () {
                 }
 
                 if(flag1==0){
-
+                    //<input type="image" src="https://img95.699pic.com/element/40103/3918.png_300.png" alt="Submit" width="300" height="300">
                     results.html("");
                     results.append(`
-                    <input type="image" src="https://subservices.post.gov.tw/post/internet/images/NoResult.jpg" alt="Submit" width="390" height="300">
-                    `)
+                     <img id="img"
+                     src="https://imgur.com/XUbftA4.jpg" >
+                   `)
                 }
                 else{
                     results.html("");
@@ -85,7 +86,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/monthIncome?date=" + $('#time').val(),
+            url: "/monthIncome?date=" + $('#time').val(),
             success: function (allProducts) {
                 monthIncome=0;
                 $.each(allProducts, function (i, product) {
@@ -97,7 +98,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/monthOutcome?date=" + $('#time').val(),
+            url: "/monthOutcome?date=" + $('#time').val(),
             success: function (allProducts) {
                 monthOutcome=0;
                 $.each(allProducts, function (i, product) {
@@ -109,7 +110,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/date?date=" + $('#time').val(),
+            url: "/date?date=" + $('#time').val(),
             success: function (allProducts) {
                 var dayOutcome =0;
                 $.each(allProducts, function (i, product) {
@@ -127,7 +128,7 @@ $(document).ready(function () {
         $("#time").attr("value", $(this).val());
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/date?date=" + $('#time').val(),
+            url: "/date?date=" + $('#time').val(),
             success: function (allProducts) {
 
                 var str = '';
@@ -157,10 +158,12 @@ $(document).ready(function () {
                 });
                 }
                 if(flag1==0){
+                //<img src="https://img95.699pic.com/element/40103/3918.png_300.png" style="background-color: transparent;" />
                     results.html("");
                     results.append(`
-                    <input type="image" src="https://subservices.post.gov.tw/post/internet/images/NoResult.jpg" alt="Submit" width="390" height="300">
-                    `)
+                    <img id="img"
+                     src="https://imgur.com/XUbftA4.jpg" >
+                     `)
                 }
                 else{
                     results.html("");
@@ -189,7 +192,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/monthIncome?date=" + $('#time').val(),
+            url: "/monthIncome?date=" + $('#time').val(),
             success: function (allProducts) {
                 monthIncome=0;
                 $.each(allProducts, function (i, product) {
@@ -201,7 +204,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/monthOutcome?date=" + $('#time').val(),
+            url: "/monthOutcome?date=" + $('#time').val(),
             success: function (allProducts) {
                 monthOutcome=0;
                 $.each(allProducts, function (i, product) {
@@ -213,7 +216,7 @@ $(document).ready(function () {
         });
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/date?date=" + $('#time').val(),
+            url: "/date?date=" + $('#time').val(),
             success: function (allProducts) {
                 console.log($('#time').val());
                 console.log(allProducts);

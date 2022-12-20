@@ -55,7 +55,7 @@ $(document).ready(function() {
         console.log(data);
         console.log( $('#Date-name').val());
         $.ajax({
-            url:'http://localhost:8080/products',
+            url:'/products',
             method:'post',
             data: JSON.stringify(data),
            contentType: "application/json",
@@ -64,7 +64,7 @@ $(document).ready(function() {
                console.log(result);
                 if(result != null) {
                     alert("修改成功！");
-                    location.replace(" http://localhost:8080/home.html") ;
+                    location.replace("/home.html") ;
                }
            },
             error:function (data) {

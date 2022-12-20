@@ -5,7 +5,7 @@ $(document).ready(function () {
       monthTime  = document.getElementById('fc-dom-1').textContent;
       $.ajax({
           type: "GET",
-          url: "http://localhost:8080/monthPercentage?date=" + monthTime,
+          url: "/monthPercentage?date=" + monthTime,
           success: function (allProducts) {
               var str = '';
               var flag1=1;
@@ -62,7 +62,7 @@ $(document).ready(function () {
         monthTime  = document.getElementById('fc-dom-1').textContent;
         $.ajax({
            type: "GET",
-           url: "http://localhost:8080/monthPercentage?date=" + monthTime,
+           url: "/monthPercentage?date=" + monthTime,
            success: function (allProducts) {
                var str = '';
                var flag1=1;
@@ -117,7 +117,7 @@ $(document).ready(function () {
     monthTime  = document.getElementById('fc-dom-1').textContent;
     $.ajax({
        type: "GET",
-       url: "http://localhost:8080/monthPercentage?date=" + monthTime,
+       url: "/monthPercentage?date=" + monthTime,
        success: function (allProducts) {
            var str = '';
            var flag1=1;
