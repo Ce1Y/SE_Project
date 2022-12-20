@@ -186,6 +186,22 @@ public class QueryController {
         return ResponseEntity.status(HttpStatus.OK).body(BalanceResult);
     }
 
+    @GetMapping("/monthIncomeAsCate")
+    public ResponseEntity<List<BalanceDayProduct>> monthIncomeAsCate(String date){
+        int dateMonth =  Integer.parseInt(date.substring(5,7));
+        int dateYear =  Integer.parseInt(date.substring(0,4));
+        List<Product> result = new ArrayList<>();
+        List<Product> temp = productService.getProductByDateLike(date);
+        for(Product tmp:temp){
+            if(tmp.getAccountingType().equals(Type.income)){
+                result.add(tmp);
+            }
+        }
+        List<BalanceDayProduct> BalanceResult = productToBDPFnc(result) ;
+
+        System.out.println(BalanceResult);
+        return ResponseEntity.status(HttpStatus.OK).body(BalanceResult);
+    }
     @GetMapping("/sixMonthOutcome")
     public ResponseEntity<List<Product>> sixMonthOutcome(@RequestParam String dateFrom, @RequestParam String dateTo){
         int dateFromMonth =  Integer.parseInt(dateFrom.substring(5,7));

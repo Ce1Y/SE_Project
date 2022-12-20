@@ -3,6 +3,15 @@ var selectedYear,selectedMonth,selectedDate;
 var currentCategoryArr = []
 var moneyIncomeIconArr = new Array("&#128178;", "&#129689;", "&#128176;", "&#128182;", "&#128180;");//💲 🪙 💰 💶 💴
 var moneyExpenseIconArr = new Array("&#128184;", "&#128546;", "&#128557;","&#128575;", "&#128565;");//💸 😢 😭 😿 😵
+//var ColorInChart = new Array
+//                    ("#FF2D2D","#F9F900","#FF9224","#3D7878","#02DF82","#D9006C","#743A3A",
+//                    "#408080","#548C00","#005AB5","#4D0000","#3A006F","#FFFF37","#FF8000");
+var ColorInChart = new Array
+                    ('rgb(255, 99, 132)','rgb(255, 159, 64)','rgb(255, 205, 86)','rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)','rgb(153, 102, 255)','rgb(201, 203, 207)',"#C48888", "#B9B973",
+                    "#8CEA00", "#4A4AFF", "#CE0000");
+
+
 $(document).ready(function(){
     $(function(){
         var today = new Date();
@@ -19,7 +28,7 @@ $(document).ready(function(){
 
     //按下<鍵
     $("#selectTimeBack").click(function(){
-        $("#chartFather").html("");
+        $("#chart").html("");
         var displayDate;
         console.log("displayDate in <" + displayDate);
         if( $('#SelectedTimeType input:radio:checked').val() == "month")
@@ -95,7 +104,7 @@ $(document).ready(function(){
 
     //按下>鍵
     $("#selectTimeForward").click(function(){
-        $("#chartFather").html("");
+        $("#chart").html("");
         var displayDate;
         if( $('#SelectedTimeType input:radio:checked').val() == "month")
         {
@@ -277,20 +286,20 @@ $(document).ready(function(){
     $("#changeChart").click(function(){
         let donut = "&#11093;";
         let bar = "&#128202;"
-        $("#chartFather").html("");
+
         $("#changeChart").html("");
         if($("#changeChart").val()=="barChart")
         {
             document.getElementById("changeChart").value = "donutChart";
-            $("#changeChart").append(donut);
-            $("#chartFather").append(`<canvas class="offset-2" id="donutChart"></canvas>`);
+            $("#changeChart").append(bar);
+//            $("#chartFather").append(`<canvas class="offset-2" id="donutChart"></canvas>`);
             MakeDoughnutChart(currentCategoryArr, $('#SelectedTimeType input:radio:checked').val());
         }
         else
         {
             document.getElementById("changeChart").value ="barChart";
-            $("#changeChart").append(bar);
-            $("#chartFather").append(`<canvas class="offset-2" id="barChart"></canvas>`);
+            $("#changeChart").append(donut);
+//            $("#chartFather").append(`<canvas class="offset-2" id="barChart"></canvas>`);
             MakeBarChart(currentCategoryArr, $('#SelectedTimeType input:radio:checked').val());
         }
     });
@@ -542,6 +551,8 @@ function DealYearOutcome(date)
             currentCategoryArr =  categoryArr;
             console.log(currentCategoryArr);
             MakeBarChart(categoryArr, "月收入");
+            MakeRowPercentage(categoryArr);
+            MakeRowDetails(categoryArr);
         }
     });
 }
@@ -571,6 +582,177 @@ function DealYearIncome(date)
     });
 }
 
+function MakeRowPercentage(categoryArr)
+{
+    var categoryAsArr = [];
+    var totalPriceAsArr = [];
+    var totalPricePercentageAsArr = [];
+    var AllTotalPrice=0;
+    for(i=0; i<categoryArr.length; i++)
+    {
+        categoryAsLabels[i] = categoryArr[i].category;
+        totalPriceAsLabels[i] = categoryArr[i].totalPrice;
+        AllTotalPrice = AllTotalPrice + categoryArr[i].totalPrice;
+    }
+    for(i=0; i<categoryArr.length; i++)
+    {
+        totalPricePercentageAsArr = Math.floor((totalPriceAsArr[i]/AllTotalPrice)*100);
+    }
+    let categoryColors = ColorInChart.slice(0,categoryAsLabels.length);
+    console.log("categoryArr="+categoryArr);
+
+    for(i=0; i<categoryArr.length; i=i+3)
+    {
+        var demoRow = "";
+        if(categoryArr.length-i>2)
+        {
+            let color1 = categoryColors[i];
+            let color2 = categoryColors[i+1];
+            let color3 = categoryColors[i+2];
+            if(i==0)
+            {
+                demoRow =
+                `
+                <div class="col-6 ps-4">
+                    <div class="row ps-2">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color1}"></div>
+                        <div class="col-1">${categoryAsArr[i]}</div>
+                        <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i]}</div>
+                    </div>
+                    <div class="row ps-2">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color2}"></div>
+                         <div class="col-1">${categoryAsArr[i+1]}</div>
+                         <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i+1]}</div>
+                    </div>
+                    <div class="row ps-2">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color3}"></div>
+                        <div class="col-1">${categoryAsArr[i+2]}</div>
+                        <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i+2]}</div>
+                    </div>
+                </div>
+                `;
+            }
+            else
+            {
+                demoRow =
+                `
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color1}"></div>
+                        <div class="col-1">${categoryAsArr[i]}</div>
+                        <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i]}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color2}"></div>
+                         <div class="col-1">${categoryAsArr[i+1]}</div>
+                         <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i+1]}</div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color3}"></div>
+                        <div class="col-1">${categoryAsArr[i+2]}</div>
+                        <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i+2]}</div>
+                    </div>
+                </div>
+                `;
+            }
+        }
+        else if(categoryArr.length-i>1)
+        {
+            let color1 = categoryColors[i];
+            let color2 = categoryColors[i+1];
+            if(i==0)
+            {
+                demoRow =
+                `
+                <div class="col-6 ps-4">
+                    <div class="row ps-2">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color1}"></div>
+                        <div class="col-1">${categoryAsArr[i]}</div>
+                        <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i]}</div>
+                    </div>
+                    <div class="row ps-2">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color2}"></div>
+                         <div class="col-1">${categoryAsArr[i+1]}</div>
+                         <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i+1]}</div>
+                    </div>
+                </div>
+                `;
+            }
+            else
+            {
+                demoRow =
+                `
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color1}"></div>
+                        <div class="col-1">${categoryAsArr[i]}</div>
+                        <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i]}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color2}"></div>
+                         <div class="col-1">${categoryAsArr[i+1]}</div>
+                         <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i+1]}</div>
+                    </div>
+                </div>
+                `;
+            }
+            break;
+        }
+        else
+        {
+            let color1 = categoryColors[i];
+            if(i==0)
+            {
+                demoRow =
+                `
+                <div class="col-6 ps-4">
+                    <div class="row ps-2">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color1}"></div>
+                        <div class="col-1">${categoryAsArr[i]}</div>
+                        <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i]}</div>
+                    </div>
+                </div>
+                `;
+            }
+            else
+            {
+                demoRow =
+                `
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-1 my-1" style="width: 10px; height: 18px; background-color: ${color1}"></div>
+                        <div class="col-1">${categoryAsArr[i]}</div>
+                        <div class="col-7" style="text-align: right;">${totalPricePercentageAsArr[i]}</div>
+                    </div>
+                </div>
+                `;
+            }
+            break;
+        }
+        $("#percentageDetailsRow").html("");
+        $("#percentageDetailsRow").append(demoRow);
+
+    }
+}
+
+function MakeRowDetails(categoryArr)
+{
+    var categoryAsArr = [];
+    var totalPriceAsArr = [];
+    var totalPricePercentageAsArr = [];
+    var AllTotalPrice=0;
+    for(i=0; i<categoryArr.length; i++)
+    {
+        categoryAsLabels[i] = categoryArr[i].category;
+        totalPriceAsLabels[i] = categoryArr[i].totalPrice;
+        AllTotalPrice = AllTotalPrice + categoryArr[i].totalPrice;
+    }
+    for(i=0; i<categoryArr.length; i++)
+    {
+        totalPricePercentageAsArr = Math.floor((totalPriceAsArr[i]/AllTotalPrice)*100);
+    }
+}
+
 function MakeBarChart(categoryArr, chartLabelName)
 {
     var ctx = document.getElementById('chart').getContext('2d');
@@ -587,27 +769,30 @@ function MakeBarChart(categoryArr, chartLabelName)
     {
         totalPriceAsLabels[i] = Math.floor((totalPriceAsLabels[i]/AllTotalPrice)*100);
     }
+    let categoryColors = ColorInChart.slice(0,categoryAsLabels.length) ;
+//    let categoryColorsBorder = ColorInChart.slice(0,categoryAsLabels.length);
     var chart = new Chart(ctx, {
         // 要创建的图表类型
 //        plugins: [ChartDataLabels],
         type: 'bar',
         // 数据集
         data: {
-            labels: categoryAsLabels,
+            labels: categoryAsLabels, //最下面 x軸的label
             datasets: [{
-                label: chartLabelName,
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: totalPriceAsLabels,
+                backgroundColor: categoryColors, //填滿每一個bar的顏色
+                borderColor: "#4F4F4F",         //每一個bar的顏色的外框
+                data: totalPriceAsLabels,        //每一個bar的資料(長度)
+                label: chartLabelName              //最上面的標題
             }]
         },
+
         // 配置选项
         options: {
             responsive: true,
             maintainAspectRatio: false,
              title: {
                display: false,
-               text: 'bar chart'
+               text: chartLabelName
              },
              scales: {
                // x 軸設置
@@ -667,27 +852,35 @@ function MakeDoughnutChart(categoryArr, chartLabelName)
     {
         totalPriceAsLabels[i] = Math.floor((totalPriceAsLabels[i]/AllTotalPrice)*100);
     }
+    let categoryColors = ColorInChart.slice(0,categoryAsLabels.length);
+//    let categoryColorsBorder = ColorInChart.slice(0,categoryAsLabels.length);
+    let chartTItle = "總金額: " + AllTotalPrice;
+    console.log("categoryColors="+categoryColors);
+    console.log("totalPriceAsLabels"+totalPriceAsLabels);
+    console.log("categoryAsLabels="+categoryAsLabels);
     var chart = new Chart(ctx, {
         // 要创建的图表类型
 //        plugins: [ChartDataLabels],
         type: 'doughnut',
+
         // 数据集
         data: {
-            labels: categoryAsLabels,
+
             datasets: [{
-                label: chartLabelName,
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: totalPriceAsLabels,
-            }]
+                label: "123",
+                backgroundColor: categoryColors,
+                borderColor: "#4F4F4F",
+                data: totalPriceAsLabels
+            }],
+
         },
         // 配置选项
         options: {
             responsive: true,
             maintainAspectRatio: false,
              title: {
-               display: false,
-               text: 'bar chart'
+               display: true,
+               text: chartTItle
              },
              scales: {
                animation:{
@@ -704,6 +897,11 @@ function MakeDoughnutChart(categoryArr, chartLabelName)
                  // x 軸格線
                  gridLines: {
                    display: false
+                 },
+                 // x 軸間距
+                 ticks: {
+                   display: false,
+
                  }
                }],
                // y 軸設置
@@ -720,6 +918,7 @@ function MakeDoughnutChart(categoryArr, chartLabelName)
                  },
                  // y 軸間距
                  ticks: {
+                   display: false,
                    beginAtZero: true,
                    min: 0,
                    max: 100,
