@@ -51,7 +51,33 @@ $(document).ready(function() {
             "accDate": $('#Date-name').val()+"T"+tempDate.substr(11,19),
             "loginMethod":localStorage.getItem("flag")
             }
+        var total = 0;
+        $.ajax({
+            type: "GET",
+            url: "/monthOutcome?date=" + $('#Date-name').val(),
+            success: function (allProducts) {
+                total=0;
+                $.each(allProducts, function (i, product) {
+                    total = total + product.price;
+                });
+                total+$('#Price-text').val();
+                $.ajax({
+                    type:"GET",
+                    url: "/monthBudget?month=" + "Month"+$('#monthChoose').val().substring(5,7),
+                    success: function(allBudgets){
+                        var budget =0;
+                        $.each(allBudgets, function (i, budget) {
+                            budget = budget + budget.price;
+                        });
+                        if(total > budget) {
+                        console.log("exceed");
+                        alert("您已超出當月預算");
+                        }
+                    }
 
+                });
+            }
+        });
         console.log(data);
         console.log( $('#Date-name').val());
         $.ajax({
@@ -63,7 +89,7 @@ $(document).ready(function() {
             success:function(result){
                console.log(result);
                 if(result != null) {
-                    alert("修改成功！");
+                    alert("新增成功！");
                     location.replace("/home.html") ;
                }
            },
