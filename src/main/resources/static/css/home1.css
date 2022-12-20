@@ -10,15 +10,14 @@ body{
 }
 
 .border-cost{
-  border: 1px;
   width: 75px;
-  height: 50px;
-  color: white;
-  border-radius: 50%;
+  height: 45px;
+  color: black;
   text-align: center;
-  padding-top: 13px;
-  margin-top: 20px;
-  box-shadow: 0 0 3px black;
+  padding-top: 5px;
+  margin-top: 10px;
+  border-bottom:7px #FFC125 solid;
+  padding-bottom:1px;
   /* border-style: outset; */
 }
 
