@@ -18,6 +18,14 @@ $(document).ready(function () {
                 console.log("setUser success");
              }
         });
+
+        $.ajax({
+            type: "GET",
+            url: "/setUserForBudget?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         $.ajax({
             type: "GET",
             url: "/date?date=" + $('#time').val(),
@@ -232,4 +240,59 @@ $(document).ready(function () {
 
 
     });
+
+    $('#addNewBudgetBtn').click(function(){
+        var data = {
+        "month": $('#monthChoose').val(),
+        "price":$('#budgetPrice').val(),
+        "email":localStorage.getItem("email"),
+        "loginMethod":localStorage.getItem("flag")
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "/monthBudget?month=" + $('#monthChoose').val(),
+            success: function (allProducts) {
+                console.log("already have");
+                $.ajax({
+                     url:'/updateBudget',
+                     method:'put',
+                     data: JSON.stringify(data),
+                     contentType: "application/json",
+                     dataType:'JSON',
+                     success:function(result){
+                        console.log(result);
+                         if(result != null) {
+                             alert("已修改原本的預算！");
+                             location.replace("/home.html") ;
+                        }
+                     },
+                     error:function (data) {
+                     }
+                });
+            },
+            error:function(){
+                $.ajax({
+                     url:'/addBudget',
+                     method:'post',
+                     data: JSON.stringify(data),
+                     contentType: "application/json",
+                     dataType:'JSON',
+                     success:function(result){
+                        console.log(result);
+                         if(result != null) {
+                             alert("新增預算成功！");
+                             location.replace("/home.html") ;
+                        }
+                     },
+                     error:function (data) {
+                     }
+                });
+            }
+        });
+
+    });
+
+
+
 });

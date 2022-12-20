@@ -78,7 +78,7 @@
         <input type="button" class="btn" style="width: 350px; height: 50px;"value="資料查詢" onclick="location.href='/DataSearch.html'">
 
         <button type="button" class="btn" style="width: 350px; height: 50px;">固定收入/支出</button>
-        <button type="button" class="btn" style="width: 350px; height: 50px;">新增運算</button>
+        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#budgetModal" style="width: 350px; height: 50px;">新增預算</button>
         <input type="button" class="btn" style="width: 350px; height: 50px;"value="登出" onclick="logout()">
 
     </div>
@@ -137,6 +137,48 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="budgetModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Budget</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="Date-name" class="col-form-label">Month:</label>
+                        <select class="form-select col-4" id="monthChoose" >
+                            <option selected>選擇月份</option>
+                            <option value="Month1">01</option>
+                            <option value="Month2">02</option>
+                            <option value="Month3">03</option>
+                            <option value="Month4">04</option>
+                            <option value="Month5">05</option>
+                            <option value="Month6">06</option>
+                            <option value="Month7">07</option>
+                            <option value="Month8">08</option>
+                            <option value="Month9">09</option>
+                            <option value="Month10">10</option>
+                            <option value="Month11">11</option>
+                            <option value="Month12">12</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Price-text" class="col-form-label">Price:</label>
+                        <textarea class="form-control" id="budgetPrice" rows="1"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="addNewBudgetBtn" class="btn btn-success" data-bs-dismiss="modal">Add</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script tpye="text/javascript">
     var logout = function(){
         $.post("/logout",function(){
