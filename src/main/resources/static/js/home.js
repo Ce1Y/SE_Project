@@ -41,7 +41,7 @@ $(document).ready(function () {
                          </tr>`
                     }
                    else{str+=`
-                         <tr style="background: #7700FF">
+                         <tr style="background: #F8F8FF">
                               <td>${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
@@ -147,7 +147,7 @@ $(document).ready(function () {
                          </tr>`
                     }
                    else{str+=`
-                         <tr style="background: #7700FF">
+                         <tr style="background: #F8F8FF">
                               <td>${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
@@ -157,7 +157,6 @@ $(document).ready(function () {
                 });
                 }
                 if(flag1==0){
-                    
                     results.html("");
                     results.append(`
                     <input type="image" src="https://subservices.post.gov.tw/post/internet/images/NoResult.jpg" alt="Submit" width="390" height="300">
