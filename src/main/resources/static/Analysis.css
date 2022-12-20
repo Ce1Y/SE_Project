@@ -1,9 +1,18 @@
-table{
-    border-collapse: separate;
-    border-spacing: 0;
-    border: solid 2px black;
+#percentageDetails{       /*height: calc(100vh - 110px);*/
+    overflow-x: scroll;
+    height:100px;
+    width:90%;
+    border: solid 1px black;
+    border-radius: 20px;
+    overflow:auto;
+    display-flex;
+    position:absolute;
 }
-
-td, th, tr{
-    border:black 1px solid;
+table{
+    CELLSPACING=0;
+    border-spacing: 0px;
+}
+td {
+  display-flex;
+   justify-content-end;
 }

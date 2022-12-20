@@ -1,6 +1,9 @@
 package SE_Project.demo.model;
 
+import org.springframework.data.domain.Sort;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class BalanceDayProduct {
@@ -67,12 +70,23 @@ public class BalanceDayProduct {
                 }
             }
         }
+        AllCategory.sort(comparatorPrice);
     }
 
     public void replaceAllCategory(List<CategoryOfPercent> AllCategory)
     {
         this.AllCategory = AllCategory;
     }
+    Comparator<CategoryOfPercent> comparatorPrice =new Comparator <CategoryOfPercent>(){
+        public int compare(CategoryOfPercent c1,CategoryOfPercent c2){
+            if (c1.getPrice()>c2.getPrice())
+                return 1;
+            else if (c1.getPrice()<c2.getPrice())
+                return -1;
+            else
+                return 0;
+        }
+    };
     @Override
     public String toString() {
         return   "date: " + date + "\n" +
