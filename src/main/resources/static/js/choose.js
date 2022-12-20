@@ -40,7 +40,6 @@ $(document).ready(function() {
         var tomorrow=new Date(date);
         tomorrow.setDate(tomorrow.getDate() + 1);
         var tempDate = date.toISOString().substr(0, 19);
-        console.log(tempDate);
         var data = {
             "date": $('#Date-name').val(),
             "category":$('#Category-text').val(),
@@ -60,25 +59,30 @@ $(document).ready(function() {
                 $.each(allProducts, function (i, product) {
                     total = total + product.price;
                 });
-                total+$('#Price-text').val();
+                if(type=="expense"){
+                total=total+Number($('#Price-text').val());
+                }
                 $.ajax({
                     type:"GET",
-                    url: "/monthBudget?month=" + "Month"+$('#monthChoose').val().substring(5,7),
+                    url: "/monthBudget?month=" + "Month"+$('#Date-name').val().substring(5,7),
                     success: function(allBudgets){
-                        var budget =0;
+                        var budgetTotal =0;
+                        console.log(allBudgets);
                         $.each(allBudgets, function (i, budget) {
-                            budget = budget + budget.price;
+                            console.log(budget);
+                            budgetTotal = budgetTotal + budget.price;
                         });
-                        if(total > budget) {
-                        console.log("exceed");
+                        if(total > budgetTotal) {
+                        console.log(total);
+                        console.log(budgetTotal);
                         alert("您已超出當月預算");
                         }
-                    }
-
+                    },
+                   error:function (data) {
+                   }
                 });
             }
         });
-        console.log(data);
         console.log( $('#Date-name').val());
         $.ajax({
             url:'/products',

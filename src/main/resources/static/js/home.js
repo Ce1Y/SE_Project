@@ -43,14 +43,14 @@ $(document).ready(function () {
                     if(product.accountingType=='income'){
                         str+=`
                          <tr >
-                              <td>${product.category}</td>
+                              <td>💵${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                          </tr>`
                     }
                    else{str+=`
                          <tr style="background: #F8F8FF">
-                              <td>${product.category}</td>
+                              <td>💸${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                               <td></td>
@@ -150,14 +150,14 @@ $(document).ready(function () {
                     if(product.accountingType=='income'){
                         str+=`
                          <tr >
-                              <td>${product.category}</td>
+                              <td>💵${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                          </tr>`
                     }
                    else{str+=`
                          <tr style="background: #F8F8FF">
-                              <td>${product.category}</td>
+                              <td>💸${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                               <td></td>

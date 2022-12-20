@@ -18,17 +18,16 @@ $(document).ready(function () {
                   if(product.accountingType=='income'){
                       str+=`
                        <tr >
-                            <td>${product.category}</td>
+                            <td>💵${product.category}</td>
                             <td>${product.total}</td>
                             <td>${product.percentage}</td>
                        </tr>`
                   }
                  else{str+=`
                        <tr style="background: #F0FFF0">
-                            <td>${product.category}</td>
+                            <td>💸${product.category}</td>
                             <td>${product.total}</td>
                             <td>${product.percentage}</td>
-                            <td></td>
                        </tr>`
                  }
               });
@@ -75,17 +74,17 @@ $(document).ready(function () {
                    if(product.accountingType=='income'){
                        str+=`
                         <tr >
-                             <td>${product.category}</td>
+                             <td>💵${product.category}</td>
                              <td>${product.total}</td>
                              <td>${product.percentage}</td>
                         </tr>`
                    }
                   else{str+=`
                         <tr style="background: #F0FFF0">
-                             <td>${product.category}</td>
+                             <td>💸${product.category}</td>
                              <td>${product.total}</td>
                              <td>${product.percentage}</td>
-                             <td></td>
+
                         </tr>`
                   }
                });
@@ -130,17 +129,17 @@ $(document).ready(function () {
                if(product.accountingType=='income'){
                    str+=`
                     <tr >
-                         <td>${product.category}</td>
+                         <td>💵${product.category}</td>
                          <td>${product.total}</td>
                          <td>${product.percentage}</td>
                     </tr>`
                }
               else{str+=`
                     <tr style="background: #F0FFF0">
-                         <td>${product.category}</td>
+                         <td>💸${product.category}</td>
                          <td>${product.total}</td>
                          <td>${product.percentage}</td>
-                         <td></td>
+
                     </tr>`
               }
            });

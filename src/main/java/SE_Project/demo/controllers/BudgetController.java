@@ -29,9 +29,10 @@ public class BudgetController {
 
     @GetMapping("/monthBudget")//月預算
     public ResponseEntity<List<Budget>> monthBudget(@RequestParam String month){
+
         Date year = new Date();
         List<Budget> temp = budgetService.getBudgetByMonth(month.substring(5));
-        System.out.println(temp);
+
         List<Budget> result = new ArrayList<>();
         for(Budget tmp1:temp){
             if(tmp1.getLoginMethod().equals(userMethod)&&tmp1.getEmail().equals(userEmail)&&tmp1.getYear().equals(year.toString().substring(24))){
@@ -39,11 +40,11 @@ public class BudgetController {
             }
         }
         if (result==null) {
-            System.out.println("null");
+
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         }
-        System.out.println("already have");
+        System.out.println(result);
         return ResponseEntity.status(HttpStatus.OK).body(result);
 
     }
@@ -73,6 +74,7 @@ public class BudgetController {
             budgetService.deleteBudget(tmp);
         }
         Budget budget = budgetService.createBudget(request);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(budget);
     }
 

@@ -10,6 +10,7 @@ import SE_Project.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ public class QueryController {
     private ProductService productService;
     @Autowired
     private CategoryCountService categoryCountService;
-
     private String userEmail="";
 
     private String userMethod="";
