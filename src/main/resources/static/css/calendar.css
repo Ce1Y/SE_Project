@@ -1,6 +1,7 @@
 body {
  background-color: white;
 }
+
 table {
   border-collapse: separate; /* border-collapse: collapse; */
   border: 2px solid black;
@@ -82,9 +83,11 @@ color:black;
 }
 .fc .fc-toolbar-title {
 color: gray;
-font-size: 20px;
+font-size: 15px;
 }
-
+#fc-dom-1{
+font:15px;
+}
 .fc th {
 color: black;
 font-size: 10px;
