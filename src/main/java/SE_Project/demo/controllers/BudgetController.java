@@ -39,8 +39,7 @@ public class BudgetController {
                 result.add(tmp1);
             }
         }
-        if (result==null) {
-
+        if (result.size()==0) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         }
