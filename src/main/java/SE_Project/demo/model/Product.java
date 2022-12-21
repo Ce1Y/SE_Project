@@ -13,8 +13,26 @@ public class Product {
 
     private Type accountingType;
 
+    private String loginMethod;
+    private String email;
     public String getDescription() {
         return description;
+    }
+
+    public String getLoginMethod() {
+        return loginMethod;
+    }
+
+    public void setLoginMethod(String loginMethod) {
+        this.loginMethod = loginMethod;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setDescription(String description) {

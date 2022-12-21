@@ -4,6 +4,9 @@ $(document).ready(function(){
 
        var email = document.getElementById("email").value
        var password = document.getElementById("password").value
+
+       localStorage.setItem("email",email);
+       localStorage.setItem("flag","local");
        $.ajax ({
            url: "/login",
            type: "POST",

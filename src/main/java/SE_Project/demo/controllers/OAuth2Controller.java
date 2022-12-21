@@ -10,7 +10,8 @@ public class OAuth2Controller{
     @GetMapping("/user")
     public Map<String,Object> user(@AuthenticationPrincipal OAuth2User principal){
         System.out.println(principal.getAttribute("email").toString());
-        return Collections.singletonMap("name",principal.getAttribute("name"));
+        System.out.println(principal);
+        return Collections.singletonMap("email",principal.getAttribute("email").toString());
     }
 
 }
