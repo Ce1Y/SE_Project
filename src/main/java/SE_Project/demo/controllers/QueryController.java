@@ -4,11 +4,13 @@ package SE_Project.demo.controllers;
 import SE_Project.demo.model.Product;
 import SE_Project.demo.model.Type;
 import SE_Project.demo.model2.CategoryCount;
+import SE_Project.demo.model2.CategoryPercentage;
 import SE_Project.demo.service.CategoryCountService;
 import SE_Project.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,7 +22,6 @@ public class QueryController {
     private ProductService productService;
     @Autowired
     private CategoryCountService categoryCountService;
-
     private String userEmail="";
 
     private String userMethod="";
@@ -35,7 +36,6 @@ public class QueryController {
     public ResponseEntity<List<CategoryCount>> getCategoryCount(){
         List<CategoryCount> tmp = categoryCountService.returnallcategorys();
         if (tmp==null) {
-            System.out.println("Having no categorys");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(tmp);
@@ -66,7 +66,6 @@ public class QueryController {
         }
 
         if (tmp1.isEmpty()) {
-            System.out.println("Having nothing");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(tmp1);
@@ -85,12 +84,10 @@ public class QueryController {
             }
         }
 
-        if (tmp1.isEmpty()) {
-            System.out.println("Having nothing");
+        if (tmp1==null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(tmp1);
         }
+        return ResponseEntity.status(HttpStatus.OK).body(tmp1);
 
     }
     @GetMapping("/monthOutcome")//月花費
@@ -100,7 +97,7 @@ public class QueryController {
 
         List<Product> monthTemp = new ArrayList<>();
         for(Product tmp:temp){
-            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType()== Type.expense){
+            if(tmp.getDate().substring(0,7).equals(date.substring(0,7))&&tmp.getAccountingType()== Type.expense){
                 monthTemp.add(tmp);
             }
         }
@@ -111,7 +108,6 @@ public class QueryController {
                 result.add(tmp1);
             }
         }
-
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     @GetMapping("/monthIncome")//月收入
@@ -120,7 +116,7 @@ public class QueryController {
         List<Product> temp = productService.getProductByDateLike(month);
         List<Product> monthTemp = new ArrayList<>();
         for(Product tmp:temp){
-            if(tmp.getDate().substring(5,7).equals(month)&&tmp.getAccountingType()==Type.income){
+            if(tmp.getDate().substring(0,7).equals(date.substring(0,7))&&tmp.getAccountingType()==Type.income){
                 monthTemp.add(tmp);
             }
         }
@@ -130,7 +126,6 @@ public class QueryController {
                 result.add(tmp1);
             }
         }
-
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     @GetMapping("/products/category")
@@ -147,7 +142,6 @@ public class QueryController {
         }
 
         if (tmp1.isEmpty()) {
-            System.out.println("Having nothing");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(tmp1);
@@ -156,44 +150,51 @@ public class QueryController {
     }
     @GetMapping("/products/description")
     public ResponseEntity<List<Product>> getProductsByDescriptionLike(@RequestParam(required = false) String description) {
-
         List<Product> result = productService.getProductsByDescriptionLike(description);
         List<Product> tmp1 = new ArrayList<>();
-
         for(Product tmp2:result){
             if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
                 tmp1.add(tmp2);
             }
         }
-
         if (tmp1.isEmpty()) {
-            System.out.println("Having nothing");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(tmp1);
         }
     }
+    @GetMapping("/allProducts")
+    public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> result = productService.getAllProducts();
+        List<Product> tmp1 = new ArrayList<>();
+        for(Product tmp2:result){
+            if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
+                tmp1.add(tmp2);
+            }
+        }
+        if (tmp1.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(tmp1);
+        }
+    }
+
     @PutMapping("/products/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product productRequest)
     {
         Product origin = productService.getProductById(id).orElse(null);
         if(origin==null)
         {
-            System.out.println("wrong id update");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         Product product = productService.updateProduct(id, productRequest);
-        System.out.println("update success");
         return  ResponseEntity.status(HttpStatus.OK).body(product);
-
     }
 
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody Product productRequest){
-        System.out.println("1233333333333333333333");
         Product product = productService.createProduct(productRequest);
         categoryCountService.checkCategoryCount(product.getCategory());
-
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
     @DeleteMapping("/products/{productId}")
@@ -201,22 +202,18 @@ public class QueryController {
         Product result=productService.getProductById(productId).orElse(null);
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         productService.deleteProductById(productId);
-
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     @GetMapping("/pricebetween")
     public ResponseEntity<List<Product>> getProductByPriceBetween(@RequestParam String pricefrom, @RequestParam String priceto){
         List<Product> result=productService.getProductsByPriceBetween(Integer.parseInt(pricefrom), Integer.parseInt(priceto));
         List<Product> tmp1 = new ArrayList<>();
-
         for(Product tmp2:result){
             if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
                 tmp1.add(tmp2);
             }
         }
-
         if (tmp1.isEmpty()) {
-            System.out.println("Having nothing");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(tmp1);
@@ -227,19 +224,78 @@ public class QueryController {
     public ResponseEntity<List<Product>> getProductByPriceGreater(@RequestParam String price){
         List<Product> result=productService.getProductsByPriceGreaterThan(Integer.parseInt(price));
         List<Product> tmp1 = new ArrayList<>();
-
         for(Product tmp2:result){
             if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
                 tmp1.add(tmp2);
             }
         }
-
         if (tmp1.isEmpty()) {
-            System.out.println("Having nothing");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(tmp1);
         }
+    }
+
+    @GetMapping("/monthPercentage")//每個種類月趴數
+    public ResponseEntity<List<CategoryPercentage>> monthPercentage(@RequestParam String date){
+        String month = date.substring(5,7);
+        List<Product> temp = productService.getProductByDateLike(month);
+        List<Product> monthTemp = new ArrayList<>();
+        for(Product tmp:temp){
+            if(tmp.getDate().substring(0,4).equals(date.substring(0,4))){
+                monthTemp.add(tmp);
+            }
+        }
+        int sum = 0;
+        List<CategoryPercentage> result = new ArrayList<>();
+        for(Product tmp1:monthTemp){
+            if(tmp1.getLoginMethod().equals(userMethod)&&tmp1.getEmail().equals(userEmail)){
+                sum+= tmp1.getPrice();
+                if(result == null){
+                    CategoryPercentage num = new CategoryPercentage();
+                    num.setCategory(tmp1.getCategory());
+                    num.setTotal(tmp1.getPrice());
+                    num.setAccountingType(tmp1.getAccountingType());
+                    result.add(num);
+                }
+                else{
+                    int decision = 0;
+                    for(CategoryPercentage n:result){
+                        if(n.getCategory().equals(tmp1.getCategory())&&n.getAccountingType().equals(tmp1.getAccountingType())){
+                            decision = 1;
+                            n.setTotal(n.getTotal()+tmp1.getPrice());
+                            break;
+                        }
+                    }
+                    if(decision==0){
+                        CategoryPercentage num = new CategoryPercentage();
+                        num.setCategory(tmp1.getCategory());
+                        num.setTotal(tmp1.getPrice());
+                        num.setAccountingType(tmp1.getAccountingType());
+                        result.add(num);
+                    }
+                }
+            }
+        }
+
+        for(CategoryPercentage n:result){
+            n.setPercentage((double)n.getTotal()/sum*1.0);
+            n.setPercentage(Math.round(n.getPercentage()*100.0));//小數點第二位
+        }
+
+        List<CategoryPercentage> result1 = new ArrayList<>();
+        for(CategoryPercentage n :result){
+            if(n.getAccountingType()==Type.expense){
+                result1.add(n);
+            }
+        }
+        for(CategoryPercentage n :result){
+            if(n.getAccountingType()==Type.income){
+                result1.add(n);
+            }
+        }
+       
+        return ResponseEntity.status(HttpStatus.OK).body(result1);
     }
 
 }

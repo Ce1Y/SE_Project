@@ -4,7 +4,7 @@ $(document).ready(function() {
         //console.log($(this).text());
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/products",
+            url: "/products",
             success: function(allProducts){
                 results.html("");
                 $.each(allProducts,function (i,product) {

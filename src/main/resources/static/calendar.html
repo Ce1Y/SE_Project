@@ -7,16 +7,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href='fullcalendar/main.css' rel='stylesheet' />
+    <link rel="stylesheet" href="css/calendar.css" type="text/css">
     <script src='fullcalendar/main.js'></script>
     <script>
 
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth'
-        });
-        calendar.render();
-      });
+ document.addEventListener('DOMContentLoaded', function() {
+
+     var calendarEl = document.getElementById('calendar');
+     var calendar = new FullCalendar.Calendar(calendarEl, {
+        customButtons: {
+            myCustomButton:
+                {   text:"back",
+                    click: function() {
+                    location.replace(" http://localhost:8080/home.html") ;
+                    }
+                }
+        },
+        editable:'true',
+        droppable:'true',
+        initialView: 'dayGridMonth',
+         locale: 'zh-tw',
+         height: 500,
+         navLinks: true,
+         headerToolbar: {
+             left: 'prev,next today',
+             center: 'title',
+             right: 'dayGridMonth,timeGridDay,myCustomButton'
+         },
+        events: function(fetchInfo, successCallback, failureCallback) {
+        $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/allProducts",
+        dataType: 'JSON',
+        success: function(data) {
+          var events = [];
+          if (data != null) {
+            $.each(data, function(i, item) {
+              events.push({
+                start: item.accDate,
+                title: item.category + " "+item.price,
+                end: item.accDate,
+              })
+            })
+          }
+          successCallback(events);
+        }
+      })
+      }
+
+     });
+     calendar.render();
+ });
+
 
     </script>
 </head>
@@ -26,8 +68,28 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="fullcalendar/moment.js"></script>
+<script src="js/calendar.js"></script>
+<div class="container">
+    <div id='calendar'></div>
+    <div id="display" style="margin-top: 10px; display: flex; justify-content: center;" class="display">
+        <table>
+            <thead>
+            <tr class="header" style="color: black;">
+                <th>種類</th>
+                <th>金額</th>
+                <th>百分比%</th>
+            </tr>
+            </thead>
+            <tbody>
 
-<div id="calendar"></div>
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+
 </body>
 
 </html>

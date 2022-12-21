@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -22,13 +23,14 @@ public class Initialize implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception
     {
-        if(productService.getAllProductsNum()<15)
+        if(productService.getAllProductsNum()<1)
         {
-            for(int i=0; i<5; i++)
+            for(int i=0; i<3; i++)
             {
                 Product tmp = new Product("2022-11-26", "測試", 500, "測試用描述", Type.income);
                 tmp.setLoginMethod("local");
                 tmp.setEmail("123456@gmail.com");
+                tmp.setAccDate("2022-11-26T11:22:51");
                 repository.save(tmp);
             }
         }

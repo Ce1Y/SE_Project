@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/home.css" type="text/css">
+    <link rel="stylesheet" href="css/home1.css" type="text/css">
 </head>
 
 <body >
@@ -32,7 +32,7 @@
 <div class="container-fluid mt-3">
     <div class="d-flex justify-content-around">
         <div class="">
-            <p class="border-cost" style="background-color:#6F00D2;">月收入</p>
+            <p class="border-cost" style="background-color: rgb(214, 233, 251)"><b>月收入</b></p>
             <input type="text" value="   $:___" id="monthIncomeText"
                    style=" width: 75px;  font-size: 15px; font-weight:bold; margin: 3px;  caret-color: #FF1744;  outline: 3px;  border: none">
         </div>
@@ -44,8 +44,7 @@
             <p style="color: black; font-weight:bold; margin-left: 65px; margin-top: 60px; z-index: 1" id="todayOutcome">dfaipghi<br>ozsghg</p>
         </section>
         <div class="">
-            <p class="border-cost" style="background-color: #6F00D2">月支出</p>
-
+            <p class="border-cost" style="background-color: rgb(214, 233, 251)"><b>月支出</b></p>
             <input type="text" value="   $:___" id="monthOutcomeText"
                    style=" width: 75px;  font-size: 15px; font-weight:bold; margin: 3px;  caret-color: #FF1744;  outline: 3px;  border: none">
         </div>
@@ -69,15 +68,9 @@
 </div>
 <div class="offcanvas offcanvas-start" id="personal-information">
     <div class="offcanvas-header">
-        <div style="height: 100px; width: 100px;">
-            <img src="images/avatar.png" style="width: 100px; height: 100px" alt="User Photo">
-        </div>
-        <div style="height: 100px; margin-right: 100px; padding-top: 10px">
-            <p class="offcanvas-title" id = "email">Email: </p>
-        </div>
-        <div style="display: fixed; top: 0; right: 0; height: 100px;">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-        </div>
+        <img src="images/avatar.png" style="width: 100px; height: 100px" alt="User Photo">
+        <p class="offcanvas-title" id = "email">Email: </p>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <hr>
     <div class="offcanvas-body">
@@ -85,59 +78,107 @@
         <input type="button" class="btn" style="width: 350px; height: 50px;"value="資料查詢" onclick="location.href='/DataSearch.html'">
 
         <button type="button" class="btn" style="width: 350px; height: 50px;">固定收入/支出</button>
-        <button type="button" class="btn" style="width: 350px; height: 50px;">新增運算</button>
+        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#budgetModal" style="width: 350px; height: 50px;">新增預算</button>
         <input type="button" class="btn" style="width: 350px; height: 50px;"value="登出" onclick="logout()">
 
     </div>
 </div>
 
-<div id="createButton"style="width:100%; padding-top:250px; margin-top: 10px; display:flex; justify-content: center">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create New</button>
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">新增記帳資料</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="Date-name" class="col-form-label">Date:</label>
-                            <input type="date" class="form-control" id="Date-name">
+<div id="createButton"style="margin-top: 10px;">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-8">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border: 2px solid black;
+  border-radius: 5px;">Create New</button>
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">新增記帳資料</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="mb-3">
-                            <label for="category-text" class="col-form-label">Category:</label>
-                            <textarea class="form-control" id="Category-text" rows="1"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="Price-text" class="col-form-label">Price:</label>
-                            <textarea class="form-control" id="Price-text" rows="1"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="description-text" class="col-form-label">Description:</label>
-                            <textarea class="form-control" id="description-text"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="Type-text" class="col-form-label">AccountingType:</label>
-                            <div class="input-group">
-                                <select class="form-select"  id="Type-text" onchange="selectOnchange_Type(this)">
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="Date-name" class="col-form-label">Date:</label>
+                                    <input type="date" class="form-control" id="Date-name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="category-text" class="col-form-label">Category:</label>
+                                    <textarea class="form-control" id="Category-text"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Price-text" class="col-form-label">Price:</label>
+                                    <textarea class="form-control" id="Price-text"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description-text" class="col-form-label">Description:</label>
+                                    <textarea class="form-control" id="description-text"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Type-text" class="col-form-label">AccountingType:</label>
+                                    <div class="input-group">
+                                        <select class="form-select"  id="Type-text" onchange="selectOnchange_Type(this)">
 
-                                    <option value="expense"> 支出 </option>
-                                    <option value="income"> 收入 </option>
-                                </select>
-                            </div>
+                                            <option value="expense"> 支出 </option>
+                                            <option value="income"> 收入 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button id="postbtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="postbtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="budgetModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Budget</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="Date-name" class="col-form-label">Month:</label>
+                        <select class="form-select col-4" id="monthChoose" >
+                            <option selected>選擇月份</option>
+                            <option value="Month1">01</option>
+                            <option value="Month2">02</option>
+                            <option value="Month3">03</option>
+                            <option value="Month4">04</option>
+                            <option value="Month5">05</option>
+                            <option value="Month6">06</option>
+                            <option value="Month7">07</option>
+                            <option value="Month8">08</option>
+                            <option value="Month9">09</option>
+                            <option value="Month10">10</option>
+                            <option value="Month11">11</option>
+                            <option value="Month12">12</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Price-text" class="col-form-label">Price:</label>
+                        <textarea class="form-control" id="budgetPrice" rows="1"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="addNewBudgetBtn" class="btn btn-success" data-bs-dismiss="modal">Add</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script tpye="text/javascript">
     var logout = function(){
         $.post("/logout",function(){

@@ -10,15 +10,14 @@ body{
 }
 
 .border-cost{
-  border: 1px;
   width: 75px;
-  height: 50px;
-  color: white;
-  border-radius: 50%;
+  height: 45px;
+  color: black;
   text-align: center;
-  padding-top: 13px;
-  margin-top: 20px;
-  box-shadow: 0 0 3px black;
+  padding-top: 5px;
+  margin-top: 10px;
+  border-bottom:7px #FFC125 solid;
+  padding-bottom:1px;
   /* border-style: outset; */
 }
 
@@ -35,16 +34,16 @@ table {
   border-collapse: separate; /* border-collapse: collapse; */
   border: 3px solid black;
   border-radius: 15px;
-  background-color: plum;
+  background-color: rgb(255 ,255 ,240);
   text-align: center;
-  color: white;
+  color: black;
   border-spacing: 0;
   overflow: hidden;
   /* box-shadow: 5px 5px 10px 1px black; */
 }
 
 th {
-  background-color: aquamarine;
+  background-color: rgb(238, 233 ,233);
   border-top: none;
 }
 
@@ -187,7 +186,7 @@ section {
   position: relative;
   width: 200px;
   height: 200px;
-  background-color: aqua;
+  background-color: rgb(135 ,206 ,250);
   overflow: hidden;
   border: 2px solid black;
   border-radius: 50%;
