@@ -237,6 +237,10 @@ section .wave.wave4 {
   bottom: 0px;
 }
 
+section:hover {
+  opacity: 75%;
+}
+
 @keyframes animate {
 
   0%
