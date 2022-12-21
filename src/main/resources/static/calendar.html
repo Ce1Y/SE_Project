@@ -9,6 +9,7 @@
     <link href='fullcalendar/main.css' rel='stylesheet' />
     <link rel="stylesheet" href="css/calendar.css" type="text/css">
     <script src='fullcalendar/main.js'></script>
+
     <script>
 
  document.addEventListener('DOMContentLoaded', function() {
@@ -25,15 +26,20 @@
         },
         editable:'true',
         droppable:'true',
+        allDaySlot: false,
         initialView: 'dayGridMonth',
          locale: 'zh-tw',
          height: 500,
+         eventLimit: 3,
+         displayEventTime: false,
+         dayMaxEvents: 2,
          navLinks: true,
          headerToolbar: {
              left: 'prev,next today',
              center: 'title',
              right: 'dayGridMonth,timeGridDay,myCustomButton'
          },
+
         events: function(fetchInfo, successCallback, failureCallback) {
         $.ajax({
         type: "GET",
@@ -44,9 +50,11 @@
           if (data != null) {
             $.each(data, function(i, item) {
               events.push({
-                start: item.accDate,
                 title: item.category + " "+item.price,
+                start: item.accDate,
                 end: item.accDate,
+                color: "#C0FFEE",
+                textColor: "black"
               })
             })
           }
@@ -86,9 +94,9 @@
 
         </table>
     </div>
-
+    <img id="img"
+         src="https://i.pinimg.com/originals/29/c9/37/29c9376fa82e7cbe2e11cbf80a2418da.gif">
 </div>
-
 
 </body>
 

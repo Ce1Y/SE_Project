@@ -11,7 +11,6 @@ function rand(){
         return validate;
 }
 
-
 $(document).ready(function(){
     var validation = rand();
     $('#login').click(function(){

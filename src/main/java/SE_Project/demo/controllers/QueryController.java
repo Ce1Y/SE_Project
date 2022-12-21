@@ -22,9 +22,9 @@ public class QueryController {
     private ProductService productService;
     @Autowired
     private CategoryCountService categoryCountService;
-    private String userEmail="";
+    public  String userEmail="";
 
-    private String userMethod="";
+    public  String userMethod="";
     @GetMapping("/setUserDetails")
     public ResponseEntity<String> setUserDetails(@RequestParam String email,@RequestParam String flag){
         userEmail = email;

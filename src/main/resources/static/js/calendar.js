@@ -1,4 +1,6 @@
+
 $(document).ready(function () {
+
     var results = $('#display');
      var monthTime  = document.getElementById('fc-dom-1').textContent;
     $(function () {//頁面初始
