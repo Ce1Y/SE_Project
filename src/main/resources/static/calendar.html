@@ -20,7 +20,7 @@
             myCustomButton:
                 {   text:"back",
                     click: function() {
-                    location.replace(" http://localhost:8080/home.html") ;
+                    location.replace("/home.html") ;
                     }
                 }
         },
@@ -43,7 +43,7 @@
         events: function(fetchInfo, successCallback, failureCallback) {
         $.ajax({
         type: "GET",
-        url: "http://localhost:8080/allProducts",
+        url: "/allProducts",
         dataType: 'JSON',
         success: function(data) {
           var events = [];
