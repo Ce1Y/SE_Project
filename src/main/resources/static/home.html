@@ -68,9 +68,15 @@
 </div>
 <div class="offcanvas offcanvas-start" id="personal-information">
     <div class="offcanvas-header">
-        <img src="images/avatar.png" style="width: 100px; height: 100px" alt="User Photo">
-        <p class="offcanvas-title" id = "email">Email: </p>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        <div style="height: 100px">
+            <img src="images/avatar.png" style="width: 100px; height: 100px" alt="User Photo">
+        </div>
+        <div style="height: 100px; margin-right: 100px; padding-top: 10px">
+            <p class="offcanvas-title" id="email">Email: </p>
+        </div>
+        <div style="height: 100px">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
     </div>
     <hr>
     <div class="offcanvas-body">
@@ -83,55 +89,51 @@
 
     </div>
 </div>
-
+<div style="display: flex; justify-content: center;">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border: 2px solid black;
+        border-radius: 5px; position: fixed; bottom: 10px; ">Create New</button>
+</div>
 <div id="createButton"style="margin-top: 10px;">
-    <div class="row">
-        <div class="col-4"></div>
-        <div class="col-8">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border: 2px solid black;
-  border-radius: 5px;">Create New</button>
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">新增記帳資料</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">新增記帳資料</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="Date-name" class="col-form-label">Date:</label>
+                            <input type="date" class="form-control" id="Date-name">
                         </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="Date-name" class="col-form-label">Date:</label>
-                                    <input type="date" class="form-control" id="Date-name">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="category-text" class="col-form-label">Category:</label>
-                                    <textarea class="form-control" id="Category-text"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="Price-text" class="col-form-label">Price:</label>
-                                    <textarea class="form-control" id="Price-text"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="description-text" class="col-form-label">Description:</label>
-                                    <textarea class="form-control" id="description-text"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="Type-text" class="col-form-label">AccountingType:</label>
-                                    <div class="input-group">
-                                        <select class="form-select"  id="Type-text" onchange="selectOnchange_Type(this)">
+                        <div class="mb-3">
+                            <label for="category-text" class="col-form-label">Category:</label>
+                            <textarea class="form-control" id="Category-text" rows="1"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Price-text" class="col-form-label">Price:</label>
+                            <textarea class="form-control" id="Price-text" rows="1"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description-text" class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="description-text"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Type-text" class="col-form-label">AccountingType:</label>
+                            <div class="input-group">
+                                <select class="form-select"  id="Type-text" onchange="selectOnchange_Type(this)">
 
-                                            <option value="expense"> 支出 </option>
-                                            <option value="income"> 收入 </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </form>
+                                    <option value="expense"> 支出 </option>
+                                    <option value="income"> 收入 </option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button id="postbtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
-                        </div>
-                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="postbtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
                 </div>
             </div>
         </div>
