@@ -10,6 +10,7 @@ table {
   color: black;
   border-spacing: 0;
   overflow: hidden;
+  line-height:35px;
   /* box-shadow: 5px 5px 10px 1px black; */
 }
 
@@ -37,6 +38,7 @@ td {
            color: black;
            border-spacing: 0;
            overflow: hidden;
+            line-height:35px;
            /* box-shadow: 5px 5px 10px 1px black; */
          }
 .display th {
@@ -51,6 +53,7 @@ tr {
 }
 .display td {
              /*border-radius: 10px;*/
+            font:30px
          }
 .container {
  background-color: rgb(214, 233, 251);
@@ -143,6 +146,7 @@ td {
            color: black;
            border-spacing: 0;
            overflow: hidden;
+            line-height:35px;
            /* box-shadow: 5px 5px 10px 1px black; */
          }
 .display th {
@@ -157,5 +161,6 @@ tr {
 }
 .display td {
              /*border-radius: 10px;*/
+             font:30px
          }
 }
