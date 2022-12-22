@@ -631,7 +631,7 @@ function DealMonthOutcome(date)
 {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/monthOutcome?date=" + date,
+        url: "/monthOutcome?date=" + date,
         success: function (allProducts) {
             const categoryArr = [];
             $.each(allProducts, function (i, product) {
@@ -659,7 +659,7 @@ function DealMonthIncome(date)
     console.log("income date="+date);
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/monthIncome?date=" + date,
+        url: "/monthIncome?date=" + date,
         success: function (allProducts) {
             const categoryArr = [];
             $.each(allProducts, function (i, product) {
@@ -690,7 +690,7 @@ function DealMonthBalance(month)
     console.log("month="+month);
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/monthBalance?month=" + month,
+        url: "/monthBalance?month=" + month,
         success: function (allBalanceProducts) {
             const BalanceDayProductArr = [];
             $.each(allBalanceProducts, function (i, balanceProduct) {
