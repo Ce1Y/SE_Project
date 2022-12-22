@@ -26,6 +26,22 @@ public class QueryController {
     public  String userEmail="";
 
     public  String userMethod="";
+
+    @PutMapping("/updateProduct")
+    public ResponseEntity<Product> updateProduct(@RequestBody Product productRequest)
+    {
+        Product tmp = productService.updateProduct(productRequest);
+        if (tmp==null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(tmp);
+        }
+    }
+    @DeleteMapping("/deleteProduct")
+    public ResponseEntity<?> deleteProductById(@RequestParam String id){
+        productService.deleteProductById(id);
+        return ResponseEntity.status(HttpStatus.OK).body("success delete");
+    }
     @GetMapping("/setUserDetails")
     public ResponseEntity<String> setUserDetails(@RequestParam String email,@RequestParam String flag){
         userEmail = email;
@@ -180,17 +196,7 @@ public class QueryController {
         }
     }
 
-    @PutMapping("/products/{productId}")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product productRequest)
-    {
-        Product origin = productService.getProductById(id).orElse(null);
-        if(origin==null)
-        {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        Product product = productService.updateProduct(id, productRequest);
-        return  ResponseEntity.status(HttpStatus.OK).body(product);
-    }
+
 
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody Product productRequest){
@@ -198,13 +204,7 @@ public class QueryController {
         categoryCountService.checkCategoryCount(product.getCategory());
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
-    @DeleteMapping("/products/{productId}")
-    public ResponseEntity<?> deleteProductById(@PathVariable String productId){
-        Product result=productService.getProductById(productId).orElse(null);
-        if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        productService.deleteProductById(productId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
+
     @GetMapping("/pricebetween")
     public ResponseEntity<List<Product>> getProductByPriceBetween(@RequestParam String pricefrom, @RequestParam String priceto){
         List<Product> result=productService.getProductsByPriceBetween(Integer.parseInt(pricefrom), Integer.parseInt(priceto));

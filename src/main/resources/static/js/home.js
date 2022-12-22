@@ -10,7 +10,15 @@ $('#Price_text').val(dayData[trId].price);
 $('#description_text').val(dayData.description);
 
 };
+var type = "expense";
+function selectOnchange_Type(selectedType)
+{
+    var selectedValue = selectedType.options[selectedType.selectedIndex].value;
 
+    type = selectedValue;
+    return selectedValue;
+
+}
 var dayData = [];
 $(document).ready(function () {
     var results = $('#display');
@@ -317,6 +325,47 @@ $(document).ready(function () {
 
     });
 
+    $('#updateBtn').click(function(){
+        var data = {
+            "id":dayData[trId].id,
+            "date": $('#Date_name').val(),
+            "category":$('#Category_text').val(),
+            "price": $('#Price_text').val(),
+            "description":$('#description_text').val(),
+            "accountingType": type,
+            "email":localStorage.getItem("email"),
+            "accDate": dayData[trId].accDate,
+            "loginMethod":localStorage.getItem("flag")
+         }
+        $.ajax({
+            url:'/updateProduct',
+            method:'PUT',
+            data: JSON.stringify(data),
+           contentType: "application/json",
+            dataType:'JSON',
+            success:function(result){
+               console.log(result);
+                if(result != null) {
+                    alert("更新成功！");
+                    location.replace("/home.html") ;
+               }
+           },
+            error:function (data) {
+            }
+        });
 
+    });
+
+    $('#deleteBtn').click(function(){
+        $.ajax({
+            type: "DELETE",
+            url: "/deleteProduct?id=" + dayData[trId].id,
+            success: function (allProducts) {
+                alert("刪除成功！");
+                location.replace("/home.html") ;
+            }
+        });
+
+    });
 
 });
