@@ -1,4 +1,8 @@
-function trclick(e){console.log(e)};
+function trclick(e){
+
+console.log(e)
+
+};
 $(document).ready(function () {
     var results = $('#display');
     $(function () {//頁面初始

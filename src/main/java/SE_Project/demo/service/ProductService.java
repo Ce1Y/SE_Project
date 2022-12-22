@@ -60,7 +60,6 @@ public class ProductService {
     public List<Product> getProductsByCategoryAndDate(String category,String Date){
         return repository.findByCategoryAndDate(category,Date);
     }
-
     public long getTotalProductsNum()
     {
         return repository.count();
