@@ -679,6 +679,8 @@ function DealMonthBalance(month)
         url: "http://localhost:8080/monthBalance?month=" + month,
         success: function (allBalanceProducts) {
             const BalanceDayProductArr = [];
+            let monthIncome = 0;
+            let monthExpense= 0;
             $.each(allBalanceProducts, function (i, balanceProduct) {
                 let AllCategoryTmp = [];
                 $.each(balanceProduct.AllCategory, function (j, cateTmp) {
@@ -686,26 +688,24 @@ function DealMonthBalance(month)
                     AllCategoryTmp.push(categoryOfPercentTmp);
                 });
 
-                let dateIndex= dateIsPresent(balanceProduct.date, BalanceDayProductArr);
-                if( dateIndex == (-1) )
-                {
-                    BalanceDayProductArr[BalanceDayProductArr.length] =
-                        new structBalanceDayProduct(balanceProduct.date, balanceProduct.dateIncome, balanceProduct.dateExpense, AllCategoryTmp);
-                }
-                else
-                {
-                    categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
-                }
+                // let dateIndex= dateIsPresent(balanceProduct.date, BalanceDayProductArr);
+                monthExpense += balanceProduct.dateExpense;
+                monthIncome += balanceProduct.dateIncome;
+                BalanceDayProductArr[BalanceDayProductArr.length] =
+                    new structBalanceDayProduct(balanceProduct.date, balanceProduct.dateIncome, balanceProduct.dateExpense, AllCategoryTmp);
             });
-            currentCategoryArr = categoryArr.sort(function(a, b) { return b.totalPrice - a.totalPrice;});
-            MakeRowPercentage(currentCategoryArr);
-            MakeRowDetails(currentCategoryArr);
-            makeWhatChart(currentCategoryArr, "月結餘");
-            for(let i=0; i<currentCategoryArr.length; i++)
+            MakeBalanceRowDetails(BalanceDayProductArr, "month");
+            makeWhatChart(BalanceDayProductArr, "月結餘");
+            chartLogoToText(monthIncome, monthExpense, monthIncome+monthExpense);
+            for(let i=0; i<BalanceDayProductArr.length; i++)
             {
-                console.log("category"+ i + currentCategoryArr[i].category + "totalPrice=" + currentCategoryArr[i].totalPrice);
+                console.log("date:"+  + BalanceDayProductArr[i].date + "dateIncome=" + BalanceDayProductArr[i].dateIncome);
+                console.log("dateExpense="+  + BalanceDayProductArr[i].dateExpense);
+                for(let j=0; j<BalanceDayProductArr[i].AllCategory.length; j++)
+                {
+                    console.log(j + BalanceDayProductArr[i].AllCategory[j]);
+                }
             }
-
         }
     });
 }
@@ -1277,6 +1277,12 @@ function MakeRowDetails(categoryArr)
     }
 }
 
+function MakeBalanceRowDetails(BalanceProductArr, BalanceProductType)
+{
+
+}
+
+
 function MakeBarChart(categoryArr, chartLabelName)
 {
     //沒資料不顯示
@@ -1481,151 +1487,151 @@ function MakeDoughnutChart(categoryArr, chartLabelName)
     });
 }
 
-function MakeLineChart(categoryArr, chartLabelName)
-{
-    //沒資料不顯示
-    if(categoryArr.length==0)
-    {
-        document.getElementById("changeChart").style.display = "none";
-        document.getElementById("chart").style.display = "none";
-    }
-    else
-    {
-        document.getElementById("changeChart").style.display = "block";
-        document.getElementById("chart").style.display = "block";
-    }
-    var ctx = document.getElementById('chart').getContext('2d');
-    var categoryAsLabels = [];
-    var totalPriceAsLabels = [];
-    var AllTotalPrice=0;
-    for(i=0; i<categoryArr.length; i++)
-    {
-        categoryAsLabels[i] = categoryArr[i].category;
-        totalPriceAsLabels[i] = categoryArr[i].totalPrice;
-        AllTotalPrice = AllTotalPrice + categoryArr[i].totalPrice;
-    }
-    for(i=0; i<categoryArr.length; i++)
-    {
-        totalPriceAsLabels[i] = Math.floor((totalPriceAsLabels[i]/AllTotalP
-    }
-    let categoryColors = ColorInChart.slice(0,categoryAsLabels.length);
-    let categoryColorsBorder = ColorInChart.slice(0,categoryAsLabels.leng
-    let chartTItle = "總金額: " + AllTotalPrice;
-    console.log("categoryColors="+categoryColors);
-    console.log("totalPriceAsLabels"+totalPriceAsLabels);
-    console.log("categoryAsLabels="+categoryAsLabels);
-    var chart = new Chart(ctx, {
-        // 要创建的图表类型
-        plugins: [ChartDataLabels],
-        type: 'line',
-        // 数据集
-        data: {
-            datasets: [{
-                label: "123",
-                backgroundColor: categoryColors,
-                borderColor: "#4F4F4F",
-                data: totalPriceAsLabels
-            },
-                {
-                    label: "123",
-                    backgroundColor: categoryColors,
-                    borderColor: "#4F4F4F",
-                    data: totalPriceAsLabels
-                }]
-        },
-        // 配置选项
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            title: {
-                display: true,
-                text: chartTItle
-            },
-            scales: {
-                animation:{
-                    animateRotate:true
-                },
-                // x 軸設置
-                xAxes: [{
-                    // x 軸標題
-                    scaleLabel:{
-                        display: false,
-                        labelString:"category",
-                        fontSize: 16
-                    },
-                    // x 軸格線
-                    gridLines: {
-                        display: false
-                    },
-                    // x 軸間距
-                    ticks: {
-                        display: false,
-                    }
-                }],
-                // y 軸設置
-                yAxes: [{
-                    // y 軸標題
-                    scaleLabel:{
-                        display: false,
-                        labelString:"percent",
-                        fontSize: 16
-                    },
-                    // y 軸格線
-                    gridLines: {
-                        display: false
-                    },
-                    // y 軸間距
-                    ticks: {
-                        display: false,
-                        beginAtZero: true,
-                        min: 0,
-                        max: 100,
-                        stepSize: 20,
-                        callback: function(label, index, labels){
-                            return (label) + '%';
-                        }
-                    }
-                }]
-            }
-        }
-    });
-    var config = {
-        type: 'line',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'My First dataset',
-                backgroundColor: window.chartColors.red,
-                borderColor: window.chartColors.red,
-                data: [10, 30, 39, 20, 25, 34, -10],
-                fill: false,
-            }, {
-                label: 'My Second dataset',
-                fill: false,
-                backgroundColor: window.chartColors.blue,
-                borderColor: window.chartColors.blue,
-                data: [18, 33, 22, 19, 11, 39, 30],
-            }]
-        },
-        options: {
-            responsive: true,
-            title: {
-                display: true,
-                text: 'Grid Line Settings'
-            },
-            scales: {
-                yAxes: [{
-                    gridLines: {
-                        drawBorder: false,
-                        color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
-                    },
-                    ticks: {
-                        min: 0,
-                        max: 100,
-                        stepSize: 10
-                    }
-                }]
-            }
-        }
-    };
-}
+//function MakeLineChart(categoryArr, chartLabelName)
+//{
+//    //沒資料不顯示
+//    if(categoryArr.length==0)
+//    {
+//        document.getElementById("changeChart").style.display = "none";
+//        document.getElementById("chart").style.display = "none";
+//    }
+//    else
+//    {
+//        document.getElementById("changeChart").style.display = "block";
+//        document.getElementById("chart").style.display = "block";
+//    }
+//    var ctx = document.getElementById('chart').getContext('2d');
+//    var categoryAsLabels = [];
+//    var totalPriceAsLabels = [];
+//    var AllTotalPrice=0;
+//    for(i=0; i<categoryArr.length; i++)
+//    {
+//        categoryAsLabels[i] = categoryArr[i].category;
+//        totalPriceAsLabels[i] = categoryArr[i].totalPrice;
+//        AllTotalPrice = AllTotalPrice + categoryArr[i].totalPrice;
+//    }
+//    for(i=0; i<categoryArr.length; i++)
+//    {
+//        totalPriceAsLabels[i] = Math.floor((totalPriceAsLabels[i]/AllTotalP
+//    }
+//    let categoryColors = ColorInChart.slice(0,categoryAsLabels.length);
+//    let categoryColorsBorder = ColorInChart.slice(0,categoryAsLabels.leng
+//    let chartTItle = "總金額: " + AllTotalPrice;
+//    console.log("categoryColors="+categoryColors);
+//    console.log("totalPriceAsLabels"+totalPriceAsLabels);
+//    console.log("categoryAsLabels="+categoryAsLabels);
+//    var chart = new Chart(ctx, {
+//        // 要创建的图表类型
+//        plugins: [ChartDataLabels],
+//        type: 'line',
+//        // 数据集
+//        data: {
+//            datasets: [{
+//                label: "123",
+//                backgroundColor: categoryColors,
+//                borderColor: "#4F4F4F",
+//                data: totalPriceAsLabels
+//            },
+//                {
+//                    label: "123",
+//                    backgroundColor: categoryColors,
+//                    borderColor: "#4F4F4F",
+//                    data: totalPriceAsLabels
+//                }]
+//        },
+//        // 配置选项
+//        options: {
+//            responsive: true,
+//            maintainAspectRatio: false,
+//            title: {
+//                display: true,
+//                text: chartTItle
+//            },
+//            scales: {
+//                animation:{
+//                    animateRotate:true
+//                },
+//                // x 軸設置
+//                xAxes: [{
+//                    // x 軸標題
+//                    scaleLabel:{
+//                        display: false,
+//                        labelString:"category",
+//                        fontSize: 16
+//                    },
+//                    // x 軸格線
+//                    gridLines: {
+//                        display: false
+//                    },
+//                    // x 軸間距
+//                    ticks: {
+//                        display: false,
+//                    }
+//                }],
+//                // y 軸設置
+//                yAxes: [{
+//                    // y 軸標題
+//                    scaleLabel:{
+//                        display: false,
+//                        labelString:"percent",
+//                        fontSize: 16
+//                    },
+//                    // y 軸格線
+//                    gridLines: {
+//                        display: false
+//                    },
+//                    // y 軸間距
+//                    ticks: {
+//                        display: false,
+//                        beginAtZero: true,
+//                        min: 0,
+//                        max: 100,
+//                        stepSize: 20,
+//                        callback: function(label, index, labels){
+//                            return (label) + '%';
+//                        }
+//                    }
+//                }]
+//            }
+//        }
+//    });
+//    var config = {
+//        type: 'line',
+//        data: {
+//            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+//            datasets: [{
+//                label: 'My First dataset',
+//                backgroundColor: window.chartColors.red,
+//                borderColor: window.chartColors.red,
+//                data: [10, 30, 39, 20, 25, 34, -10],
+//                fill: false,
+//            }, {
+//                label: 'My Second dataset',
+//                fill: false,
+//                backgroundColor: window.chartColors.blue,
+//                borderColor: window.chartColors.blue,
+//                data: [18, 33, 22, 19, 11, 39, 30],
+//            }]
+//        },
+//        options: {
+//            responsive: true,
+//            title: {
+//                display: true,
+//                text: 'Grid Line Settings'
+//            },
+//            scales: {
+//                yAxes: [{
+//                    gridLines: {
+//                        drawBorder: false,
+//                        color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+//                    },
+//                    ticks: {
+//                        min: 0,
+//                        max: 100,
+//                        stepSize: 10
+//                    }
+//                }]
+//            }
+//        }
+//    };
+//}
