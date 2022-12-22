@@ -733,7 +733,17 @@ public class QueryController {
         return result;
     }
 
-
+    public List<Product> UserProducts(List<Product> tmp){
+        List<Product> result = new ArrayList<>();
+        for(Product temp:tmp){
+            for(Product tmp2:tmp){
+                if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
+                    result.add(tmp2);
+                }
+            }
+        }
+        return result;
+    }
 
 
 }
