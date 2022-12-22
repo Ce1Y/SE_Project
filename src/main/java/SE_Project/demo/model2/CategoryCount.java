@@ -8,6 +8,8 @@ public class CategoryCount {
     @Id
     private int id;
 
+
+
     private String categoryName;
     private int count;
 

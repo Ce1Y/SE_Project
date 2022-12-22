@@ -1,37 +1,97 @@
-<!doctype html>
-<html lang="en">
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-signin-client_id"
         content="159519841144-9ai8rcbak4i1bl36i72crp612kv2jlkr.apps.googleusercontent.com">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <link rel="stylesheet" href="https://bootswatch.com/5/litera/bootstrap.min.css">
-  <!-- Bootstrap CSS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
           crossorigin="anonymous"></script>
 
+  <style type="text/css">
+  body {
+    background-color: rgb(214, 233, 251);
+}
 
-  <title>記帳助手</title>
-  <link rel="stylesheet" href="css/style.css">
+.info {
+    width: 50%;
+    height: 200px;
+    margin: 10px auto;
+    padding: 30px;
+}
+
+.text-h-center {
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.text {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#img {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+}
+
+@media only screen and (max-width:600px) {
+    .btn {
+        width:150px;
+        margin-top: 30px;
+    }
+
+    #img {
+        width: 100px;
+    }
+
+}
+  </style>
 </head>
 
 <body>
-
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<div>
+<script src="js/signup.js"></script>
+
+
   <div class="info text-h-center">
     <h1>註冊</h1>
-    <p class="text">密碼 <input type="password"></p>
-    <p class="text">信箱 <input></p>
-    <button type="button" class="btn btn-info text" id="btn2">確認</button>
-    <img id="img"
-         src="https://s1.chu0.com/src/img/gif/e0/e02d5b5e4f16407b826031bbe148a5be.gif?e=1735488000&token=1srnZGLKZ0Aqlz6dk7yF4SkiYf4eP-YrEOdM1sob:PczPbxpGSRM8C8kyO43OndFmbzU=">
+    <button type="button" class="btn btn-info text" id="login">回上一頁</button>
+    <p class="text">使用者名稱 <input type="text" id="fullName"></p>
+    <p class="text">信箱 <input type="text" id="email"></p>
+    <p class="text">密碼 <input type="password" id="password"></p>
+    <button type="button" class="btn btn-info text" id="emailVerify">取得email驗證碼</button>
+    <p class="text">email驗證碼</p><input type="text" id="verify"></p>
+    <button type="button" class="btn btn-info text" id="signup">Sign up</button>
+        <img id="img"
+             src="https://s1.chu0.com/src/img/gif/e0/e02d5b5e4f16407b826031bbe148a5be.gif?e=1735488000&token=1srnZGLKZ0Aqlz6dk7yF4SkiYf4eP-YrEOdM1sob:PczPbxpGSRM8C8kyO43OndFmbzU=">
+
+
   </div>
 
-</div>
-</body>
 
+
+
+
+
+</body>
 </html>

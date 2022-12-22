@@ -10,11 +10,38 @@ public class Product {
     private int price;
     private  String id;
     private String description;
+    private String accDate;
+
+    public String getAccDate() {
+        return accDate;
+    }
+
+    public void setAccDate(String accDate) {
+        this.accDate = accDate;
+    }
 
     private Type accountingType;
 
+    private String loginMethod;
+    private String email;
     public String getDescription() {
         return description;
+    }
+
+    public String getLoginMethod() {
+        return loginMethod;
+    }
+
+    public void setLoginMethod(String loginMethod) {
+        this.loginMethod = loginMethod;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setDescription(String description) {
