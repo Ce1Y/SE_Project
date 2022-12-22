@@ -1,8 +1,8 @@
 function trclick(e){
-
-console.log(e)
-
+console.log(e.innerHTML);
 };
+
+var dayData = [];
 $(document).ready(function () {
     var results = $('#display');
     $(function () {//頁面初始
@@ -35,7 +35,8 @@ $(document).ready(function () {
             type: "GET",
             url: "/date?date=" + $('#time').val(),
             success: function (allProducts) {
-
+                dayData = allProducts;
+                console.log(dayData);
                 document.getElementById('email').innerHTML = localStorage.getItem('email')+"<br> By:"+localStorage.getItem('flag');
                 var str = '';
                 var flag1=1;
@@ -47,14 +48,15 @@ $(document).ready(function () {
                 $.each(allProducts, function (i, product) {
                     if(product.accountingType=='income'){
                         str+=`
-                         <tr onclick='trclick(this);'>
+                         <tr onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop">
                               <td>💵${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
+                              <td></td>
                          </tr>`
                     }
                    else{str+=`
-                         <tr style="background: #F8F8FF" onclick='trclick(this);'>
+                         <tr style="background: #F8F8FF" onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop">
                               <td>💸${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
@@ -81,7 +83,7 @@ $(document).ready(function () {
                              <th>種類</th>
                              <th>名稱</th>
                              <th>金額</th>
-                             <th style="cursor: pointer;">X</th>
+                             <th style="cursor: pointer;">🔧</th>
                          </tr>
                          </thead>
                         <tbody>
@@ -130,7 +132,6 @@ $(document).ready(function () {
                     if(product.accountingType=="expense"){
                         dayOutcome = dayOutcome + product.price;
                     }
-
                 });
                 var outcome = document.querySelector('#todayOutcome');
                 //outcome.value="當天支出 $"+dayOutcome;
@@ -146,7 +147,8 @@ $(document).ready(function () {
             type: "GET",
             url: "/date?date=" + $('#time').val(),
             success: function (allProducts) {
-
+                dayData = allProducts;
+                console.log(dayData);
                 var str = '';
                 var flag1=1;
                 if (allProducts.length==0) {
@@ -157,14 +159,15 @@ $(document).ready(function () {
                 $.each(allProducts, function (i, product) {
                     if(product.accountingType=='income'){
                         str+=`
-                         <tr onclick='trclick(this);'>
+                         <tr onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop">
                               <td>💵${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
+                              <td></td>
                          </tr>`
                     }
                    else{str+=`
-                         <tr style="background: #F8F8FF" onclick='trclick(this);'>
+                         <tr style="background: #F8F8FF" onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop">
                               <td>💸${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
@@ -190,7 +193,7 @@ $(document).ready(function () {
                              <th>種類</th>
                              <th>名稱</th>
                              <th>金額</th>
-                             <th style="cursor: pointer;">X</th>
+                             <th style="cursor: pointer;">🔧</th>
                          </tr>
                          </thead>
                         <tbody>
