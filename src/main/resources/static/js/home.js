@@ -127,7 +127,10 @@ $(document).ready(function () {
             success: function (allProducts) {
                 var dayOutcome =0;
                 $.each(allProducts, function (i, product) {
-                    dayOutcome = dayOutcome + product.price;
+                    if(product.accountingType=="expense"){
+                        dayOutcome = dayOutcome + product.price;
+                    }
+
                 });
                 var outcome = document.querySelector('#todayOutcome');
                 //outcome.value="當天支出 $"+dayOutcome;
