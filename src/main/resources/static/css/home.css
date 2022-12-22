@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:ital@1&family=Noto+Sans+TC&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -7,6 +9,8 @@ body{
   background-color: rgb(214, 233, 251);
   background-image: radial-gradient(rgb(210, 208, 208) 1px, transparent 0);
   background-size: 40px 40px;
+  font-family: 'Chivo Mono', 'Noto Sans TC', monospace;
+
 }
 
 .border-cost{
