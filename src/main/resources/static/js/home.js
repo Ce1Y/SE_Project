@@ -1,5 +1,14 @@
+var trId = "";
+var dayData = [];
 function trclick(e){
-console.log(e.innerHTML);
+trId = e.innerHTML.substring(39,e.innerHTML.indexOf(">",1)-1);
+console.log(trId)
+console.log(dayData[trId]);
+$('#Date_name').val(dayData[trId].date);
+$('#Category_text').val(dayData[trId].category);
+$('#Price_text').val(dayData[trId].price);
+$('#description_text').val(dayData.description);
+
 };
 
 var dayData = [];
@@ -35,6 +44,7 @@ $(document).ready(function () {
             type: "GET",
             url: "/date?date=" + $('#time').val(),
             success: function (allProducts) {
+
                 dayData = allProducts;
                 console.log(dayData);
                 document.getElementById('email').innerHTML = localStorage.getItem('email')+"<br> By:"+localStorage.getItem('flag');
@@ -46,10 +56,11 @@ $(document).ready(function () {
                 }
                 else{
                 $.each(allProducts, function (i, product) {
+
                     if(product.accountingType=='income'){
                         str+=`
-                         <tr onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop">
-                              <td>💵${product.category}</td>
+                         <tr onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop" >
+                              <td id =${i}>💵${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                               <td></td>
@@ -57,7 +68,7 @@ $(document).ready(function () {
                     }
                    else{str+=`
                          <tr style="background: #F8F8FF" onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop">
-                              <td>💸${product.category}</td>
+                              <td id =${i}>💸${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                               <td></td>
@@ -147,6 +158,7 @@ $(document).ready(function () {
             type: "GET",
             url: "/date?date=" + $('#time').val(),
             success: function (allProducts) {
+
                 dayData = allProducts;
                 console.log(dayData);
                 var str = '';
@@ -157,10 +169,11 @@ $(document).ready(function () {
                 }
                 else{
                 $.each(allProducts, function (i, product) {
+
                     if(product.accountingType=='income'){
                         str+=`
                          <tr onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop">
-                              <td>💵${product.category}</td>
+                              <td id =${i}>💵${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                               <td></td>
@@ -168,7 +181,7 @@ $(document).ready(function () {
                     }
                    else{str+=`
                          <tr style="background: #F8F8FF" onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop">
-                              <td>💸${product.category}</td>
+                              <td id =${i}>💸${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                               <td></td>
