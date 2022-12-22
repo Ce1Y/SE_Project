@@ -81,16 +81,16 @@ $(document).ready(function(){
                 displayDateFromAjax =
                     (selectedYear-1) +"-" + (totalMonthBF[selectedMonth+7]) ; //in order to print 01 not 1
                 displayDateToAjax =
-                     selectedYear + "-" + selectedMonthWith0; //in order to print 01 not 1
+                    selectedYear + "-" + selectedMonthWith0; //in order to print 01 not 1
             }
             else
             {
                 displayDate =
                     (selectedYear) +"年" + (selectedMonth-5) + "月~" + selectedYear + "年" + selectedMonth + "月";
                 displayDateFromAjax =
-                     selectedYear + "-" + (totalMonthBF[selectedMonth-5]) ; //in order to print 01 not 1
+                    selectedYear + "-" + (totalMonthBF[selectedMonth-5]) ; //in order to print 01 not 1
                 displayDateToAjax =
-                     selectedYear + "-" + selectedMonthWith0;
+                    selectedYear + "-" + selectedMonthWith0;
             }
             console.log("sixmonth" + displayDate);
             changeYearAndDate(1,displayDate);
@@ -182,18 +182,18 @@ $(document).ready(function(){
                 displayDate =
                     (selectedYear-1) +"年" + (selectedMonth+7) + "月~" + selectedYear + "年" + selectedMonth + "月";
                 displayDateFromAjax =
-                     (selectedYear-1) + "-" + (totalMonthBF[selectedMonth+7]) ; //in order to print 01 not 1
+                    (selectedYear-1) + "-" + (totalMonthBF[selectedMonth+7]) ; //in order to print 01 not 1
                 displayDateToAjax =
-                     selectedYear + "-" + selectedMonthWith0;
+                    selectedYear + "-" + selectedMonthWith0;
             }
             else
             {
                 displayDate =
                     (selectedYear) +"年" + (selectedMonth-5) + "月~" + selectedYear + "年" + selectedMonth + "月";
                 displayDateFromAjax =
-                     selectedYear + "-" + (totalMonthBF[selectedMonth-5]) ; //in order to print 01 not 1
+                    selectedYear + "-" + (totalMonthBF[selectedMonth-5]) ; //in order to print 01 not 1
                 displayDateToAjax =
-                     selectedYear + "-" + selectedMonthWith0;
+                    selectedYear + "-" + selectedMonthWith0;
             }
             changeYearAndDate(1,displayDate);
             console.log("sixmonth" + displayDate);
@@ -311,18 +311,18 @@ $(document).ready(function(){
             displayDate = (selectedYear-1) + "年" + (selectedMonth+7).toString() + "月~" +
                 selectedYear.toString() + "年" +selectedMonth.toString() + "月";
             displayDateFromAjax =
-                 (selectedYear-1) + "-" + totalMonthBF[selectedMonth+7] ; //in order to print 01 not 1
+                (selectedYear-1) + "-" + totalMonthBF[selectedMonth+7] ; //in order to print 01 not 1
             displayDateToAjax =
-                 selectedYear + "-" + selectedMonthWith0;  //in order to print 01 not 1
+                selectedYear + "-" + selectedMonthWith0;  //in order to print 01 not 1
         }
         else
         {
             displayDate = selectedYear.toString() + "年" + (selectedMonth-5).toString() + "月~" +
                 selectedYear.toString() + "年" + selectedMonth.toString() + "月";
             displayDateFromAjax =
-                 selectedYear + "-" + totalMonthBF[selectedMonth-5] ; //in order to print 01 not 1
+                selectedYear + "-" + totalMonthBF[selectedMonth-5] ; //in order to print 01 not 1
             displayDateToAjax =
-                 selectedYear + "-" + selectedMonthWith0;  //in order to print 01 not 1
+                selectedYear + "-" + selectedMonthWith0;  //in order to print 01 not 1
         }
         changeYearAndDate(1,displayDate);
         console.log("sixmonth" + displayDate);
@@ -393,11 +393,11 @@ $(document).ready(function(){
                 }
                 for(let i=customSelectedMonthFrom; i<=12; i++)
                 {
-                        AllMonthSelected.push( (customSelectedYearFrom+totalMonth[i]) );
+                    AllMonthSelected.push( (customSelectedYearFrom+totalMonth[i]) );
                 }
                 for(let i=1; i<=customSelectedMonthTo; i++)
                 {
-                        AllMonthSelected.push( (customSelectedYearTo+totalMonth[i]) );
+                    AllMonthSelected.push( (customSelectedYearTo+totalMonth[i]) );
                 }
             }
             DealCustomOutcomeIncome(AllMonthSelected, customSelectedDayFrom, customSelectedDayTo, customSelectedMonthFrom, customSelectedMonthTo);
@@ -460,7 +460,7 @@ function structCategory(category, totalPrice)
 }
 
 //struct一個CategoryOfPercent物件 為AllCategory裡的內容物
-function CategoryOfPercent(categoryName, price, accountingType, percent)
+function structCategoryOfPercent(categoryName, price, accountingType, percent)
 {
     this.categoryName = categoryName;
     this.price = price;
@@ -469,17 +469,21 @@ function CategoryOfPercent(categoryName, price, accountingType, percent)
 }
 
 //struct一個BalanceDayProduct物件
-function BalanceDayProduct(category, totalPrice)
+function structBalanceDayProduct(date, dateIncome, dateExpense, AllCategory)
 {
-    this.category = category;
-    this.totalPrice = totalPrice;
+    this.date = date;
+    this.dateIncome = dateIncome;
+    this.dateExpense = dateExpense;
+    this.AllCategory = AllCategory;
 }
 
 //struct一個BalanceMonthProduct物件
-function BalanceMonthProduct(category, totalPrice)
+function structBalanceMonthProduct(date, monthIncome, monthExpense, AllBalanceDayProduct)
 {
-    this.category = category;
-    this.totalPrice = totalPrice;
+    this.date = date;
+    this.monthIncome = monthIncome;
+    this.monthExpense = monthExpense;
+    this.AllBalanceDayProduct = AllBalanceDayProduct;
 }
 
 //category有沒有在categoryArr出現過
@@ -488,6 +492,19 @@ function categoryIsPresent(category, categoryArr)
     for(var i=0; i<categoryArr.length; i++)
     {
         if(category==categoryArr[i].category)
+        {
+            return i;
+        }
+    }
+    return (-1);
+}
+
+//date有沒有在balanceProductArr出現過
+function dateIsPresent(date, balanceProductArr)
+{
+    for(let i=0; i<balanceProductArr.length; i++)
+    {
+        if(date==balanceProductArr[i].date)
         {
             return i;
         }
@@ -661,12 +678,19 @@ function DealMonthBalance(month)
         type: "GET",
         url: "http://localhost:8080/monthBalance?month=" + month,
         success: function (allBalanceProducts) {
-            const categoryArr = [];
-            $.each(allProducts, function (i, product) {
-                let categoryIndex= categoryIsPresent(product.category, categoryArr);
-                if( categoryIndex == (-1) )
+            const BalanceDayProductArr = [];
+            $.each(allBalanceProducts, function (i, balanceProduct) {
+                let AllCategoryTmp = [];
+                $.each(balanceProduct.AllCategory, function (j, cateTmp) {
+                    let categoryOfPercentTmp = new structCategoryOfPercent(cateTmp.categoryName, cateTmp.price, cateTmp.accountingType, cateTmp.percent);
+                    AllCategoryTmp.push(categoryOfPercentTmp);
+                });
+
+                let dateIndex= dateIsPresent(balanceProduct.date, BalanceDayProductArr);
+                if( dateIndex == (-1) )
                 {
-                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                    BalanceDayProductArr[BalanceDayProductArr.length] =
+                        new structBalanceDayProduct(balanceProduct.date, balanceProduct.dateIncome, balanceProduct.dateExpense, AllCategoryTmp);
                 }
                 else
                 {
@@ -844,108 +868,19 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
     const categoryArr = [];
     console.log("MonthFrom="+CustomMonthFrom+"MonthTo="+CustomMonthTo);
     console.log("DateFrom="+CustomDateFrom+"DateTo="+CustomDateTo);
-        for(let i=0; i<AllMonthSelected.length; i++)
+    for(let i=0; i<AllMonthSelected.length; i++)
+    {
+        console.log("AllMonthSelected this="+AllMonthSelected[i]);
+        if($('#analysisType_btn input:radio:checked').val() == "expense")
         {
-            console.log("AllMonthSelected this="+AllMonthSelected[i]);
-            if($('#analysisType_btn input:radio:checked').val() == "expense")
-            {
-                $.ajax({
-                    type: "GET",
-                    url: "http://localhost:8080/monthOutCome?date=" + AllMonthSelected[i],
-                    success: function (allProducts) {
-                            $.each(allProducts, function (i, product) {
-                                if(AllMonthSelected[i]==CustomMonthFrom)
-                                {
-                                    if(parseInt(product.date.substring(8.10))>=CustomDateFrom)
-                                    {
-                                        let categoryIndex= categoryIsPresent(product.category, categoryArr);
-                                        if( categoryIndex == (-1) )
-                                        {
-                                            categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
-                                        }
-                                        else
-                                        {
-                                            categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
-                                        }
-                                    }
-                                }
-                                else if(AllMonthSelected[i]==CustomMonthTo)
-                                {
-                                    if(parseInt(product.date.substring(8.10))<=CustomDateFrom)
-                                    {
-                                        let categoryIndex= categoryIsPresent(product.category, categoryArr);
-                                        if( categoryIndex == (-1) )
-                                        {
-                                            categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
-                                        }
-                                        else
-                                        {
-                                            categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    let categoryIndex= categoryIsPresent(product.category, categoryArr);
-                                    if( categoryIndex == (-1) )
-                                    {
-                                        categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
-                                    }
-                                    else
-                                    {
-                                        categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
-                                    }
-                                }
-                            });
-                            currentCategoryArr = categoryArr.sort(function(a, b) { return b.totalPrice - a.totalPrice;});
-                            makeWhatChart(currentCategoryArr, "自訂支出");
-                            MakeRowPercentage(currentCategoryArr);
-                            MakeRowDetails(currentCategoryArr);
-                            for(let i=0; i<currentCategoryArr.length; i++)
-                            {
-                                  console.log("category"+ i + currentCategoryArr[i].category + "totalPrice=" + currentCategoryArr[i].totalPrice);
-                            }
-                    }
-                });
-            }
-            else if($('#analysisType_btn input:radio:checked').val() == "income")
-            {
-                $.ajax({
-                    type: "GET",
-                    url: "http://localhost:8080/monthInCome?date=" + AllMonthSelected[i],
-                    success: function (allProducts) {
-                        $.each(allProducts, function (i, product) {
-                            if(AllMonthSelected[i]==CustomMonthFrom)
-                            {
-                                if(parseInt(product.date.substring(8.10))>=CustomDateFrom)
-                                {
-                                    let categoryIndex= categoryIsPresent(product.category, categoryArr);
-                                    if( categoryIndex == (-1) )
-                                    {
-                                        categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
-                                    }
-                                    else
-                                    {
-                                        categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
-                                    }
-                                }
-                            }
-                            else if(AllMonthSelected[i]==CustomMonthTo)
-                            {
-                                if(parseInt(product.date.substring(8.10))<=CustomDateFrom)
-                                {
-                                    let categoryIndex= categoryIsPresent(product.category, categoryArr);
-                                    if( categoryIndex == (-1) )
-                                    {
-                                        categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
-                                    }
-                                    else
-                                    {
-                                        categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
-                                    }
-                                }
-                            }
-                            else
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/monthOutCome?date=" + AllMonthSelected[i],
+                success: function (allProducts) {
+                    $.each(allProducts, function (i, product) {
+                        if(AllMonthSelected[i]==CustomMonthFrom)
+                        {
+                            if(parseInt(product.date.substring(8.10))>=CustomDateFrom)
                             {
                                 let categoryIndex= categoryIsPresent(product.category, categoryArr);
                                 if( categoryIndex == (-1) )
@@ -957,20 +892,109 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
                                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
                                 }
                             }
-                        });
-                        currentCategoryArr = categoryArr.sort(function(a, b) { return b.totalPrice - a.totalPrice;});
-                        makeWhatChart(currentCategoryArr, "自訂收入");
-                        MakeRowPercentage(currentCategoryArr);
-                        MakeRowDetails(currentCategoryArr);
-                        for(let i=0; i<currentCategoryArr.length; i++)
-                        {
-                          console.log("category"+ i + currentCategoryArr[i].category + "totalPrice=" + currentCategoryArr[i].totalPrice);
                         }
-
+                        else if(AllMonthSelected[i]==CustomMonthTo)
+                        {
+                            if(parseInt(product.date.substring(8.10))<=CustomDateFrom)
+                            {
+                                let categoryIndex= categoryIsPresent(product.category, categoryArr);
+                                if( categoryIndex == (-1) )
+                                {
+                                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                                }
+                                else
+                                {
+                                    categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            let categoryIndex= categoryIsPresent(product.category, categoryArr);
+                            if( categoryIndex == (-1) )
+                            {
+                                categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                            }
+                            else
+                            {
+                                categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                            }
+                        }
+                    });
+                    currentCategoryArr = categoryArr.sort(function(a, b) { return b.totalPrice - a.totalPrice;});
+                    makeWhatChart(currentCategoryArr, "自訂支出");
+                    MakeRowPercentage(currentCategoryArr);
+                    MakeRowDetails(currentCategoryArr);
+                    for(let i=0; i<currentCategoryArr.length; i++)
+                    {
+                        console.log("category"+ i + currentCategoryArr[i].category + "totalPrice=" + currentCategoryArr[i].totalPrice);
                     }
-                });
-            }
+                }
+            });
         }
+        else if($('#analysisType_btn input:radio:checked').val() == "income")
+        {
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/monthInCome?date=" + AllMonthSelected[i],
+                success: function (allProducts) {
+                    $.each(allProducts, function (i, product) {
+                        if(AllMonthSelected[i]==CustomMonthFrom)
+                        {
+                            if(parseInt(product.date.substring(8.10))>=CustomDateFrom)
+                            {
+                                let categoryIndex= categoryIsPresent(product.category, categoryArr);
+                                if( categoryIndex == (-1) )
+                                {
+                                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                                }
+                                else
+                                {
+                                    categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                                }
+                            }
+                        }
+                        else if(AllMonthSelected[i]==CustomMonthTo)
+                        {
+                            if(parseInt(product.date.substring(8.10))<=CustomDateFrom)
+                            {
+                                let categoryIndex= categoryIsPresent(product.category, categoryArr);
+                                if( categoryIndex == (-1) )
+                                {
+                                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                                }
+                                else
+                                {
+                                    categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            let categoryIndex= categoryIsPresent(product.category, categoryArr);
+                            if( categoryIndex == (-1) )
+                            {
+                                categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                            }
+                            else
+                            {
+                                categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                            }
+                        }
+                    });
+                    currentCategoryArr = categoryArr.sort(function(a, b) { return b.totalPrice - a.totalPrice;});
+                    makeWhatChart(currentCategoryArr, "自訂收入");
+                    MakeRowPercentage(currentCategoryArr);
+                    MakeRowDetails(currentCategoryArr);
+                    for(let i=0; i<currentCategoryArr.length; i++)
+                    {
+                        console.log("category"+ i + currentCategoryArr[i].category + "totalPrice=" + currentCategoryArr[i].totalPrice);
+                    }
+
+                }
+            });
+        }
+    }
 }
 
 //用donut圖時 橫向的每個category的percentage
@@ -1172,7 +1196,7 @@ function MakeRowDetails(categoryArr)
             if(i==0)
             {
                 let firstDetails =
-                `
+                    `
                 <tr >
                     <td width="10%"></td>
                     <th width="50%"> 收入明細</th>
@@ -1196,7 +1220,7 @@ function MakeRowDetails(categoryArr)
                 cateLogo = moneyIncomeIconArr[4];
             }
             demoDetails =
-            `
+                `
             <tr style="border: 1px solid gray">
                 <th  style="text-align: right;">${cateLogo}</th>
                 <td >${categoryAsArr[i]}</td>
@@ -1211,7 +1235,7 @@ function MakeRowDetails(categoryArr)
             if(i==0)
             {
                 let firstDetails =
-                `
+                    `
                 <tr >
                     <td width="10%"></td>
                     <th width="50%"> 支出明細</th>
@@ -1236,7 +1260,7 @@ function MakeRowDetails(categoryArr)
             }
 
             demoDetails =
-            `
+                `
             <tr style="border: 1px solid gray">
                 <th  style="text-align: right;">${cateLogo}</th>
                 <td >${categoryAsArr[i]}</td>
@@ -1492,7 +1516,7 @@ function MakeLineChart(categoryArr, chartLabelName)
     console.log("categoryAsLabels="+categoryAsLabels);
     var chart = new Chart(ctx, {
         // 要创建的图表类型
-          plugins: [ChartDataLabels],
+        plugins: [ChartDataLabels],
         type: 'line',
         // 数据集
         data: {
@@ -1502,12 +1526,12 @@ function MakeLineChart(categoryArr, chartLabelName)
                 borderColor: "#4F4F4F",
                 data: totalPriceAsLabels
             },
-            {
-                label: "123",
-                backgroundColor: categoryColors,
-                borderColor: "#4F4F4F",
-                data: totalPriceAsLabels
-            }]
+                {
+                    label: "123",
+                    backgroundColor: categoryColors,
+                    borderColor: "#4F4F4F",
+                    data: totalPriceAsLabels
+                }]
         },
         // 配置选项
         options: {
@@ -1566,42 +1590,42 @@ function MakeLineChart(categoryArr, chartLabelName)
         }
     });
     var config = {
-            type: 'line',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [{
-                    label: 'My First dataset',
-                    backgroundColor: window.chartColors.red,
-                    borderColor: window.chartColors.red,
-                    data: [10, 30, 39, 20, 25, 34, -10],
-                    fill: false,
-                }, {
-                    label: 'My Second dataset',
-                    fill: false,
-                    backgroundColor: window.chartColors.blue,
-                    borderColor: window.chartColors.blue,
-                    data: [18, 33, 22, 19, 11, 39, 30],
-                }]
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                data: [10, 30, 39, 20, 25, 34, -10],
+                fill: false,
+            }, {
+                label: 'My Second dataset',
+                fill: false,
+                backgroundColor: window.chartColors.blue,
+                borderColor: window.chartColors.blue,
+                data: [18, 33, 22, 19, 11, 39, 30],
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Grid Line Settings'
             },
-            options: {
-                responsive: true,
-                title: {
-                    display: true,
-                    text: 'Grid Line Settings'
-                },
-                scales: {
-                    yAxes: [{
-                        gridLines: {
-                            drawBorder: false,
-                            color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
-                        },
-                        ticks: {
-                            min: 0,
-                            max: 100,
-                            stepSize: 10
-                        }
-                    }]
-                }
+            scales: {
+                yAxes: [{
+                    gridLines: {
+                        drawBorder: false,
+                        color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
+                    },
+                    ticks: {
+                        min: 0,
+                        max: 100,
+                        stepSize: 10
+                    }
+                }]
             }
-        };
+        }
+    };
 }
