@@ -169,6 +169,7 @@ public class QueryController {
         return ResponseEntity.status(HttpStatus.OK).body(monthTemp);
     }
 
+    //和BalanceDayProduct一樣 但是不加percent 加快執行速度
     @GetMapping("/monthOutcomeAsCate")
     public ResponseEntity<List<BalanceDayProduct>> monthOutcomeAsCate(String date){
         int dateMonth =  Integer.parseInt(date.substring(5,7));
@@ -296,7 +297,6 @@ public class QueryController {
                 }
             }
         }
-
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     @GetMapping("/YearOutcome")
@@ -326,7 +326,7 @@ public class QueryController {
     @GetMapping("/monthBalance")
     public ResponseEntity<List<BalanceDayProduct>> monthBalance(@RequestParam String month){
         List<BalanceDayProduct> balanceResult = getBalanceDayProductFnc(month);
-        System.out.printf("\n\n\n\n\n\n returned balanceResult\n"+ balanceResult);
+//        System.out.printf("\n\n\n\n\n\n returned balanceResult\n"+ balanceResult);
         return ResponseEntity.status(HttpStatus.OK).body(balanceResult);
     }
 
@@ -365,7 +365,7 @@ public class QueryController {
             tmpBMP.setAllBalanceDayProduct(tmpBDP);
             balanceResult.add(tmpBMP);
         }
-        System.out.println("\n\n\nbalanceMonthResult=\n"+balanceResult);
+//        System.out.println("\n\n\nbalanceMonthResult=\n"+balanceResult);
         return ResponseEntity.status(HttpStatus.OK).body(balanceResult);
     }
 
@@ -504,8 +504,8 @@ public class QueryController {
         }
 
 //        System.out.printf("front already end\n\n\n\n\n\n");
-        System.out.println("balanceResult="+balanceResult);
-        return balanceResult;
+//        System.out.println("balanceResult="+balanceResult);
+        return sortBDP(balanceResult);
     }
 
     public List<BalanceDayProduct> productToBDPFnc(List<Product> inputProduct)
@@ -600,9 +600,29 @@ public class QueryController {
                 }
             }
         }
-        return result;
+        return sortBDP(result);
     }
 
-
+    public List<BalanceDayProduct> sortBDP(List<BalanceDayProduct> tmpBDP)
+    {
+        int len = tmpBDP.toArray().length;
+        while (len > 1)
+        {
+            len--;
+            for (int i = 0; i < len; i++)
+            {
+                // 如果前面的元素比後面的元素要大，則交換元素位置
+                if( Integer.parseInt( tmpBDP.get(i).getDate().substring(8,10) ) > Integer.parseInt( tmpBDP.get(i+1).getDate().substring(8,10) ))
+                {
+//                    System.out.println(i+Integer.parseInt( tmpBDP.get(i).getDate().substring(8,10) ));
+//                    System.out.println(i+1+Integer.parseInt( tmpBDP.get(i+1).getDate().substring(8,10) ));
+                    BalanceDayProduct tmp = tmpBDP.get(i);
+                    tmpBDP.set(i, tmpBDP.get(i+1));
+                    tmpBDP.set(i+1, tmp);
+                }
+            }
+        }
+        return  tmpBDP;
+    }
 }
 

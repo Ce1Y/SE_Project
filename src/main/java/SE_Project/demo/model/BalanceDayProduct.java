@@ -87,6 +87,7 @@ public class BalanceDayProduct {
                 return 0;
         }
     };
+
     @Override
     public String toString() {
         return   "date: " + date + "\n" +

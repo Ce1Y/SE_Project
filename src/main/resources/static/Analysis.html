@@ -32,10 +32,10 @@
             <label class="btn btn-outline-warning"  for="analysisTypeExpense">支出</label>
 
             <input type="radio" class="btn-check" value="income" name="btnradioFirst" id="analysisTypeIncome" autocomplete="off">
-            <label class="btn btn-outline-warning"  for="analysisTypeIncome">收入</label>
+            <label class="btn btn-outline-info"  for="analysisTypeIncome">收入</label>
 
             <input type="radio" class="btn-check" value="balance" name="btnradioFirst" id="analysisTypeBalance" autocomplete="off">
-            <label class="btn btn-outline-warning"  for="analysisTypeBalance">結餘</label>
+            <label class="btn btn-outline-danger"  for="analysisTypeBalance">結餘</label>
         </div>
     </div>
 </div>
@@ -58,17 +58,17 @@
     <div class="row">
         <div class="btn-group col-12" role="group" id="SelectedTimeType" >
             <input type="radio" class="btn-check" name="btnradioSecond" value="month" id="SelectedTimeMonth" autocomplete="off" checked>
-            <label class="btn btn-outline-warning col-3"  for="SelectedTimeMonth">月</label>
+            <label class="btn btn-outline-warning col-3" id="monthBtnLabel" for="SelectedTimeMonth">月</label>
 
             <input type="radio" class="btn-check" name="btnradioSecond" value="sixMonth" id="SelectedTimeSixMonth" autocomplete="off">
-            <label class="btn btn-outline-warning col-3"  for="SelectedTimeSixMonth">近六個月</label>
+            <label class="btn btn-outline-warning col-3" id="sixMonthBtnLabel" for="SelectedTimeSixMonth">近六個月</label>
 
             <input type="radio" class="btn-check" name="btnradioSecond" value="year" id="SelectedTimeYear" autocomplete="off">
-            <label class="btn btn-outline-warning col-3"  for="SelectedTimeYear">年</label>
+            <label class="btn btn-outline-warning col-3" id="yearBtnLabel" for="SelectedTimeYear">年</label>
 
             <input type="radio" class="btn-check" name="btnradioSecond" value="custom" data-bs-toggle="modal"
                    data-bs-target="#staticBackdrop" id="SelectedTimeCustom" autocomplete="off">
-            <label class="btn btn-outline-warning col-3"  for="SelectedTimeCustom">自訂</label>
+            <label class="btn btn-outline-warning col-3" id="customBtnLabel" for="SelectedTimeCustom">自訂</label>
 
             <div class = "modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-scrollable">
@@ -99,14 +99,21 @@
 </div>
 
 <span class="container row">
-        <button type="button" class="btn col-1 offset-11" value="donutChart" id="changeChart" >
+        <button type="button" class="btn col-5 offset-7" style="text-align: right" value="donutChart" id="changeChart" >
             &#128202;
         </button>
 </span>
 
+<div class="container mt-5" id="capoGif" style="display:none; d-flex; justify-content-center">
+    <p class="fs-3 ps-3 pt-4">
+        沒有記帳資料, 快跟咖波去購物🙂
+    </p>
+    <img style="width:100%" src="https://media.tenor.com/Hc7cipR1k2oAAAAC/capoo-cutea.gif">
+</div>
 <div class="chart-container" style="position: relative; height:200px; width:70%" id="chartFather">
     <canvas class="offset-2"  id="chart"></canvas>
 </div>
+
 
 
 <div class="container my-3" id="makeRowDisappear" style="width:95%;  height:100%">

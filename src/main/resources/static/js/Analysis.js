@@ -1,6 +1,8 @@
 var currentYear,currentMonth,currentDate;
 var selectedYear,selectedMonth,selectedDate;
-var currentCategoryArr = []
+var currentCategoryArr = [];
+var currentBalanceDayProductArr = [];
+var currentBalanceMonthProductArr = [];
 var moneyIncomeIconArr = new Array("&#128178;", "&#129689;", "&#128176;", "&#128182;", "&#128180;");//💲 🪙 💰 💶 💴
 var moneyExpenseIconArr = new Array("&#128184;", "&#128546;", "&#128557;","&#128575;", "&#128565;");//💸 😢 😭 😿 😵
 let totalMonthBF =  ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
@@ -236,10 +238,19 @@ $(document).ready(function(){
         selectedMonth=currentMonth;
         let displayDate = "" + selectedYear + "年" + selectedMonth + "月";
 
+        document.getElementById("makeRowDisappear").style.display = "block";
+
         let bar = "&#128202;"
         document.getElementById("changeChart").value = "donutChart";
+        document.getElementById("changeChart").disabled=false;
         $("#changeChart").html("");
         $("#changeChart").append(bar);
+
+
+        document.getElementById("monthBtnLabel").className = "btn btn-outline-warning col-3";    //把下排按鈕改黃色
+        document.getElementById("sixMonthBtnLabel").className = "btn btn-outline-warning col-3";
+        document.getElementById("yearBtnLabel").className = "btn btn-outline-warning col-3";
+        document.getElementById("customBtnLabel").className = "btn btn-outline-warning col-3";
 
         changeYearAndDate(0,displayDate);
         inexResetSelectedTimeType();
@@ -252,10 +263,18 @@ $(document).ready(function(){
         selectedMonth=currentMonth;
         let displayDate = "" + selectedYear + "年" + selectedMonth + "月";
 
+        document.getElementById("makeRowDisappear").style.display = "block";
+
         let bar = "&#128202;"
         document.getElementById("changeChart").value = "donutChart";
+        document.getElementById("changeChart").disabled=false;
         $("#changeChart").html("");
         $("#changeChart").append(bar);
+
+        document.getElementById("monthBtnLabel").className = "btn btn-outline-info col-3";   //把下排按鈕改藍色
+        document.getElementById("sixMonthBtnLabel").className = "btn btn-outline-info col-3";
+        document.getElementById("yearBtnLabel").className = "btn btn-outline-info col-3";
+        document.getElementById("customBtnLabel").className = "btn btn-outline-info col-3";
 
         changeYearAndDate(0,displayDate);
         inexResetSelectedTimeType();
@@ -268,8 +287,16 @@ $(document).ready(function(){
         selectedMonth=currentMonth;
         let displayDate = selectedYear + "年";
 
+        document.getElementById("makeRowDisappear").style.display = "none";
+
         document.getElementById("changeChart").value = "lineChart";
+        document.getElementById("changeChart").disabled=true;
         $("#changeChart").html("");
+
+        document.getElementById("monthBtnLabel").className = "btn btn-outline-danger col-3";   //把下排按鈕改紅色
+        document.getElementById("sixMonthBtnLabel").className = "btn btn-outline-danger col-3";
+        document.getElementById("yearBtnLabel").className = "btn btn-outline-danger col-3";
+        document.getElementById("customBtnLabel").className = "btn btn-outline-danger col-3";
 
         changeYearAndDate(0,displayDate);
         balanceSelectedTimeType();
@@ -478,9 +505,9 @@ function structBalanceDayProduct(date, dateIncome, dateExpense, AllCategory)
 }
 
 //struct一個BalanceMonthProduct物件
-function structBalanceMonthProduct(date, monthIncome, monthExpense, AllBalanceDayProduct)
+function structBalanceMonthProduct(month, monthIncome, monthExpense, AllBalanceDayProduct)
 {
-    this.date = date;
+    this.month = month;
     this.monthIncome = monthIncome;
     this.monthExpense = monthExpense;
     this.AllBalanceDayProduct = AllBalanceDayProduct;
@@ -530,15 +557,34 @@ function changeYearAndDate(isSixMonth, displayDate)
         $("#YearAndDate").html("");
         $("#YearAndDate").append(`<b>${displayDate}</b>`);
     }
-    console.log("change year and date end");
+//    console.log("change year and date end");
 }
 
-//選結餘時不顯示文字
+//選結餘時不顯示logo ， 顯示文字
 function chartLogoToText(incomeTotalPrice,expenseTotalPrice, balanceTotalPrice)
 {
-    let first = "支出" + incomeTotalPrice;
-    let second = "收入" + expenseTotalPrice;
-    let third = "結餘" + balanceTotalPrice;
+    if(balanceTotalPrice>0)
+        balanceTotalPrice = "+" + balanceTotalPrice;
+    else if(balancePrice<0)
+        balanceTotalPrice = "-" + balanceTotalPrice;
+
+    let demoTextAppend =
+        `
+    <div style="font-size:14px">
+        <span>支出 : </span>
+        <span class="text-warning">-${incomeTotalPrice}</span>
+    </div>
+    <div style="font-size:14px">
+        <span>收入 : </span>
+        <span class="text-info">+${expenseTotalPrice}</span>
+    </div>
+    <div style="font-size:14px">
+        <span>結餘 : </span>
+        <span class="text-danger">${balanceTotalPrice}</span>
+    </div>
+    `;
+    $("#changeChart").html("");
+    $("#changeChart").append(demoTextAppend);
 }
 //決定要做哪個圖表
 function makeWhatChart(categoryArr, categoryLabelName)
@@ -553,7 +599,7 @@ function makeWhatChart(categoryArr, categoryLabelName)
     }
     else if($("#changeChart").val()=="lineChart")
     {
-        MakeLineChart(categoryArr, categoryLabelName);
+         MakeLineChart(categoryArr, categoryLabelName);
     }
 }
 //回到支出or收如時下排按鈕重新選擇月 再把往前搜尋和往後搜尋的按鈕恢復成可使用
@@ -665,7 +711,7 @@ function DealMonthIncome(date)
             MakeRowDetails(currentCategoryArr);
             for(let i=0; i<currentCategoryArr.length; i++)
             {
-                console.log("category"+ i + currentCategoryArr[i].category + "totalPrice=" + currentCategoryArr[i].totalPrice);
+//                console.log("category"+ i + currentCategoryArr[i].category + "totalPrice=" + currentCategoryArr[i].totalPrice);
             }
         }
     });
@@ -683,28 +729,23 @@ function DealMonthBalance(month)
             let monthExpense= 0;
             $.each(allBalanceProducts, function (i, balanceProduct) {
                 let AllCategoryTmp = [];
-                $.each(balanceProduct.AllCategory, function (j, cateTmp) {
+//                console.log("categoryNum="+balanceProduct.allCategory.length);
+                $.each(balanceProduct.allCategory, function (j, cateTmp) {
                     let categoryOfPercentTmp = new structCategoryOfPercent(cateTmp.categoryName, cateTmp.price, cateTmp.accountingType, cateTmp.percent);
                     AllCategoryTmp.push(categoryOfPercentTmp);
                 });
-
-                // let dateIndex= dateIsPresent(balanceProduct.date, BalanceDayProductArr);
                 monthExpense += balanceProduct.dateExpense;
                 monthIncome += balanceProduct.dateIncome;
                 BalanceDayProductArr[BalanceDayProductArr.length] =
-                    new structBalanceDayProduct(balanceProduct.date, balanceProduct.dateIncome, balanceProduct.dateExpense, AllCategoryTmp);
+                    new structBalanceDayProduct(balanceProduct.date.substring(5,10), balanceProduct.dateIncome, balanceProduct.dateExpense, AllCategoryTmp);
             });
-            MakeBalanceRowDetails(BalanceDayProductArr, "month");
+            currentBalanceDayProductArr = BalanceDayProductArr;
+            MakeMonthBalanceRowDetails(BalanceDayProductArr, "month");
             makeWhatChart(BalanceDayProductArr, "月結餘");
             chartLogoToText(monthIncome, monthExpense, monthIncome+monthExpense);
             for(let i=0; i<BalanceDayProductArr.length; i++)
             {
-                console.log("date:"+  + BalanceDayProductArr[i].date + "dateIncome=" + BalanceDayProductArr[i].dateIncome);
-                console.log("dateExpense="+  + BalanceDayProductArr[i].dateExpense);
-                for(let j=0; j<BalanceDayProductArr[i].AllCategory.length; j++)
-                {
-                    console.log(j + BalanceDayProductArr[i].AllCategory[j]);
-                }
+                BalanceDayProductArr[i];
             }
         }
     });
@@ -730,7 +771,7 @@ function DealSixMonthOutcome(dateFrom, dateTo)
                 }
             });
             currentCategoryArr = categoryArr.sort(function(a, b) { return b.totalPrice - a.totalPrice;});
-            makeWhatChart(currentCategoryArr, "六月月支出");
+            makeWhatChart(currentCategoryArr, "六月內支出");
             MakeRowPercentage(currentCategoryArr);
             MakeRowDetails(currentCategoryArr);
             for(let i=0; i<currentCategoryArr.length; i++)
@@ -835,29 +876,57 @@ function DealYearIncome(date)
 
 function DealYearBalance(year)
 {
+    console.log("year="+year);
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/yearBalance?year=" + year,
-        success: function (allProducts) {
-            const categoryArr = [];
-            $.each(allProducts, function (i, product) {
-                let categoryIndex= categoryIsPresent(product.category, categoryArr);
-                if( categoryIndex == (-1) )
+        success: function (allBalanceProducts) {
+            const BalanceMonthProductArr = [];
+            let yearIncome = 0;
+            let yearExpense= 0;
+            $.each(allBalanceProducts, function (i, balanceMonthProduct) {
+                let BalanceDayProductArr = [];
+                yearIncome += balanceMonthProduct.monthIncome;
+                yearExpense += balanceMonthProduct.monthExpense;
+                console.log("yearIncome="+yearIncome+"yearExpense="+yearExpense);
+                console.log(balanceMonthProduct);
+                if(balanceMonthProduct.allBalanceDayProduct.length>0)
                 {
-                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
-                }
-                else
-                {
-                    categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                    $.each(balanceMonthProduct.allBalanceDayProduct, function (j, balanceDayProduct) {
+                        let AllCategoryArr = [];
+                        console.log(balanceDayProduct);
+                        $.each(balanceDayProduct.allCategory, function (k, cateTmp) {
+                            console.log(cateTmp);
+                            let categoryOfPercentTmp = new structCategoryOfPercent(cateTmp.categoryName, cateTmp.price, cateTmp.accountingType, cateTmp.percent);
+                            AllCategoryArr.push(categoryOfPercentTmp);
+                        });
+                        BalanceDayProductArr.push(
+                            new structBalanceDayProduct(balanceDayProduct.date.substring(5,10), balanceDayProduct.dateIncome, balanceDayProduct.dateExpense, AllCategoryArr) );
+
+                    });
+                    BalanceMonthProductArr.push(
+                        new structBalanceMonthProduct(balanceMonthProduct.month.substring(5,7), balanceMonthProduct.monthIncome, balanceMonthProduct.monthExpense, BalanceDayProductArr) );
                 }
             });
-
-            currentCategoryArr = categoryArr.sort(function(a, b) { return b.totalPrice - a.totalPrice;});
-            for(let i=0; i<currentCategoryArr.length; i++)
+            currentBalanceMonthProductArr = BalanceMonthProductArr;
+            MakeYearBalanceRowDetails(BalanceMonthProductArr, "month");
+            makeWhatChart(BalanceMonthProductArr, "年結餘");
+            chartLogoToText(yearIncome, yearExpense, yearIncome+yearExpense);
+            for (let k=0; k<BalanceMonthProductArr.length; k++)
             {
-                console.log("category"+ i + currentCategoryArr[i].category + "totalPrice=" + currentCategoryArr[i].totalPrice);
+                console.log("month:"+  + BalanceMonthProductArr[k].month + "monthIncome=" + BalanceMonthProductArr[k].monthIncome);
+                console.log("monthExpense=" + BalanceMonthProductArr[k].monthExpense);
+                console.log(BalanceMonthProductArr[k].AllBalanceDayProduct);
+                for(let i=0; i<BalanceMonthProductArr[k].AllBalanceDayProduct.length; i++)
+                {
+                    console.log("date:"+   BalanceMonthProductArr[k].AllBalanceDayProduct[i].date + "dateIncome=" + BalanceMonthProductArr[k].AllBalanceDayProduct[i].dateIncome);
+                    console.log("dateExpense="+   BalanceMonthProductArr[k].AllBalanceDayProduct[i].dateExpense);
+                    for(let j=0; j<BalanceMonthProductArr[k].AllBalanceDayProduct[i].AllCategory.length; j++)
+                    {
+                        console.log(j + " = " + BalanceMonthProductArr[k].AllBalanceDayProduct[i].AllCategory[j]);
+                    }
+                }
             }
-            makeWhatChart(currentCategoryArr, "年結餘");
         }
     });
 }
@@ -1031,7 +1100,7 @@ function MakeRowPercentage(categoryArr)
 
     }
     let categoryColors = ColorInChart.slice(0,categoryAsArr.length);
-    console.log("categoryArr="+categoryArr);
+//    console.log("categoryArr="+categoryArr);
 
     for(i=0; i<categoryArr.length; i=i+3)
     {
@@ -1277,11 +1346,112 @@ function MakeRowDetails(categoryArr)
     }
 }
 
-function MakeBalanceRowDetails(BalanceProductArr, BalanceProductType)
+//Year結餘明細
+function MakeYearBalanceRowDetails(BalanceProductArr, BalanceProductType)
 {
+    //沒資料不顯示
+    if(BalanceProductArr.length==0)
+    {
+        document.getElementById("makeTableDisappear").style.display = "none";
+    }
+    else
+    {
+        document.getElementById("makeTableDisappear").style.display = "block";
+    }
+    $("#ExInDetails").html("");
+    for(let i=0; i<BalanceProductArr.length; i++)
+    {
+        if(i==0)
+        {
+            let firstDetails =
+                `
+            <tr >
+                <th class="ps-3" width="70%"> 日期明細</th>
+                <td width="30%" style="text-align: right;">&#8691;</td>
+            </tr>
+            `;
+            $("#ExInDetails").append(firstDetails);
+        }
 
+
+        console.log(i);
+        if(BalanceProductArr[i].AllBalanceDayProduct.length>0)
+        {
+            console.log(BalanceProductArr[i].month);
+            let demoDetails =  "";
+            let balancePrice = BalanceProductArr[i].monthIncome + BalanceProductArr[i].monthExpense;
+            let displayBalancePrice = balancePrice;
+            if(balancePrice<0)
+            {
+                displayBalancePrice = "-" + balancePrice;
+            }
+            else if(balancePrice>0)
+            {
+                displayBalancePrice = "+" + balancePrice;
+            }
+            demoDetails =
+                `
+            <tr style="border: 1px solid gray">
+                <td class="ps-3">${BalanceProductArr[i].month}</td>
+                <td class="text-danger" style="text-align: right">$${displayBalancePrice}</td>
+            </tr>
+            `;
+            $("#ExInDetails").append(demoDetails);
+        }
+    }
 }
 
+//month結餘明細
+function MakeMonthBalanceRowDetails(BalanceProductArr, BalanceProductType)
+{
+    //沒資料不顯示
+    if(BalanceProductArr.length==0)
+    {
+        document.getElementById("makeTableDisappear").style.display = "none";
+    }
+    else
+    {
+        document.getElementById("makeTableDisappear").style.display = "block";
+    }
+    $("#ExInDetails").html("");
+    for(let i=0; i<BalanceProductArr.length; i++)
+    {
+        if(i==0)
+        {
+            let firstDetails =
+                `
+            <tr >
+                <th class="ps-3" width="70%"> 日期明細</th>
+                <td width="30%" style="text-align: right;">&#8691;</td>
+            </tr>
+            `;
+            $("#ExInDetails").append(firstDetails);
+        }
+
+        if(BalanceProductArr[i].AllCategory.length>0)
+        {
+            let demoDetails =  "";
+            let balancePrice = BalanceProductArr[i].dateIncome + BalanceProductArr[i].dateExpense;
+            let displayBalancePrice = balancePrice;
+            if(balancePrice<0)
+            {
+                displayBalancePrice = "-" + balancePrice;
+            }
+            else if(balancePrice>0)
+            {
+                displayBalancePrice = "+" + balancePrice;
+            }
+            demoDetails =
+                `
+            <tr style="border: 1px solid gray">
+                <td class="ps-3">${BalanceProductArr[i].date}</td>
+                <td class="text-danger" style="text-align: right">$${displayBalancePrice}</td>
+            </tr>
+            `;
+            $("#ExInDetails").append(demoDetails);
+        }
+    }
+}
 
 function MakeBarChart(categoryArr, chartLabelName)
 {
@@ -1290,11 +1460,13 @@ function MakeBarChart(categoryArr, chartLabelName)
     {
         document.getElementById("changeChart").style.display = "none";
         document.getElementById("chart").style.display = "none";
+        document.getElementById("capoGif").style.display = "block";
     }
     else
     {
         document.getElementById("changeChart").style.display = "block";
         document.getElementById("chart").style.display = "block";
+        document.getElementById("capoGif").style.display = "none";
     }
 
     var ctx = document.getElementById('chart').getContext('2d');
@@ -1385,11 +1557,13 @@ function MakeDoughnutChart(categoryArr, chartLabelName)
     {
         document.getElementById("changeChart").style.display = "none";
         document.getElementById("chart").style.display = "none";
+        document.getElementById("capoGif").style.display = "block";
     }
     else
     {
         document.getElementById("changeChart").style.display = "block";
         document.getElementById("chart").style.display = "block";
+        document.getElementById("capoGif").style.display = "none";
     }
 
     var ctx = document.getElementById('chart').getContext('2d');
@@ -1409,9 +1583,9 @@ function MakeDoughnutChart(categoryArr, chartLabelName)
     let categoryColors = ColorInChart.slice(0,categoryAsLabels.length);
 //    let categoryColorsBorder = ColorInChart.slice(0,categoryAsLabels.length);
     let chartTItle = "總金額: " + AllTotalPrice;
-    console.log("categoryColors="+categoryColors);
-    console.log("totalPriceAsLabels"+totalPriceAsLabels);
-    console.log("categoryAsLabels="+categoryAsLabels);
+//    console.log("categoryColors="+categoryColors);
+//    console.log("totalPriceAsLabels"+totalPriceAsLabels);
+//    console.log("categoryAsLabels="+categoryAsLabels);
     var chart = new Chart(ctx, {
         // 要创建的图表类型
 //        plugins: [ChartDataLabels],
@@ -1487,151 +1661,149 @@ function MakeDoughnutChart(categoryArr, chartLabelName)
     });
 }
 
-//function MakeLineChart(categoryArr, chartLabelName)
-//{
-//    //沒資料不顯示
-//    if(categoryArr.length==0)
-//    {
-//        document.getElementById("changeChart").style.display = "none";
-//        document.getElementById("chart").style.display = "none";
-//    }
-//    else
-//    {
-//        document.getElementById("changeChart").style.display = "block";
-//        document.getElementById("chart").style.display = "block";
-//    }
-//    var ctx = document.getElementById('chart').getContext('2d');
-//    var categoryAsLabels = [];
-//    var totalPriceAsLabels = [];
-//    var AllTotalPrice=0;
-//    for(i=0; i<categoryArr.length; i++)
-//    {
-//        categoryAsLabels[i] = categoryArr[i].category;
-//        totalPriceAsLabels[i] = categoryArr[i].totalPrice;
-//        AllTotalPrice = AllTotalPrice + categoryArr[i].totalPrice;
-//    }
-//    for(i=0; i<categoryArr.length; i++)
-//    {
-//        totalPriceAsLabels[i] = Math.floor((totalPriceAsLabels[i]/AllTotalP
-//    }
-//    let categoryColors = ColorInChart.slice(0,categoryAsLabels.length);
-//    let categoryColorsBorder = ColorInChart.slice(0,categoryAsLabels.leng
-//    let chartTItle = "總金額: " + AllTotalPrice;
-//    console.log("categoryColors="+categoryColors);
-//    console.log("totalPriceAsLabels"+totalPriceAsLabels);
-//    console.log("categoryAsLabels="+categoryAsLabels);
-//    var chart = new Chart(ctx, {
-//        // 要创建的图表类型
-//        plugins: [ChartDataLabels],
-//        type: 'line',
-//        // 数据集
-//        data: {
-//            datasets: [{
-//                label: "123",
-//                backgroundColor: categoryColors,
-//                borderColor: "#4F4F4F",
-//                data: totalPriceAsLabels
-//            },
-//                {
-//                    label: "123",
-//                    backgroundColor: categoryColors,
-//                    borderColor: "#4F4F4F",
-//                    data: totalPriceAsLabels
-//                }]
-//        },
-//        // 配置选项
-//        options: {
-//            responsive: true,
-//            maintainAspectRatio: false,
-//            title: {
-//                display: true,
-//                text: chartTItle
-//            },
-//            scales: {
-//                animation:{
-//                    animateRotate:true
-//                },
-//                // x 軸設置
-//                xAxes: [{
-//                    // x 軸標題
-//                    scaleLabel:{
-//                        display: false,
-//                        labelString:"category",
-//                        fontSize: 16
-//                    },
-//                    // x 軸格線
-//                    gridLines: {
-//                        display: false
-//                    },
-//                    // x 軸間距
-//                    ticks: {
-//                        display: false,
-//                    }
-//                }],
-//                // y 軸設置
-//                yAxes: [{
-//                    // y 軸標題
-//                    scaleLabel:{
-//                        display: false,
-//                        labelString:"percent",
-//                        fontSize: 16
-//                    },
-//                    // y 軸格線
-//                    gridLines: {
-//                        display: false
-//                    },
-//                    // y 軸間距
-//                    ticks: {
-//                        display: false,
-//                        beginAtZero: true,
-//                        min: 0,
-//                        max: 100,
-//                        stepSize: 20,
-//                        callback: function(label, index, labels){
-//                            return (label) + '%';
-//                        }
-//                    }
-//                }]
-//            }
-//        }
-//    });
-//    var config = {
-//        type: 'line',
-//        data: {
-//            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-//            datasets: [{
-//                label: 'My First dataset',
-//                backgroundColor: window.chartColors.red,
-//                borderColor: window.chartColors.red,
-//                data: [10, 30, 39, 20, 25, 34, -10],
-//                fill: false,
-//            }, {
-//                label: 'My Second dataset',
-//                fill: false,
-//                backgroundColor: window.chartColors.blue,
-//                borderColor: window.chartColors.blue,
-//                data: [18, 33, 22, 19, 11, 39, 30],
-//            }]
-//        },
-//        options: {
-//            responsive: true,
-//            title: {
-//                display: true,
-//                text: 'Grid Line Settings'
-//            },
-//            scales: {
-//                yAxes: [{
-//                    gridLines: {
-//                        drawBorder: false,
-//                        color: ['pink', 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple']
-//                    },
-//                    ticks: {
-//                        min: 0,
-//                        max: 100,
-//                        stepSize: 10
-//                    }
-//                }]
-//            }
-//        }
-//    };
-//}
+function MakeLineChart(categoryArr, chartLabelName)
+{
+    //沒資料不顯示
+    if(categoryArr.length==0)
+    {
+        document.getElementById("changeChart").style.display = "none";
+        document.getElementById("chart").style.display = "none";
+        document.getElementById("capoGif").style.display = "block";
+    }
+    else
+    {
+        document.getElementById("changeChart").style.display = "block";
+        document.getElementById("chart").style.display = "block";
+        document.getElementById("capoGif").style.display = "none";
+    }
+    var ctx = document.getElementById('chart').getContext('2d');
+    var dateAsLabels = [];
+    var totalIncomePriceArr = [];
+    var totalOutComePriceArr = [];
+    var totalBalancePriceArr = [];
+    var AllIncomeTotalPrice=0;
+    var AllOutComeTotalPrice=0;
+    var AllBalanceTotalPrice=0;
+    var minLabel, step;
+    if(AllIncomeTotalPrice>AllOutComeTotalPrice)
+    {
+        maxLabel = AllIncomeTotalPrice/(Math.pow(10, AllIncomeTotalPrice.length-1))*(Math.pow(10, AllIncomeTotalPrice.length-1));
+    }
+    else
+    {
+        maxLabel = AllOutComeTotalPrice/(Math.pow(10, AllOutComeTotalPrice.length-1))*(Math.pow(10, AllOutComeTotalPrice.length-1));
+    }
+    minLabel = -maxLabel;
+    let tmp = maxLabel/3;
+    step = maxLabel/3/(Math.pow(10, tmp.length-1))*(Math.pow(10, tmp.length-1));
+    if($('#SelectedTimeType input:radio:checked').val() == "year")
+    {
+        for (let k=0; k<categoryArr.length; k++)
+        {
+            dateAsLabels[k] = categoryArr[k].month;
+            totalIncomePriceArr[k] = categoryArr[k].monthIncome;
+            AllIncomeTotalPrice += categoryArr[k].monthIncome;
+
+            totalOutComePriceArr[k] = categoryArr[k].monthExpense;
+            AllOutComeTotalPrice += categoryArr[k].monthExpense;
+
+            totalBalancePriceArr[k] = totalIncomePriceArr[k]+totalOutComePriceArr[k];
+            AllBalanceTotalPrice += totalIncomePriceArr[k]+totalOutComePriceArr[k];
+        }
+    }
+    else if($('#SelectedTimeType input:radio:checked').val() == "month")
+    {
+        for (let k=0; k<categoryArr.length; k++)
+        {
+            dateAsLabels[k] = categoryArr[k].date;
+            totalIncomePriceArr[k] = categoryArr[k].dateIncome;
+            AllIncomeTotalPrice += categoryArr[k].dateIncome;
+
+            totalOutComePriceArr[k] = categoryArr[k].dateExpense;
+            AllOutComeTotalPrice += categoryArr[k].dateExpense;
+
+            totalBalancePriceArr[k] = totalIncomePriceArr[k]+totalOutComePriceArr[k];
+            AllBalanceTotalPrice += totalIncomePriceArr[k]+totalOutComePriceArr[k];
+        }
+    }
+
+    var chart = new Chart(ctx, {
+        // 要创建的图表类型
+        type: 'line',
+        // 数据集
+        data: {
+            labels: dateAsLabels,
+            datasets: [{
+                label: "123",
+                backgroundColor:"#F9F900",
+                data: totalIncomePriceArr
+                },
+                {
+                    label: "123",
+                    fill: false,
+                    backgroundColor: "#00FFFF",
+                    data: totalOutComePriceArr
+                },
+                {
+                    label: "123",
+                    backgroundColor: "#FF7575",
+                    data: totalBalancePriceArr
+                }]
+        },
+        // 配置选项
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: false,
+                text: chartLabelName
+            },
+            scales: {
+                animation:{
+                    animateRotate:true
+                },
+                // x 軸設置
+                xAxes: [{
+                    // x 軸標題
+                    scaleLabel:{
+                        display: false,
+                        labelString:"category",
+                        fontSize: 16
+                    },
+                    // x 軸格線
+                    gridLines: {
+                        display: false
+                    },
+                    // x 軸間距
+                    ticks: {
+                        display: false
+                    }
+                }],
+                // y 軸設置
+                yAxes: [{
+                    // y 軸標題
+                    scaleLabel:{
+                        display: false,
+                        labelString:"percent",
+                        fontSize: 16
+                    },
+                    // y 軸格線
+                    gridLines: {
+                        display: false
+                    },
+                    // y 軸間距
+                    ticks: {
+                        display: true,
+                        beginAtZero: false,
+                        min: minLabel,
+                        max: maxLabel,
+                        stepSize: step,
+                        callback: function(label, index, labels){
+                            return (label) ;
+                        }
+                    }
+                }]
+            }
+        }
+    });
+}
