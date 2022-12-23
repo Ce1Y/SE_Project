@@ -563,22 +563,22 @@ function changeYearAndDate(isSixMonth, displayDate)
 //選結餘時不顯示logo ， 顯示文字
 function chartLogoToText(incomeTotalPrice,expenseTotalPrice, balanceTotalPrice)
 {
-    if(balanceTotalPrice>0)
+    if(incomeTotalPrice>expenseTotalPrice)
         balanceTotalPrice = "+" + balanceTotalPrice;
-    else if(balancePrice<0)
+    else
         balanceTotalPrice = "-" + balanceTotalPrice;
 
     let demoTextAppend =
         `
-    <div style="font-size:14px">
+    <div style="font-size:10px">
         <span>支出 : </span>
-        <span class="text-warning">-${incomeTotalPrice}</span>
+        <span class="text-warning">-${expenseTotalPrice}</span>
     </div>
-    <div style="font-size:14px">
+    <div style="font-size:10px">
         <span>收入 : </span>
-        <span class="text-info">+${expenseTotalPrice}</span>
+        <span class="text-info">+${incomeTotalPrice}</span>
     </div>
-    <div style="font-size:14px">
+    <div style="font-size:10px">
         <span>結餘 : </span>
         <span class="text-danger">${balanceTotalPrice}</span>
     </div>
@@ -591,14 +591,32 @@ function makeWhatChart(categoryArr, categoryLabelName)
 {
     if($("#changeChart").val()=="barChart")
     {
+        document.getElementById("paddingDetails").style.display = "block";
+        document.getElementById("chartFather").style = "position: relative; height:200px; width:70%";
+        document.getElementById("chartFather").className = "chart-container";
+        document.getElementById("makeTableDisappear").className = "container py-5 pe-2";
+        document.getElementById("changeChart").className = "btn col-5 offset-7";
+        document.getElementById("changeChart").style = "text-align: right";
         MakeBarChart(categoryArr, categoryLabelName);
     }
     else if($("#changeChart").val()=="donutChart")
     {
+        document.getElementById("paddingDetails").style.display = "block";
+        document.getElementById("chartFather").style = "position: relative; height:200px; width:70%";
+        document.getElementById("makeTableDisappear").className = "container py-5 pe-2";
+        document.getElementById("changeChart").className = "btn col-5 offset-7";
+        document.getElementById("chartFather").className = "chart-container";
+        document.getElementById("changeChart").style = "text-align: right";
         MakeDoughnutChart(categoryArr, categoryLabelName);
     }
     else if($("#changeChart").val()=="lineChart")
     {
+         document.getElementById("paddingDetails").style.display = "none";
+         document.getElementById("chartFather").style = "position: relative; height:310px; width:85%";
+         document.getElementById("makeTableDisappear").className = "container py-2 pe-3";
+         document.getElementById("chartFather").className = "chart-container pe-5 pt-5";
+         document.getElementById("changeChart").className = "btn col-4 offset-8 position-absolute button-10";
+         document.getElementById("changeChart").style = "";
          MakeLineChart(categoryArr, categoryLabelName);
     }
 }
@@ -734,15 +752,12 @@ function DealMonthBalance(month)
                     let categoryOfPercentTmp = new structCategoryOfPercent(cateTmp.categoryName, cateTmp.price, cateTmp.accountingType, cateTmp.percent);
                     AllCategoryTmp.push(categoryOfPercentTmp);
                 });
-                monthExpense += balanceProduct.dateExpense;
-                monthIncome += balanceProduct.dateIncome;
                 BalanceDayProductArr[BalanceDayProductArr.length] =
                     new structBalanceDayProduct(balanceProduct.date.substring(5,10), balanceProduct.dateIncome, balanceProduct.dateExpense, AllCategoryTmp);
             });
             currentBalanceDayProductArr = BalanceDayProductArr;
             MakeMonthBalanceRowDetails(BalanceDayProductArr, "month");
             makeWhatChart(BalanceDayProductArr, "月結餘");
-            chartLogoToText(monthIncome, monthExpense, monthIncome+monthExpense);
             for(let i=0; i<BalanceDayProductArr.length; i++)
             {
                 BalanceDayProductArr[i];
@@ -888,15 +903,15 @@ function DealYearBalance(year)
                 let BalanceDayProductArr = [];
                 yearIncome += balanceMonthProduct.monthIncome;
                 yearExpense += balanceMonthProduct.monthExpense;
-                console.log("yearIncome="+yearIncome+"yearExpense="+yearExpense);
+//                console.log("yearIncome="+yearIncome+"yearExpense="+yearExpense);
                 console.log(balanceMonthProduct);
                 if(balanceMonthProduct.allBalanceDayProduct.length>0)
                 {
                     $.each(balanceMonthProduct.allBalanceDayProduct, function (j, balanceDayProduct) {
                         let AllCategoryArr = [];
-                        console.log(balanceDayProduct);
+//                        console.log(balanceDayProduct);
                         $.each(balanceDayProduct.allCategory, function (k, cateTmp) {
-                            console.log(cateTmp);
+//                            console.log(cateTmp);
                             let categoryOfPercentTmp = new structCategoryOfPercent(cateTmp.categoryName, cateTmp.price, cateTmp.accountingType, cateTmp.percent);
                             AllCategoryArr.push(categoryOfPercentTmp);
                         });
@@ -911,22 +926,21 @@ function DealYearBalance(year)
             currentBalanceMonthProductArr = BalanceMonthProductArr;
             MakeYearBalanceRowDetails(BalanceMonthProductArr, "month");
             makeWhatChart(BalanceMonthProductArr, "年結餘");
-            chartLogoToText(yearIncome, yearExpense, yearIncome+yearExpense);
-            for (let k=0; k<BalanceMonthProductArr.length; k++)
-            {
-                console.log("month:"+  + BalanceMonthProductArr[k].month + "monthIncome=" + BalanceMonthProductArr[k].monthIncome);
-                console.log("monthExpense=" + BalanceMonthProductArr[k].monthExpense);
-                console.log(BalanceMonthProductArr[k].AllBalanceDayProduct);
-                for(let i=0; i<BalanceMonthProductArr[k].AllBalanceDayProduct.length; i++)
-                {
-                    console.log("date:"+   BalanceMonthProductArr[k].AllBalanceDayProduct[i].date + "dateIncome=" + BalanceMonthProductArr[k].AllBalanceDayProduct[i].dateIncome);
-                    console.log("dateExpense="+   BalanceMonthProductArr[k].AllBalanceDayProduct[i].dateExpense);
-                    for(let j=0; j<BalanceMonthProductArr[k].AllBalanceDayProduct[i].AllCategory.length; j++)
-                    {
-                        console.log(j + " = " + BalanceMonthProductArr[k].AllBalanceDayProduct[i].AllCategory[j]);
-                    }
-                }
-            }
+//            for (let k=0; k<BalanceMonthProductArr.length; k++)
+//            {
+//                console.log("month:"+  + BalanceMonthProductArr[k].month + "monthIncome=" + BalanceMonthProductArr[k].monthIncome);
+//                console.log("monthExpense=" + BalanceMonthProductArr[k].monthExpense);
+//                console.log(BalanceMonthProductArr[k].AllBalanceDayProduct);
+//                for(let i=0; i<BalanceMonthProductArr[k].AllBalanceDayProduct.length; i++)
+//                {
+//                    console.log("date:"+   BalanceMonthProductArr[k].AllBalanceDayProduct[i].date + "dateIncome=" + BalanceMonthProductArr[k].AllBalanceDayProduct[i].dateIncome);
+//                    console.log("dateExpense="+   BalanceMonthProductArr[k].AllBalanceDayProduct[i].dateExpense);
+//                    for(let j=0; j<BalanceMonthProductArr[k].AllBalanceDayProduct[i].AllCategory.length; j++)
+//                    {
+//                        console.log(j + " = " + BalanceMonthProductArr[k].AllBalanceDayProduct[i].AllCategory[j]);
+//                    }
+//                }
+//            }
         }
     });
 }
@@ -944,7 +958,7 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
         {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/monthOutCome?date=" + AllMonthSelected[i],
+                url: "http://localhost:8080/monthOutcome?date=" + AllMonthSelected[i],
                 success: function (allProducts) {
                     $.each(allProducts, function (i, product) {
                         if(AllMonthSelected[i]==CustomMonthFrom)
@@ -1005,7 +1019,7 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
         {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/monthInCome?date=" + AllMonthSelected[i],
+                url: "http://localhost:8080/monthIncome?date=" + AllMonthSelected[i],
                 success: function (allProducts) {
                     $.each(allProducts, function (i, product) {
                         if(AllMonthSelected[i]==CustomMonthFrom)
@@ -1379,16 +1393,8 @@ function MakeYearBalanceRowDetails(BalanceProductArr, BalanceProductType)
         {
             console.log(BalanceProductArr[i].month);
             let demoDetails =  "";
-            let balancePrice = BalanceProductArr[i].monthIncome + BalanceProductArr[i].monthExpense;
+            let balancePrice = BalanceProductArr[i].monthIncome - BalanceProductArr[i].monthExpense;
             let displayBalancePrice = balancePrice;
-            if(balancePrice<0)
-            {
-                displayBalancePrice = "-" + balancePrice;
-            }
-            else if(balancePrice>0)
-            {
-                displayBalancePrice = "+" + balancePrice;
-            }
             demoDetails =
                 `
             <tr style="border: 1px solid gray">
@@ -1431,16 +1437,8 @@ function MakeMonthBalanceRowDetails(BalanceProductArr, BalanceProductType)
         if(BalanceProductArr[i].AllCategory.length>0)
         {
             let demoDetails =  "";
-            let balancePrice = BalanceProductArr[i].dateIncome + BalanceProductArr[i].dateExpense;
+            let balancePrice = BalanceProductArr[i].dateIncome - BalanceProductArr[i].dateExpense;
             let displayBalancePrice = balancePrice;
-            if(balancePrice<0)
-            {
-                displayBalancePrice = "-" + balancePrice;
-            }
-            else if(balancePrice>0)
-            {
-                displayBalancePrice = "+" + balancePrice;
-            }
             demoDetails =
                 `
             <tr style="border: 1px solid gray">
@@ -1484,6 +1482,15 @@ function MakeBarChart(categoryArr, chartLabelName)
         totalPriceAsLabels[i] = Math.floor((totalPriceAsLabels[i]/AllTotalPrice)*100);
     }
     let categoryColors = ColorInChart.slice(0,categoryArr.length) ;
+    var categoryAsLabels1 ;
+    var totalPriceAsLabels1 ;
+    if(categoryAsLabels.length>6)
+    {
+        categoryAsLabels1 = [categoryAsLabels[0],categoryAsLabels[1],categoryAsLabels[2],categoryAsLabels[3],categoryAsLabels[4],categoryAsLabels[5]];
+        totalPriceAsLabels1 = [totalPriceAsLabels[0],totalPriceAsLabels[1],totalPriceAsLabels[2],totalPriceAsLabels[3],totalPriceAsLabels[4],totalPriceAsLabels[05]];
+    }
+    console.log("cateas label="+categoryAsLabels1);
+    console.log("total price label="+totalPriceAsLabels1);
 //    let categoryColorsBorder = ColorInChart.slice(0,categoryAsLabels.length);
     var chart = new Chart(ctx, {
         // 要创建的图表类型
@@ -1491,11 +1498,11 @@ function MakeBarChart(categoryArr, chartLabelName)
         type: 'bar',
         // 数据集
         data: {
-            labels: categoryAsLabels, //最下面 x軸的label
+            labels: categoryAsLabels1, //最下面 x軸的label
             datasets: [{
                 backgroundColor: categoryColors, //填滿每一個bar的顏色
                 borderColor: "#4F4F4F",         //每一個bar的顏色的外框
-                data: totalPriceAsLabels,        //每一個bar的資料(長度)
+                data: totalPriceAsLabels1,        //每一個bar的資料(長度)
                 label: chartLabelName              //最上面的標題
             }]
         },
@@ -1660,7 +1667,21 @@ function MakeDoughnutChart(categoryArr, chartLabelName)
         }
     });
 }
-
+//data: ["1" ,"2"]
+//            label: ‘交通量’,
+//            // Line
+//            lineTension: 0,  //預設為把線段繪製成貝茲曲線，如果只是要用直線連接設為0即可
+//            backgroundColor: ‘#FF5376’,
+//            borderColor: ‘#FF5376’,
+//            fill: false,  // 不要將線段以下的區域填色
+//            borderWidth: 2,
+//            // Point
+//            pointRadius: 5,
+//            pointHoverRadius: 7,
+//          }
+//legend:{
+//            display: false
+//          },
 function MakeLineChart(categoryArr, chartLabelName)
 {
     //沒資料不顯示
@@ -1685,17 +1706,6 @@ function MakeLineChart(categoryArr, chartLabelName)
     var AllOutComeTotalPrice=0;
     var AllBalanceTotalPrice=0;
     var minLabel, step;
-    if(AllIncomeTotalPrice>AllOutComeTotalPrice)
-    {
-        maxLabel = AllIncomeTotalPrice/(Math.pow(10, AllIncomeTotalPrice.length-1))*(Math.pow(10, AllIncomeTotalPrice.length-1));
-    }
-    else
-    {
-        maxLabel = AllOutComeTotalPrice/(Math.pow(10, AllOutComeTotalPrice.length-1))*(Math.pow(10, AllOutComeTotalPrice.length-1));
-    }
-    minLabel = -maxLabel;
-    let tmp = maxLabel/3;
-    step = maxLabel/3/(Math.pow(10, tmp.length-1))*(Math.pow(10, tmp.length-1));
     if($('#SelectedTimeType input:radio:checked').val() == "year")
     {
         for (let k=0; k<categoryArr.length; k++)
@@ -1707,8 +1717,7 @@ function MakeLineChart(categoryArr, chartLabelName)
             totalOutComePriceArr[k] = categoryArr[k].monthExpense;
             AllOutComeTotalPrice += categoryArr[k].monthExpense;
 
-            totalBalancePriceArr[k] = totalIncomePriceArr[k]+totalOutComePriceArr[k];
-            AllBalanceTotalPrice += totalIncomePriceArr[k]+totalOutComePriceArr[k];
+            totalBalancePriceArr[k] = totalIncomePriceArr[k]-totalOutComePriceArr[k];
         }
     }
     else if($('#SelectedTimeType input:radio:checked').val() == "month")
@@ -1722,88 +1731,103 @@ function MakeLineChart(categoryArr, chartLabelName)
             totalOutComePriceArr[k] = categoryArr[k].dateExpense;
             AllOutComeTotalPrice += categoryArr[k].dateExpense;
 
-            totalBalancePriceArr[k] = totalIncomePriceArr[k]+totalOutComePriceArr[k];
-            AllBalanceTotalPrice += totalIncomePriceArr[k]+totalOutComePriceArr[k];
+            totalBalancePriceArr[k] = totalIncomePriceArr[k]-totalOutComePriceArr[k];
         }
     }
+    if(AllIncomeTotalPrice>AllOutComeTotalPrice)
+    {
+        maxLabel = Math.round(AllIncomeTotalPrice/(Math.pow(10, AllIncomeTotalPrice.toString().length-1)))*(Math.pow(10, AllIncomeTotalPrice.toString().length-1));
+    }
+    else
+    {
+        maxLabel = Math.round(AllOutComeTotalPrice/(Math.pow(10, AllOutComeTotalPrice.toString().length-1)))*(Math.pow(10, AllOutComeTotalPrice.toString().length-1));
+    }
+        console.log("maxlabel="+maxLabel+"AllIncomeTotalPrice="+AllIncomeTotalPrice);
+        console.log("(Math.pow(10, AllIncomeTotalPrice.length-1))="+(Math.pow(10, AllIncomeTotalPrice.toString().length-1))+"AllIncomeTotalPrice.length-1="+(AllIncomeTotalPrice.toString().length-1));
 
-    var chart = new Chart(ctx, {
-        // 要创建的图表类型
-        type: 'line',
-        // 数据集
-        data: {
-            labels: dateAsLabels,
-            datasets: [{
-                label: "123",
-                backgroundColor:"#F9F900",
-                data: totalIncomePriceArr
+    minLabel = -maxLabel;
+    var tmp = Math.round(maxLabel/2);
+    step = Math.round(tmp/(Math.pow(10, tmp.toString().length-1)))*(Math.pow(10, tmp.toString().length-1));
+    console.log("step="+step+"math round tmp="+ Math.round(tmp)+"minLabel="+minLabel);
+    console.log("(Math.pow(10, tmp.toString().length-1))="+(Math.pow(10, tmp.toString().length-1)));
+    maxLabel = minLabel + step*5;
+    chartLogoToText(AllIncomeTotalPrice, AllOutComeTotalPrice, AllIncomeTotalPrice - AllOutComeTotalPrice);
+    for(let i=0; i<totalIncomePriceArr.length; i++)
+    {
+        console.log("income" + i + totalIncomePriceArr[i]);
+        console.log("outcome" + i + totalOutComePriceArr[i]);
+        console.log("balance" + i + totalBalancePriceArr[i]);
+        console.log("data as labels" + i + dateAsLabels[i]);
+    }//"#F9F900","#00FFFF","#FF7575",
+    console.log("balanceArr=",totalBalancePriceArr);
+    console.log("incomeArr=",totalIncomePriceArr);
+    console.log("ExpenseeArr=",totalOutComePriceArr);
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels:dateAsLabels,
+                    datasets: [
+                    {
+                        label: 'income',
+                        data: totalIncomePriceArr,
+                        lineTension: 0,
+                        fill: false,
+                        borderColor: "yellow"
+                    },
+                    {
+                        label: 'expense',
+                        data: totalOutComePriceArr,
+                        lineTension: 0,
+                        fill: false,
+                        borderColor: "#00FFFF"
+                    },
+                    {
+                        label: 'balance',
+                        data: totalBalancePriceArr,
+                        lineTension: 0,
+                        fill: false,
+                        borderColor: "#f90032"
+                    }]
                 },
-                {
-                    label: "123",
-                    fill: false,
-                    backgroundColor: "#00FFFF",
-                    data: totalOutComePriceArr
-                },
-                {
-                    label: "123",
-                    backgroundColor: "#FF7575",
-                    data: totalBalancePriceArr
-                }]
-        },
-        // 配置选项
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            title: {
-                display: false,
-                text: chartLabelName
-            },
-            scales: {
-                animation:{
-                    animateRotate:true
-                },
-                // x 軸設置
-                xAxes: [{
-                    // x 軸標題
-                    scaleLabel:{
-                        display: false,
-                        labelString:"category",
-                        fontSize: 16
-                    },
-                    // x 軸格線
-                    gridLines: {
-                        display: false
-                    },
-                    // x 軸間距
-                    ticks: {
-                        display: false
-                    }
-                }],
-                // y 軸設置
-                yAxes: [{
-                    // y 軸標題
-                    scaleLabel:{
-                        display: false,
-                        labelString:"percent",
-                        fontSize: 16
-                    },
-                    // y 軸格線
-                    gridLines: {
-                        display: false
-                    },
-                    // y 軸間距
-                    ticks: {
-                        display: true,
-                        beginAtZero: false,
-                        min: minLabel,
-                        max: maxLabel,
-                        stepSize: step,
-                        callback: function(label, index, labels){
-                            return (label) ;
-                        }
-                    }
-                }]
-            }
-        }
-    });
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  title: {
+                      display: false,
+                      text: ""
+                  },
+                  legend:{              //上面的圖例
+                    display: false
+                  },
+                  scales: {
+                      // x 軸設置
+                      xAxes: [{
+                          // x 軸格線
+                          gridLines: {
+                              display: false
+                          }
+                      }],
+                      // y 軸設置
+                      yAxes: [{
+                          // y 軸格線
+                          gridLines: {
+                              display: true
+                          },
+                          // y 軸間距
+                          ticks: {
+                              display: true,
+                              beginAtZero: false,
+                              min: minLabel,
+                              max: maxLabel,
+                              stepSize: step,
+                              callback: function(label, index, labels){
+                                  return label;
+                              }
+                          }
+                      }]
+                  }
+
+                }
+
+            });
 }

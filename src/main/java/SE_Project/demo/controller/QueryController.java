@@ -183,7 +183,7 @@ public class QueryController {
         }
         List<BalanceDayProduct> BalanceResult = productToBDPFnc(result) ;
 
-        System.out.println(BalanceResult);
+//        System.out.println(BalanceResult);
         return ResponseEntity.status(HttpStatus.OK).body(BalanceResult);
     }
 
@@ -200,7 +200,7 @@ public class QueryController {
         }
         List<BalanceDayProduct> BalanceResult = productToBDPFnc(result) ;
 
-        System.out.println(BalanceResult);
+//        System.out.println(BalanceResult);
         return ResponseEntity.status(HttpStatus.OK).body(BalanceResult);
     }
     @GetMapping("/sixMonthOutcome")
@@ -341,13 +341,13 @@ public class QueryController {
         int tmpExpensePrice=0;
         for(int i=1; i<=12; i++)
         {
+            tmpIncomePrice=0;
+            tmpExpensePrice=0;
             BalanceMonthProduct tmpBMP = new BalanceMonthProduct();
             tmpMonth = year + totalMonth[i];
             tmpProductList = productService.getProductByDateLike(tmpMonth);
 
             for(Product tmp:tmpProductList){
-                tmpIncomePrice = 0;
-                tmpExpensePrice = 0;
                 if(tmp.getDate().substring(0,7).equals(tmpMonth)&&tmp.getAccountingType().equals(Type.expense))
                 {
                     tmpExpensePrice += tmp.getPrice();
@@ -380,7 +380,7 @@ public class QueryController {
         int t=0;
         for(Product tmp:monthResult)
         {
-
+//            t++;
 //            System.out.println(t+": "+tmp);
             //月份相等
             if(tmp.getDate().substring(0,7).equals(month))
