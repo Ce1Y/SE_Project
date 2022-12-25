@@ -597,7 +597,7 @@ function makeWhatChart(categoryArr, categoryLabelName)
         document.getElementById("makeTableDisappear").className = "container py-5 pe-2";
         document.getElementById("changeChart").className = "btn col-5 offset-7";
         document.getElementById("changeChart").style = "text-align: right";
-        MakeBarChart(categoryArr, categoryLabelName);
+        MakeBarChart(currentCategoryArr, categoryLabelName);
     }
     else if($("#changeChart").val()=="donutChart")
     {
@@ -607,7 +607,7 @@ function makeWhatChart(categoryArr, categoryLabelName)
         document.getElementById("changeChart").className = "btn col-5 offset-7";
         document.getElementById("chartFather").className = "chart-container";
         document.getElementById("changeChart").style = "text-align: right";
-        MakeDoughnutChart(categoryArr, categoryLabelName);
+        MakeDoughnutChart(currentCategoryArr, categoryLabelName);
     }
     else if($("#changeChart").val()=="lineChart")
     {
@@ -617,7 +617,7 @@ function makeWhatChart(categoryArr, categoryLabelName)
          document.getElementById("chartFather").className = "chart-container pe-5 pt-5";
          document.getElementById("changeChart").className = "btn col-4 offset-8 position-absolute button-10";
          document.getElementById("changeChart").style = "";
-         MakeLineChart(categoryArr, categoryLabelName);
+         MakeLineChart(currentCategoryArr, categoryLabelName);
     }
 }
 //回到支出or收如時下排按鈕重新選擇月 再把往前搜尋和往後搜尋的按鈕恢復成可使用
@@ -679,6 +679,7 @@ function msmySelectedTimeType()
 
 function DealMonthOutcome(date)
 {
+    console.log("income date="+date);
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/monthOutcome?date=" + date,
@@ -1284,7 +1285,7 @@ function MakeRowDetails(categoryArr)
                     <td width="10%"></td>
                     <th width="50%"> 收入明細</th>
                     <td width="20%" ></td> <!-- fs-4 -->
-                    <td width="20%" style="text-align: right;">&#8691;</td>
+                    <td class="fs-5" width="20%" style="text-align: right;">&#8691;</td>
                 </tr>
                 `;
                 $("#ExInDetails").html("");
@@ -1323,7 +1324,7 @@ function MakeRowDetails(categoryArr)
                     <td width="10%"></td>
                     <th width="50%"> 支出明細</th>
                     <td width="20%" ></td> <!-- fs-4 -->
-                    <td width="20%" style="text-align: right;">&#8691;</td>
+                    <td class="fs-5" width="20%" style="text-align: right;">&#8691;</td>
                 </tr>
                 `;
                 $("#ExInDetails").html("");
@@ -1381,7 +1382,7 @@ function MakeYearBalanceRowDetails(BalanceProductArr, BalanceProductType)
                 `
             <tr >
                 <th class="ps-3" width="70%"> 日期明細</th>
-                <td width="30%" style="text-align: right;">&#8691;</td>
+                <td class="fs-5" width="30%" style="text-align: right;">&#8691;</td>
             </tr>
             `;
             $("#ExInDetails").append(firstDetails);
@@ -1482,12 +1483,22 @@ function MakeBarChart(categoryArr, chartLabelName)
         totalPriceAsLabels[i] = Math.floor((totalPriceAsLabels[i]/AllTotalPrice)*100);
     }
     let categoryColors = ColorInChart.slice(0,categoryArr.length) ;
-    var categoryAsLabels1 ;
-    var totalPriceAsLabels1 ;
+    var categoryAsLabels1 = [];
+    var totalPriceAsLabels1 = [];
     if(categoryAsLabels.length>6)
     {
         categoryAsLabels1 = [categoryAsLabels[0],categoryAsLabels[1],categoryAsLabels[2],categoryAsLabels[3],categoryAsLabels[4],categoryAsLabels[5]];
         totalPriceAsLabels1 = [totalPriceAsLabels[0],totalPriceAsLabels[1],totalPriceAsLabels[2],totalPriceAsLabels[3],totalPriceAsLabels[4],totalPriceAsLabels[05]];
+    }
+    else
+    {
+        for(let i=0; i<categoryAsLabels.length; i++)
+        {
+            console.log("cateas label["+ i + "]= " +categoryAsLabels[i]);
+            console.log("total price label["+ i + "]= " +totalPriceAsLabels[i]);
+            categoryAsLabels1.push(categoryAsLabels[i]);
+            totalPriceAsLabels1.push(totalPriceAsLabels[i]);
+        }
     }
     console.log("cateas label="+categoryAsLabels1);
     console.log("total price label="+totalPriceAsLabels1);
