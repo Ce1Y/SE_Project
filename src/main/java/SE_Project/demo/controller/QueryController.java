@@ -77,6 +77,7 @@ public class QueryController {
     @GetMapping("/products/category")
     public ResponseEntity<List<Product>> getProductsByCategory(@RequestParam(required = false) String category) {
         List<Product> result = productService.getProductsByCategory(category);
+        sortProduct(result);
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
@@ -84,6 +85,7 @@ public class QueryController {
     public ResponseEntity<List<Product>> getProductsByDescriptionLike(@RequestParam(required = false) String description) {
 
         List<Product> result = productService.getProductsByDescriptionLike(description);
+        sortProduct(result);
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
@@ -124,6 +126,7 @@ public class QueryController {
     @GetMapping("/date")//當日所有花費
     public ResponseEntity<List<Product>> DateTotal(@RequestParam String date){
         List<Product> result=productService.getProductsByDate(date);
+        sortProduct(result);
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
@@ -131,6 +134,7 @@ public class QueryController {
     @GetMapping("/pricebetween")
     public ResponseEntity<List<Product>> getProductByPriceBetween(@RequestParam String pricefrom, @RequestParam String priceto){
         List<Product> result=productService.getProductsByPriceBetween(Integer.parseInt(pricefrom), Integer.parseInt(priceto));
+        sortProduct(result);
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
@@ -138,6 +142,7 @@ public class QueryController {
     @GetMapping("/pricegreaterthan")
     public ResponseEntity<List<Product>> getProductByPriceGreater(@RequestParam String price){
         List<Product> result=productService.getProductsByPriceGreaterThan(Integer.parseInt(price));
+        sortProduct(result);
         if(result==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
@@ -152,7 +157,7 @@ public class QueryController {
                 monthTemp.add(tmp);
             }
         }
-
+        sortProduct(monthTemp);
         return ResponseEntity.status(HttpStatus.OK).body(monthTemp);
     }
     @GetMapping("/monthIncome")
@@ -166,7 +171,35 @@ public class QueryController {
                 monthTemp.add(tmp);
             }
         }
+        sortProduct(monthTemp);
         return ResponseEntity.status(HttpStatus.OK).body(monthTemp);
+    }
+
+    @GetMapping("/monthTotal")
+    public ResponseEntity<List<Product>> monthTotal(@RequestParam String date){
+        String month = date.substring(0,7);
+        List<Product> temp = productService.getProductByDateLike(month);
+        List<Product> monthTemp1 = new ArrayList<>();
+        List<Product> monthTemp2 = new ArrayList<>();
+        for(Product tmp:temp){
+            //equals要改type.income 不能直接寫"income"
+            if(tmp.getDate().substring(0,7).equals(month)&&tmp.getAccountingType().equals(Type.income)){
+                monthTemp1.add(tmp);
+            }
+        }
+        sortProduct(monthTemp1);
+        for(Product tmp:temp){
+            //equals要改type.income 不能直接寫"income"
+            if(tmp.getDate().substring(0,7).equals(month)&&tmp.getAccountingType().equals(Type.expense)){
+                monthTemp2.add(tmp);
+            }
+        }
+        sortProduct(monthTemp2);
+        for(int i=0; i<monthTemp2.toArray().length; i++)
+        {
+            monthTemp1.add(monthTemp2.get(i));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(monthTemp1);
     }
 
     //和BalanceDayProduct一樣 但是不加percent 加快執行速度
@@ -623,6 +656,27 @@ public class QueryController {
             }
         }
         return  tmpBDP;
+    }
+    public List<Product> sortProduct(List<Product> tmpProduct)
+    {
+        int len = tmpProduct.toArray().length;
+        while (len > 1)
+        {
+            len--;
+            for (int i = 0; i < len; i++)
+            {
+                // 如果前面的元素比後面的元素要大，則交換元素位置
+                if( Integer.parseInt( tmpProduct.get(i).getDate().substring(8,10) ) > Integer.parseInt( tmpProduct.get(i+1).getDate().substring(8,10) ))
+                {
+//                    System.out.println(i+Integer.parseInt( tmpBDP.get(i).getDate().substring(8,10) ));
+//                    System.out.println(i+1+Integer.parseInt( tmpBDP.get(i+1).getDate().substring(8,10) ));
+                    Product tmp = tmpProduct.get(i);
+                    tmpProduct.set(i, tmpProduct.get(i+1));
+                    tmpProduct.set(i+1, tmp);
+                }
+            }
+        }
+        return  tmpProduct;
     }
 }
 
