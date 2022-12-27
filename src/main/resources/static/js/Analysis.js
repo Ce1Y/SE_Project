@@ -617,7 +617,7 @@ function makeWhatChart(categoryArr, categoryLabelName)
          document.getElementById("chartFather").className = "chart-container pe-5 pt-5";
          document.getElementById("changeChart").className = "btn col-4 offset-8 position-absolute button-10";
          document.getElementById("changeChart").style = "";
-         MakeLineChart(currentCategoryArr, categoryLabelName);
+         MakeLineChart(categoryArr, categoryLabelName);
     }
 }
 //回到支出or收如時下排按鈕重新選擇月 再把往前搜尋和往後搜尋的按鈕恢復成可使用
