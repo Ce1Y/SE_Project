@@ -666,10 +666,29 @@ public class QueryController {
             for (int i = 0; i < len; i++)
             {
                 // 如果前面的元素比後面的元素要大，則交換元素位置
-                if( Integer.parseInt( tmpProduct.get(i).getDate().substring(8,10) ) > Integer.parseInt( tmpProduct.get(i+1).getDate().substring(8,10) ))
+                int flag = 0;
+                String tmp1 = tmpProduct.get(i).getDate();
+                String tmp2 = tmpProduct.get(i+1).getDate();
+                int tmp1Year = Integer.parseInt( tmp1.substring(0,4));
+                int tmp2Year = Integer.parseInt( tmp2.substring(0,4));
+                int tmp1Month = Integer.parseInt( tmp1.substring(5,7));
+                int tmp2Month = Integer.parseInt( tmp2.substring(5,7));
+                int tmp1Date = Integer.parseInt( tmp1.substring(8,10));
+                int tmp2Date = Integer.parseInt( tmp2.substring(8,10));
+                if( tmp1Year > tmp2Year)
                 {
-//                    System.out.println(i+Integer.parseInt( tmpBDP.get(i).getDate().substring(8,10) ));
-//                    System.out.println(i+1+Integer.parseInt( tmpBDP.get(i+1).getDate().substring(8,10) ));
+                    flag=1;
+                }
+                else if(tmp1Year == tmp2Year && tmp1Month > tmp2Month )
+                {
+                    flag=1;
+                }
+                else if(tmp1Year == tmp2Year && tmp1Month == tmp2Month && tmp1Date>tmp2Date)
+                {
+                    flag=1;
+                }
+                if(flag==1)
+                {
                     Product tmp = tmpProduct.get(i);
                     tmpProduct.set(i, tmpProduct.get(i+1));
                     tmpProduct.set(i+1, tmp);
