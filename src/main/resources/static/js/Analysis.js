@@ -25,10 +25,23 @@ $(document).ready(function(){
         DealMonthOutcome(todayString);
         MakeRowDetails("11");
         $("#YearAndDate").append(`<b>${currentYear}年${currentMonth}月</b>`);
+        var myOffcanvas = document.getElementById('offcanvasBottom')
+        myOffcanvas.addEventListener('shown.bs.offcanvas', function () {
+          console.log("canvas check");
+        })
+    });
+
+    $("#selectTimeBack2").click(function(){
+    console.log("what");
+    var myOffcanvas =  document.getElementById('offcanvasBottom');
+    var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas)
+
+    bsOffcanvas.toggle();
     });
 
     //按下<鍵
     $("#selectTimeBack").click(function(){
+
         $("#chart").html("");
         var displayDate;
         let selectedMonthWith0 = 0;
