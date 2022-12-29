@@ -202,39 +202,35 @@ public class QueryController {
         return ResponseEntity.status(HttpStatus.OK).body(monthTemp1);
     }
 
-    //和BalanceDayProduct一樣 但是不加percent 加快執行速度
+
     @GetMapping("/monthOutcomeAsCate")
-    public ResponseEntity<List<BalanceDayProduct>> monthOutcomeAsCate(String date){
+    public ResponseEntity<List<Product>> monthOutcomeAsCate(@RequestParam String date, @RequestParam String category){
         int dateMonth =  Integer.parseInt(date.substring(5,7));
         int dateYear =  Integer.parseInt(date.substring(0,4));
         List<Product> result = new ArrayList<>();
         List<Product> temp = productService.getProductByDateLike(date);
         for(Product tmp:temp){
-            if(tmp.getAccountingType().equals(Type.expense)){
+            if( tmp.getAccountingType().equals(Type.expense) && tmp.getCategory().equals(category)){
                 result.add(tmp);
             }
         }
-        List<BalanceDayProduct> BalanceResult = productToBDPFnc(result) ;
 
-//        System.out.println(BalanceResult);
-        return ResponseEntity.status(HttpStatus.OK).body(BalanceResult);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @GetMapping("/monthIncomeAsCate")
-    public ResponseEntity<List<BalanceDayProduct>> monthIncomeAsCate(String date){
+    public ResponseEntity<List<Product>> monthIncomeAsCate(@RequestParam String date, @RequestParam String category){
         int dateMonth =  Integer.parseInt(date.substring(5,7));
         int dateYear =  Integer.parseInt(date.substring(0,4));
         List<Product> result = new ArrayList<>();
         List<Product> temp = productService.getProductByDateLike(date);
         for(Product tmp:temp){
-            if(tmp.getAccountingType().equals(Type.income)){
+            if(tmp.getAccountingType().equals(Type.income) && tmp.getCategory().equals(category)){
                 result.add(tmp);
             }
         }
-        List<BalanceDayProduct> BalanceResult = productToBDPFnc(result) ;
 
-//        System.out.println(BalanceResult);
-        return ResponseEntity.status(HttpStatus.OK).body(BalanceResult);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     @GetMapping("/sixMonthOutcome")
     public ResponseEntity<List<Product>> sixMonthOutcome(@RequestParam String dateFrom, @RequestParam String dateTo){

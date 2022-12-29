@@ -19,7 +19,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-<script src="js/Analysis.js"></script>
+
 
 
 <div class="container custom-container-width">
@@ -181,17 +181,17 @@
     </table>
 </div>
 
-<button type="button" class="btn col-1 offset-2" id="selectTimeBack2">
-    Toggle bottom offcanvas
-</button>
+<!--<button type="button" class="btn col-1 offset-2" id="selectTimeBack2">-->
+<!--    Toggle bottom offcanvas-->
+<!--</button>-->
 <!--data-bs-scroll="true"-->
-<div class="offcanvas offcanvas-bottom h-auto" tabindex="-1"  id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+<div class="offcanvas offcanvas-bottom" tabindex="-1"  id="offcanvasBottom" data-bs-scroll="true" aria-labelledby="offcanvasBottomLabel">
     <div class="offcanvas-header" id="canvasHeaderColor"  style="background-color:rgb(255, 99, 132)">
         <h5 class="offcanvas-title"  id="offcanvasBottomLabel">早餐</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <div class="container">
+        <div class="container" id="canvasBody">
             <div class="row">
                 <span class="col-6" style="text-align: left">支出詳情</span>
                 <span class="col-6"  style="text-align: right">&#8691;</span>
@@ -231,56 +231,14 @@
                     $9999
                 </div>
             </div>
-
-            <div class="row" style="background-color:#E0E0E0">
-                <div class="col-6 " style="text-align: left">2022-12-18</div>
-                <div class="col-6 text-danger" style="text-align: right">$9999</div>
-            </div>
-            <div class="row">
-                <div class="col-8">
-                    <div class="row">
-                        <span>早餐 30%</span>
-                    </div>
-                    <div class="row">
-                        <div class="progress" style="height: 3px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4" style="text-align: right">
-                    $9999
-                </div>
-            </div>
-
-            <div class="row" style="background-color:#E0E0E0">
-                <div class="col-6 " style="text-align: left">2022-12-23</div>
-                <div class="col-6 text-danger" style="text-align: right">$9999</div>
-            </div>
-            <div class="row">
-                <div class="col-8">
-                    <div class="row">
-                        <span>早餐 50%</span>
-                    </div>
-                    <div class="row">
-                        <div class="progress" style="height: 3px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4" style="text-align: right">
-                    $9999
-                </div>
-            </div>
-
         </div>
-
     </div>
 </div>
 
 
 
 
-
+<script src="js/Analysis.js"></script>
 <script src=“https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 </body>
 </html>

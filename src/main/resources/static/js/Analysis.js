@@ -23,21 +23,30 @@ $(document).ready(function(){
         selectedMonth=currentMonth;
         selectedDate=currentDate;
         DealMonthOutcome(todayString);
-        MakeRowDetails("11");
         $("#YearAndDate").append(`<b>${currentYear}年${currentMonth}月</b>`);
-        var myOffcanvas = document.getElementById('offcanvasBottom')
-        myOffcanvas.addEventListener('shown.bs.offcanvas', function () {
-          console.log("canvas check");
-        })
+//        let price=55;
+//        let price2=57;
+//        let category = "food";
+//        let date1 = "2022-01-05";
+//        let date2 = "2022-01-06";
+//        const categoryArr=[];
+//        categoryArr[categoryArr.length] = new structCategory(category, price, date1, price);
+//        let categoryIndex = categoryIsPresent(category, categoryArr);
+//        categoryArr[categoryIndex].dateArr.push(date2);
+//        categoryArr[categoryIndex].priceArr.push(price2);
+//        console.log(categoryArr);
+
     });
 
-    $("#selectTimeBack2").click(function(){
-    console.log("what");
-    var myOffcanvas =  document.getElementById('offcanvasBottom');
-    var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas)
-
-    bsOffcanvas.toggle();
-    });
+//    $("#selectTimeBack2").click(function(){
+//    console.log("what");
+//
+//
+//    var myOffcanvas =  document.getElementById('offcanvasBottom');
+//    var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas)
+//
+//    bsOffcanvas.toggle();
+//    });
 
     //按下<鍵
     $("#selectTimeBack").click(function(){
@@ -493,10 +502,12 @@ $(document).ready(function(){
 });
 
 //struct一個category物件
-function structCategory(category, totalPrice)
+function structCategory(category, totalPrice, date, price)
 {
     this.category = category;
     this.totalPrice = totalPrice;
+    this.dateArr = [date];
+    this.priceArr = [price];
 }
 
 //struct一個CategoryOfPercent物件 為AllCategory裡的內容物
@@ -702,11 +713,13 @@ function DealMonthOutcome(date)
                 let categoryIndex= categoryIsPresent(product.category, categoryArr);
                 if( categoryIndex == (-1) )
                 {
-                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                 }
                 else
                 {
                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                    categoryArr[categoryIndex].dateArr.push(product.date);
+                    categoryArr[categoryIndex].priceArr.push(product.price);
                 }
             });
 
@@ -730,11 +743,13 @@ function DealMonthIncome(date)
                 let categoryIndex= categoryIsPresent(product.category, categoryArr);
                 if( categoryIndex == (-1) )
                 {
-                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                 }
                 else
                 {
                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                    categoryArr[categoryIndex].dateArr.push(product.date);
+                    categoryArr[categoryIndex].priceArr.push(product.price);
                 }
             });
             currentCategoryArr = categoryArr.sort(function(a, b) { return b.totalPrice - a.totalPrice;});
@@ -792,11 +807,13 @@ function DealSixMonthOutcome(dateFrom, dateTo)
                 let categoryIndex= categoryIsPresent(product.category, categoryArr);
                 if( categoryIndex == (-1) )
                 {
-                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                 }
                 else
                 {
                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                    categoryArr[categoryIndex].dateArr.push(product.date);
+                    categoryArr[categoryIndex].priceArr.push(product.price);
                 }
             });
             currentCategoryArr = categoryArr.sort(function(a, b) { return b.totalPrice - a.totalPrice;});
@@ -822,11 +839,13 @@ function DealSixMonthIncome(dateFrom, dateTo)
                 let categoryIndex= categoryIsPresent(product.category, categoryArr);
                 if( categoryIndex == (-1) )
                 {
-                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                 }
                 else
                 {
                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                    categoryArr[categoryIndex].dateArr.push(product.date);
+                    categoryArr[categoryIndex].priceArr.push(product.price);
                 }
             });
 
@@ -853,11 +872,13 @@ function DealYearOutcome(date)
                 let categoryIndex= categoryIsPresent(product.category, categoryArr);
                 if( categoryIndex == (-1) )
                 {
-                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                 }
                 else
                 {
                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                    categoryArr[categoryIndex].dateArr.push(product.date);
+                    categoryArr[categoryIndex].priceArr.push(product.price);
                 }
             });
             currentCategoryArr = categoryArr.sort(function(a, b) { return b.totalPrice - a.totalPrice;});
@@ -883,11 +904,13 @@ function DealYearIncome(date)
                 let categoryIndex= categoryIsPresent(product.category, categoryArr);
                 if( categoryIndex == (-1) )
                 {
-                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                 }
                 else
                 {
                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                    categoryArr[categoryIndex].dateArr.push(product.date);
+                    categoryArr[categoryIndex].priceArr.push(product.price);
                 }
             });
 
@@ -982,11 +1005,13 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
                                 let categoryIndex= categoryIsPresent(product.category, categoryArr);
                                 if( categoryIndex == (-1) )
                                 {
-                                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                                 }
                                 else
                                 {
                                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                                    categoryArr[categoryIndex].dateArr.push(product.date);
+                                    categoryArr[categoryIndex].priceArr.push(product.price);
                                 }
                             }
                         }
@@ -997,11 +1022,13 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
                                 let categoryIndex= categoryIsPresent(product.category, categoryArr);
                                 if( categoryIndex == (-1) )
                                 {
-                                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                                 }
                                 else
                                 {
                                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                                    categoryArr[categoryIndex].dateArr.push(product.date);
+                                    categoryArr[categoryIndex].priceArr.push(product.price);
                                 }
                             }
                         }
@@ -1010,11 +1037,13 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
                             let categoryIndex= categoryIsPresent(product.category, categoryArr);
                             if( categoryIndex == (-1) )
                             {
-                                categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                                categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                             }
                             else
                             {
                                 categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                                categoryArr[categoryIndex].dateArr.push(product.date);
+                                categoryArr[categoryIndex].priceArr.push(product.price);
                             }
                         }
                     });
@@ -1043,11 +1072,13 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
                                 let categoryIndex= categoryIsPresent(product.category, categoryArr);
                                 if( categoryIndex == (-1) )
                                 {
-                                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                                 }
                                 else
                                 {
                                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                                    categoryArr[categoryIndex].dateArr.push(product.date);
+                                    categoryArr[categoryIndex].priceArr.push(product.price);
                                 }
                             }
                         }
@@ -1058,11 +1089,13 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
                                 let categoryIndex= categoryIsPresent(product.category, categoryArr);
                                 if( categoryIndex == (-1) )
                                 {
-                                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                                    categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                                 }
                                 else
                                 {
                                     categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                                    categoryArr[categoryIndex].dateArr.push(product.date);
+                                    categoryArr[categoryIndex].priceArr.push(product.price);
                                 }
                             }
                         }
@@ -1071,11 +1104,13 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
                             let categoryIndex= categoryIsPresent(product.category, categoryArr);
                             if( categoryIndex == (-1) )
                             {
-                                categoryArr[categoryArr.length] = new structCategory(product.category, product.price);
+                                categoryArr[categoryArr.length] = new structCategory(product.category, product.price, product.date, product.price);
                             }
                             else
                             {
                                 categoryArr[categoryIndex].totalPrice =  categoryArr[categoryIndex].totalPrice + product.price;
+                                categoryArr[categoryIndex].dateArr.push(product.date);
+                                categoryArr[categoryIndex].priceArr.push(product.price);
                             }
                         }
                     });
@@ -1264,6 +1299,7 @@ function MakeRowPercentage(categoryArr)
         $("#percentageDetailsRow").append(demoRow);
     }
 }
+
 //支出 收入明細
 function MakeRowDetails(categoryArr)
 {
@@ -1280,7 +1316,7 @@ function MakeRowDetails(categoryArr)
     var categoryAsArr = [];
     var totalPriceAsArr = [];
     var cateLogo = "";
-    var demoDetails;
+
     for(i=0; i<categoryArr.length; i++)
     {
         categoryAsArr[i] = categoryArr[i].category;
@@ -1316,16 +1352,16 @@ function MakeRowDetails(categoryArr)
             {
                 cateLogo = moneyIncomeIconArr[4];
             }
-            demoDetails =
-                `
-            <tr style="border: 1px solid gray">
+            let demoDetails =
+            `
+            <tr style="border: 1px solid gray"   onclick="tableClickToCanvas(this)">
                 <th  style="text-align: right;">${cateLogo}</th>
-                <td >${categoryAsArr[i]}</td>
+                <td value="${i}">${categoryAsArr[i]}</td>
                 <td ></td>
                 <td >${totalPriceAsArr[i]}</td>
             </tr>
             `;
-
+            $("#ExInDetails").append(demoDetails);
         }
         else if($('#analysisType_btn input:radio:checked').val() == "expense")
         {
@@ -1356,21 +1392,18 @@ function MakeRowDetails(categoryArr)
                 cateLogo = moneyExpenseIconArr[4];
             }
 
-            demoDetails =
-                `
-            <tr style="border: 1px solid gray">
+            let demoDetails =
+            `<tr style="border: 1px solid gray"   onclick="tableClickToCanvas(this)">
                 <th  style="text-align: right;">${cateLogo}</th>
-                <td >${categoryAsArr[i]}</td>
+                <td value="${i}">${categoryAsArr[i]}</td>
                 <td ></td>
                 <td >${totalPriceAsArr[i]}</td>
-            </tr>
-            `;
+            </tr>`;
+            $("#ExInDetails").append(demoDetails);
         }
-        else
-        {
+        $("#elementId").click(function() {
 
-        }
-        $("#ExInDetails").append(demoDetails);
+        });
     }
 }
 
@@ -1400,9 +1433,6 @@ function MakeYearBalanceRowDetails(BalanceProductArr, BalanceProductType)
             `;
             $("#ExInDetails").append(firstDetails);
         }
-
-
-        console.log(i);
         if(BalanceProductArr[i].AllBalanceDayProduct.length>0)
         {
             console.log(BalanceProductArr[i].month);
@@ -1411,7 +1441,7 @@ function MakeYearBalanceRowDetails(BalanceProductArr, BalanceProductType)
             let displayBalancePrice = balancePrice;
             demoDetails =
                 `
-            <tr style="border: 1px solid gray">
+            <tr style="border: 1px solid gray" onclick="tableClickToCanvas(this)">
                 <td class="ps-3">${BalanceProductArr[i].month}</td>
                 <td class="text-danger" style="text-align: right">$${displayBalancePrice}</td>
             </tr>
@@ -1439,7 +1469,7 @@ function MakeMonthBalanceRowDetails(BalanceProductArr, BalanceProductType)
         if(i==0)
         {
             let firstDetails =
-                `
+             `
             <tr >
                 <th class="ps-3" width="70%"> 日期明細</th>
                 <td width="30%" style="text-align: right;">&#8691;</td>
@@ -1454,8 +1484,8 @@ function MakeMonthBalanceRowDetails(BalanceProductArr, BalanceProductType)
             let balancePrice = BalanceProductArr[i].dateIncome - BalanceProductArr[i].dateExpense;
             let displayBalancePrice = balancePrice;
             demoDetails =
-                `
-            <tr style="border: 1px solid gray">
+            `
+            <tr style="border: 1px solid gray" onclick="tableClickToCanvas(this)">
                 <td class="ps-3">${BalanceProductArr[i].date}</td>
                 <td class="text-danger" style="text-align: right">$${displayBalancePrice}</td>
             </tr>
@@ -1464,6 +1494,180 @@ function MakeMonthBalanceRowDetails(BalanceProductArr, BalanceProductType)
         }
     }
 }
+
+
+
+//click 明細的table row 跳出offCanvas顯示那個row的細節
+function tableClickToCanvas(tableRow)
+{
+    var myOffcanvas =  document.getElementById('offcanvasBottom');
+    var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+    var tdArr = tableRow.querySelectorAll('td');;
+    let color="", category="", totalPrice="";
+    if($('#analysisType_btn input:radio:checked').val() != "balance")
+    {
+        color = tdArr[0].getAttribute("value");
+        category = tdArr[0].textContent;
+        totalPrice = tdArr[2].textContent;
+    }
+    else
+    {
+        category = tdArr[0].textContent;
+        totalPrice = tdArr[1].textContent;
+    }
+
+    console.log("color="+color+" category="+category+" totalPrice="+totalPrice);
+    console.log("tableRow="+tableRow.innerHTML);
+    $("#canvasBody").html("");
+    if($('#analysisType_btn input:radio:checked').val() == "expense")
+    {
+        for(let i=0; i<currentCategoryArr.length; i++)
+        {
+            if(currentCategoryArr[i].category == category)
+            {
+                let detail =
+                `
+                <div class="row">
+                    <span class="col-6" style="text-align: left">支出詳情</span>
+                    <span class="col-6"  style="text-align: right">&#8691;</span>
+                </div>
+                `;
+                document.getElementById("canvasHeaderColor").style = "background-color:" + ColorInChart[color];
+                $("#offcanvasBottomLabel").html("");
+                $("#offcanvasBottomLabel").append(category);
+                $("#canvasBody").append(detail);
+                console.log("totalPriceTable="+totalPrice+"totalPriceArr="+currentCategoryArr[i].totalPrice);
+                console.log("currentCategoryArr[i].dateArr.length="+currentCategoryArr[i].dateArr.length);
+                for(let j=0; j<currentCategoryArr[i].dateArr.length; j++)
+                {
+                    let percent = Math.round((currentCategoryArr[i].priceArr[j]/totalPrice)*100);
+                    let percentWithFloat = Math.round((currentCategoryArr[i].priceArr[j]/totalPrice)*10000)/100;
+                    let demoDate =
+                    `
+                    <div class="row" style="background-color:#E0E0E0">
+                        <div class="col-6 " style="text-align: left">${currentCategoryArr[i].dateArr[j]}</div>
+                        <div class="col-6 text-danger" style="text-align: right">$-${currentCategoryArr[i].priceArr[j]}</div>
+                    </div>
+                    `;
+                    let demoCanvasRow =
+                    `
+                    <div class="row">
+                         <div class="col-8">
+                             <div class="row">
+                                 <span>${category} ${percentWithFloat}%</span>
+                             </div>
+                             <div class="row">
+                                 <div class="progress" style="height: 3px;">
+                                     <div class="progress-bar bg-warning" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100"></div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-4" style="text-align: right">
+                             $-${currentCategoryArr[i].priceArr[j]}
+                         </div>
+                     </div>
+                    `;
+                    $("#canvasBody").append(demoDate);
+                    $("#canvasBody").append(demoCanvasRow);
+                }
+                break;
+            }
+        }
+    }
+    else if($('#analysisType_btn input:radio:checked').val() == "income")
+    {
+        for(let i=0; i<currentCategoryArr.length; i++)
+        {
+            if(currentCategoryArr[i].category == category)
+            {
+                let detail =
+                `
+                <div class="row">
+                    <span class="col-6" style="text-align: left">收入詳情</span>
+                    <span class="col-6"  style="text-align: right">&#8691;</span>
+                </div>
+                `;
+                document.getElementById("canvasHeaderColor").style = "background-color:" + ColorInChart[color];
+                $("#offcanvasBottomLabel").html("");
+                $("#offcanvasBottomLabel").append(category);
+                $("#canvasBody").append(detail);
+                console.log("totalPriceTable="+totalPrice+"totalPriceArr="+currentCategoryArr[i].totalPrice);
+                for(let j=0; j<currentCategoryArr[i].dateArr.length; j++)
+                {
+                    let percent = Math.round((currentCategoryArr[i].priceArr[j]/totalPrice)*100);
+                    let percentWithFloat = Math.round((currentCategoryArr[i].priceArr[j]/totalPrice)*10000)/100;
+                    let demoDate =
+                    `
+                    <div class="row" style="background-color:#E0E0E0">
+                        <div class="col-6 " style="text-align: left">${currentCategoryArr[i].dateArr[j]}</div>
+                        <div class="col-6 text-danger" style="text-align: right">$${currentCategoryArr[i].priceArr[j]}</div>
+                    </div>
+                    `;
+                    let demoCanvasRow =
+                    `
+                    <div class="row">
+                         <div class="col-8">
+                             <div class="row">
+                                 <span>${category} ${percentWithFloat}%</span>
+                             </div>
+                             <div class="row">
+                                 <div class="progress" style="height: 3px;">
+                                     <div class="progress-bar bg-warning" role="progressbar" style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100"></div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="col-4" style="text-align: right">
+                             $${currentCategoryArr[i].priceArr[j]}
+                         </div>
+                     </div>
+                    `;
+                    $("#canvasBody").append(demoDate);
+                    $("#canvasBody").append(demoCanvasRow);
+                }
+                break;
+            }
+        }
+    }
+    else
+    {
+//        if($('#SelectedTimeType input:radio:checked').val() == "month")
+//        {
+//
+//        }
+//        else
+//        {
+//            for (let k=0; k<BalanceMonthProductArr.length; k++)
+//            {
+////                console.log("month:"+  + BalanceMonthProductArr[k].month + "monthIncome=" + BalanceMonthProductArr[k].monthIncome);
+////                console.log("monthExpense=" + BalanceMonthProductArr[k].monthExpense);
+////                console.log(BalanceMonthProductArr[k].AllBalanceDayProduct);
+//                for(let i=0; i<BalanceMonthProductArr[k].AllBalanceDayProduct.length; i++)
+//                {
+//                    let detail =
+//                    `
+//                    <div class="row">
+//                        <span class="col-6" style="text-align: left">結餘詳情</span>
+//                        <span class="col-6"  style="text-align: right">&#8691;</span>
+//                    </div>
+//                    `;
+//                    document.getElementById("canvasHeaderColor").style = "background-color:" + ColorInChart[color];
+//                    $("#offcanvasBottomLabel").html("");
+//                    $("#offcanvasBottomLabel").append(category);
+//                    $("#canvasBody").append(detail);
+//                    console.log("date:"+   BalanceMonthProductArr[k].AllBalanceDayProduct[i].date + "dateIncome=" + BalanceMonthProductArr[k].AllBalanceDayProduct[i].dateIncome);
+//                    console.log("dateExpense="+   BalanceMonthProductArr[k].AllBalanceDayProduct[i].dateExpense);
+//                    for(let j=0; j<BalanceMonthProductArr[k].AllBalanceDayProduct[i].AllCategory.length; j++)
+//                    {
+//                        if(BalanceMonthProductArr[k].AllBalanceDayProduct[i].AllCategory[j] == category)
+//                        console.log(j + " = " + BalanceMonthProductArr[k].AllBalanceDayProduct[i].AllCategory[j]);
+//                    }
+//                }
+//            }
+//        }
+    }
+    bsOffcanvas.toggle();//彈出offCanvas
+}
+
 
 function MakeBarChart(categoryArr, chartLabelName)
 {
