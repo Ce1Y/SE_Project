@@ -616,7 +616,7 @@ function changeYearAndDate(isSixMonth, displayDate)
 //選結餘時不顯示logo ， 顯示文字
 function chartLogoToText(incomeTotalPrice,expenseTotalPrice, balanceTotalPrice)
 {
-    if(incomeTotalPrice>expenseTotalPrice)
+    if(balanceTotalPrice>0)
         balanceTotalPrice = "+" + balanceTotalPrice;
 
 
@@ -624,7 +624,7 @@ function chartLogoToText(incomeTotalPrice,expenseTotalPrice, balanceTotalPrice)
         `
     <div style="font-size:10px">
         <span>支出 : </span>
-        <span class="text-warning">-${expenseTotalPrice}</span>
+        <span class="text-warning">${expenseTotalPrice}</span>
     </div>
     <div style="font-size:10px">
         <span>收入 : </span>
@@ -1462,7 +1462,7 @@ function MakeRowDetails(categoryArr)
             if(i==0)
             {
                 let firstDetails =
-                 `
+                `
                 <tr >
                     <td width="10%"></td>
                     <th width="50%"> 收入明細</th>
@@ -1558,7 +1558,7 @@ function MakeYearBalanceRowDetails(BalanceProductArr, BalanceProductType)
         if(i==0)
         {
             let firstDetails =
-                `
+            `
             <tr >
                 <th class="ps-3" width="70%"> 日期明細</th>
                 <td class="fs-5" width="30%" style="text-align: right;">&#8691;</td>
@@ -1571,9 +1571,10 @@ function MakeYearBalanceRowDetails(BalanceProductArr, BalanceProductType)
             console.log(BalanceProductArr[i].month);
             let demoDetails =  "";
             let balancePrice = BalanceProductArr[i].monthIncome - BalanceProductArr[i].monthExpense;
-            let displayBalancePrice = balancePrice;
+            let displayBalancePrice =balancePrice.toString();
+
             demoDetails =
-                `
+            `
             <tr style="border: 1px solid gray" onclick="tableClickToCanvas(this)">
                 <td class="ps-3">${BalanceProductArr[i].month}月</td>
                 <td class="text-danger" style="text-align: right">$${displayBalancePrice}</td>
@@ -1744,7 +1745,7 @@ function tableClickToCanvas(tableRow)
                 for(let j=0; j<currentCategoryArr[i].dateArr.length; j++)
                 {
                     let percent = Math.round((currentCategoryArr[i].priceArr[j]/totalPrice)*100);
-                    let percentWithFloat = Math.round((currentCategoryArr[i].priceArr[j]/totalPrice)*1000)/00;
+                    let percentWithFloat = Math.round((currentCategoryArr[i].priceArr[j]/totalPrice)*1000)/10;
                     let demoDate =
                     `
                     <div class="row" style="background-color:#E0E0E0">
@@ -1806,8 +1807,7 @@ function tableClickToCanvas(tableRow)
                     console.log("allCategory="+ currentBalanceDayProductArr[k].AllCategory);
                     let dateIncome=currentBalanceDayProductArr[k].dateIncome;
                     let dateExpense=currentBalanceDayProductArr[k].dateExpense;
-                    if(dateExpense<0)
-                        dateExpense = "-" + dateExpense;
+
 
                     let dateBalance=dateIncome-dateExpense;
                     let demoDate =
@@ -1906,8 +1906,7 @@ function tableClickToCanvas(tableRow)
                     for(let i=0; i<currentBalanceMonthProductArr[k].AllBalanceDayProduct.length; i++)
                     {
                         let dateBalance = currentBalanceMonthProductArr[k].AllBalanceDayProduct[i].dateIncome - currentBalanceMonthProductArr[k].AllBalanceDayProduct[i].dateExpense;
-                        if(dateBalance<0)
-                            dateBalance = "-" + dateBalance.toString();
+
                         let demoDate =
                         `
                         <div class="row" style="background-color:#E0E0E0">

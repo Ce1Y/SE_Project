@@ -312,7 +312,7 @@ public class QueryController {
         }
         List<BalanceDayProduct> BalanceResult = productToBDPFnc(result) ;
 
-        System.out.println(BalanceResult);
+//        System.out.println(BalanceResult);
         return ResponseEntity.status(HttpStatus.OK).body(BalanceResult);
     }
 
@@ -329,7 +329,7 @@ public class QueryController {
         }
         List<BalanceDayProduct> BalanceResult = productToBDPFnc(result) ;
 
-        System.out.println(BalanceResult);
+//        System.out.println(BalanceResult);
         return ResponseEntity.status(HttpStatus.OK).body(BalanceResult);
     }
     @GetMapping("/sixMonthOutcome")
@@ -479,7 +479,7 @@ public class QueryController {
     @GetMapping("/monthBalance")
     public ResponseEntity<List<BalanceDayProduct>> monthBalance(@RequestParam String month){
         List<BalanceDayProduct> balanceResult = getBalanceDayProductFnc(month);
-        System.out.printf("\n\n\n\n\n\n returned balanceResult\n"+ balanceResult);
+//        System.out.printf("\n\n\n\n\n\n returned balanceResult\n"+ balanceResult);
         return ResponseEntity.status(HttpStatus.OK).body(balanceResult);
     }
 
@@ -524,7 +524,7 @@ public class QueryController {
             tmpBMP.setAllBalanceDayProduct(tmpBDP);
             balanceResult.add(tmpBMP);
         }
-        System.out.println("\n\n\nbalanceMonthResult=\n"+balanceResult);
+//        System.out.println("\n\n\nbalanceMonthResult=\n"+balanceResult);
         return ResponseEntity.status(HttpStatus.OK).body(balanceResult);
     }
 
@@ -670,7 +670,7 @@ public class QueryController {
         }
 
 //        System.out.printf("front already end\n\n\n\n\n\n");
-        System.out.println("balanceResult="+balanceResult);
+//        System.out.println("balanceResult="+balanceResult);
         return balanceResult;
     }
 
