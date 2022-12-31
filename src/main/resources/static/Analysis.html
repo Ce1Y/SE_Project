@@ -20,7 +20,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-<script src="js/Analysis.js"></script>
+
 
 
 <div class="container custom-container-width">
@@ -33,10 +33,10 @@
       <label class="btn btn-outline-warning"  for="analysisTypeExpense">支出</label>
 
       <input type="radio" class="btn-check" value="income" name="btnradioFirst" id="analysisTypeIncome" autocomplete="off">
-      <label class="btn btn-outline-warning"  for="analysisTypeIncome">收入</label>
+      <label class="btn btn-outline-info"  for="analysisTypeIncome">收入</label>
 
       <input type="radio" class="btn-check" value="balance" name="btnradioFirst" id="analysisTypeBalance" autocomplete="off">
-      <label class="btn btn-outline-warning"  for="analysisTypeBalance">結餘</label>
+      <label class="btn btn-outline-danger"  for="analysisTypeBalance">結餘</label>
     </div>
   </div>
 </div>
@@ -59,17 +59,17 @@
   <div class="row">
     <div class="btn-group col-12" role="group" id="SelectedTimeType" >
       <input type="radio" class="btn-check" name="btnradioSecond" value="month" id="SelectedTimeMonth" autocomplete="off" checked>
-      <label class="btn btn-outline-warning col-3"  for="SelectedTimeMonth">月</label>
+      <label class="btn btn-outline-warning col-3" id="monthBtnLabel" for="SelectedTimeMonth">月</label>
 
       <input type="radio" class="btn-check" name="btnradioSecond" value="sixMonth" id="SelectedTimeSixMonth" autocomplete="off">
-      <label class="btn btn-outline-warning col-3"  for="SelectedTimeSixMonth">近六個月</label>
+      <label class="btn btn-outline-warning col-3" id="sixMonthBtnLabel" for="SelectedTimeSixMonth">近六個月</label>
 
       <input type="radio" class="btn-check" name="btnradioSecond" value="year" id="SelectedTimeYear" autocomplete="off">
-      <label class="btn btn-outline-warning col-3"  for="SelectedTimeYear">年</label>
+      <label class="btn btn-outline-warning col-3" id="yearBtnLabel" for="SelectedTimeYear">年</label>
 
       <input type="radio" class="btn-check" name="btnradioSecond" value="custom" data-bs-toggle="modal"
              data-bs-target="#staticBackdrop" id="SelectedTimeCustom" autocomplete="off">
-      <label class="btn btn-outline-warning col-3"  for="SelectedTimeCustom">自訂</label>
+      <label class="btn btn-outline-warning col-3" id="customBtnLabel" for="SelectedTimeCustom">自訂</label>
 
       <div class = "modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
@@ -99,46 +99,40 @@
   </div>
 </div>
 
-<span class="container row">
-        <button type="button" class="btn col-1 offset-11" value="donutChart" id="changeChart" >
+<span class="container row" style="position-relative" >
+        <button type="button" class="btn col-5 offset-7" style="text-align: right" value="donutChart" id="changeChart" >
             &#128202;
         </button>
 </span>
 
+<div class="container mt-5" id="capoGif" style="display:none; d-flex; justify-content-center">
+  <p class="fs-3 ps-3 pt-4">
+    沒有記帳資料, 快跟咖波去購物🙂
+  </p>
+  <img style="width:100%" src="https://media.tenor.com/Hc7cipR1k2oAAAAC/capoo-cutea.gif">
+</div>
 <div class="chart-container" style="position: relative; height:200px; width:70%" id="chartFather">
   <canvas class="offset-2"  id="chart"></canvas>
 </div>
+
 
 
 <div class="container my-3" id="makeRowDisappear" style="width:95%;  height:100%">
   <div class="" id="percentageDetails" style="">
     <div class="row flex-row flex-nowrap py-1" id="percentageDetailsRow">
       <div class="col-6 ps-4">
-        <div class="row ps-2" style="font-size:14px">
-          <div class="col-1 my-1" style="width: 5px; height: 13px; background-color: #8CEA00"></div>
-          <div class="col-6" >aaa</div>
-          <div class="col-2" style="text-align: right">10%</div>
-        </div>
-        <div class="row ps-2" style="font-size:14px">
-          <div class="col-1 my-1" style="width: 5px; height: 13px; background-color: #8CEA00"></div>
-          <div class="col-6">aaa</div>
-          <div class="col-2 " style="text-align: right">10%</div>
-        </div>
-        <div class="row ps-2" style="font-size:14px">
-          <div class="col-1 my-1" style="width: 5px; height: 13px; background-color: #8CEA00"></div>
-          <div class="col-6">aaa</div>
-          <div class="col-2" style="text-align: right">10%</div>
-        </div>
       </div>
     </div>
   </div>
 </div>
 
+<div id="paddingDetails">
+  <div class="py-3">
+  </div>
+  <div class="py-2">
+  </div>
+</div>
 
-<div class="py-3">
-</div>
-<div class="py-2">
-</div>
 
 <div class="container py-5 pe-2" id="makeTableDisappear" style="width:96%; height:100%">
   <table class="table table-hover" style="border: solid 1px black; border-collapse:separate; border-radius: 20px;">
@@ -146,33 +140,30 @@
     </thead>
     <tbody id="ExInDetails">
     <tr >
-      <td width="10%"></td>
-      <th width="50%"> 支出明細</th>
-      <td width="20%" ></td> <!-- fs-4 -->
-      <td width="20%" style="text-align: right;">&#8691;</td>
-    </tr>
-    <!--        <tr >-->
-    <!--            <th colspan="2"></th>-->
-    <!--            <td ></td>-->
-    <!--            <td style="text-align: right;">&#8691;</td> &lt;!&ndash; fs-4 &ndash;&gt;-->
-    <!--        </tr>-->
-    <tr style="border: 1px solid gray">
-      <th  style="text-align: right;">&#128176;</th>
-      <td >早餐</td>
-      <td ></td>
-      <td >$1000000</td>
-    </tr>
-    <tr style="border: 1px solid gray">
-      <th  style="text-align: right;">&#128182;</th>
-      <td >午餐</td>
-      <td ></td>
-      <td >$3000000</td>
-    </tr>
 
+    </tr>
     </tbody>
   </table>
 </div>
 
+<!--<button type="button" class="btn col-1 offset-2" id="selectTimeBack2">-->
+<!--    Toggle bottom offcanvas-->
+<!--</button>-->
+<!--data-bs-scroll="true"-->
+<div class="offcanvas offcanvas-bottom" tabindex="-1"  id="offcanvasBottom" data-bs-scroll="true" aria-labelledby="offcanvasBottomLabel">
+  <div class="offcanvas-header" id="canvasHeaderColor"  style="background-color:rgb(255, 99, 132)">
+    <h5 class="offcanvas-title"  id="offcanvasBottomLabel"></h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="container" id="canvasBody">
+
+    </div>
+  </div>
+</div>
+
+
+<script src="js/Analysis.js"></script>
 <script src=“https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 </body>
 </html>

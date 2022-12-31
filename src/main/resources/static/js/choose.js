@@ -72,7 +72,7 @@ $(document).ready(function() {
                             console.log(budget);
                             budgetTotal = budgetTotal + budget.price;
                         });
-                        if(total > budgetTotal) {
+                        if(total > budgetTotal&&type=="expense") {
                         console.log(total);
                         console.log(budgetTotal);
                         alert("您已超出當月預算");

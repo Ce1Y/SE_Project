@@ -71,12 +71,8 @@ public class ProductService {
         System.out.println("service"+request.toString());
         return repository.insert(request);
     }
-    public Product updateProduct(String productId, Product request){
-        Product product = new Product();
-        product.setCategory(request.getCategory());
-        product.setDate(request.getDate());
-        product.setPrice(request.getPrice());
-        return repository.save(product);
+    public Product updateProduct(Product request){
+        return repository.save(request);
     }
     public void deleteProductById(String productId) {
         //先用get 找到哪個商品
