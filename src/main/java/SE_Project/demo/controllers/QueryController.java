@@ -376,7 +376,13 @@ public class QueryController {
                 }
             }
         }
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        List<Product> tmp1 = new ArrayList<>();
+        for(Product tmp2:result){
+            if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
+                tmp1.add(tmp2);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(tmp1);
     }
 
 
@@ -426,8 +432,13 @@ public class QueryController {
                 }
             }
         }
-
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        List<Product> tmp1 = new ArrayList<>();
+        for(Product tmp2:result){
+            if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
+                tmp1.add(tmp2);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(tmp1);
     }
     @GetMapping("/YearOutcome")
     public ResponseEntity<List<Product>> YearOutcome(@RequestParam String year){
@@ -438,7 +449,13 @@ public class QueryController {
                 yearTemp.add(tmp);
             }
         }
-        return ResponseEntity.status(HttpStatus.OK).body(yearTemp);
+        List<Product> tmp1 = new ArrayList<>();
+        for(Product tmp2:yearTemp){
+            if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
+                tmp1.add(tmp2);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(tmp1);
     }
 
     @GetMapping("/YearIncome")
@@ -450,7 +467,13 @@ public class QueryController {
                 yearTemp.add(tmp);
             }
         }
-        return ResponseEntity.status(HttpStatus.OK).body(yearTemp);
+        List<Product> tmp1 = new ArrayList<>();
+        for(Product tmp2:yearTemp){
+            if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
+                tmp1.add(tmp2);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(tmp1);
     }
 
     @GetMapping("/monthBalance")
@@ -464,7 +487,7 @@ public class QueryController {
     public ResponseEntity<List<BalanceMonthProduct>> yearBalance(@RequestParam String year){
         List<BalanceMonthProduct> balanceResult = new ArrayList<>();
         List<BalanceDayProduct> tmpBDP;
-        List<Product> tmpProductList;
+        List<Product> tmpProductList1;
         String totalMonth[] =  {"-00", "-01", "-02", "-03", "-04", "-05", "-06", "-07", "-08", "-09", "-10", "-11", "-12"};
         String tmpMonth;
         int tmpIncomePrice=0;
@@ -473,16 +496,22 @@ public class QueryController {
         {
             BalanceMonthProduct tmpBMP = new BalanceMonthProduct();
             tmpMonth = year + totalMonth[i];
-            tmpProductList = productService.getProductByDateLike(tmpMonth);
-
+            tmpProductList1 = productService.getProductByDateLike(tmpMonth);
+            List<Product> tmpProductList = new ArrayList<>();
+            for(Product tmp2:tmpProductList1){
+                if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
+                    tmpProductList.add(tmp2);
+                }
+            }
+            tmpIncomePrice = 0;
+            tmpExpensePrice = 0;
             for(Product tmp:tmpProductList){
-                tmpIncomePrice = 0;
-                tmpExpensePrice = 0;
-                if(tmp.getDate().substring(0,7).equals(tmpMonth)&&tmp.getAccountingType().equals(Type.expense))
+
+                if(tmp.getAccountingType().equals(Type.expense))
                 {
                     tmpExpensePrice += tmp.getPrice();
                 }
-                else if(tmp.getDate().substring(0,7).equals(tmpMonth)&&tmp.getAccountingType().equals(Type.income))
+                else if(tmp.getAccountingType().equals(Type.income))
                 {
                     tmpIncomePrice +=tmp.getPrice();
                 }
@@ -501,7 +530,14 @@ public class QueryController {
 
     public List<BalanceDayProduct> getBalanceDayProductFnc(String month)
     {
-        List<Product> monthResult=productService.getProductByDateLike(month);
+        List<Product> monthResult1=productService.getProductByDateLike(month);
+        List<Product> monthResult = new ArrayList<>();
+        for(Product tmp2:monthResult1){
+            if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
+                monthResult.add(tmp2);
+            }
+        }
+
 //        for(Product i:monthResult)
 //        {
 //            System.out.println(i);
