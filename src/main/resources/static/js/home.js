@@ -1,8 +1,25 @@
+var trId = "";
+var dayData = [];
 function trclick(e){
-
-console.log(e)
+trId = e.innerHTML.substring(39,e.innerHTML.indexOf(">",1)-1);
+console.log(trId)
+console.log(dayData[trId]);
+$('#Date_name').val(dayData[trId].date);
+$('#Category_text').val(dayData[trId].category);
+$('#Price_text').val(dayData[trId].price);
+$('#description_text').val(dayData.description);
 
 };
+var type = "expense";
+function selectOnchange_Type(selectedType)
+{
+    var selectedValue = selectedType.options[selectedType.selectedIndex].value;
+
+    type = selectedValue;
+    return selectedValue;
+
+}
+var dayData = [];
 $(document).ready(function () {
     var results = $('#display');
     $(function () {//頁面初始
@@ -36,6 +53,8 @@ $(document).ready(function () {
             url: "/date?date=" + $('#time').val(),
             success: function (allProducts) {
 
+                dayData = allProducts;
+                console.log(dayData);
                 document.getElementById('email').innerHTML = localStorage.getItem('email')+"<br> By:"+localStorage.getItem('flag');
                 var str = '';
                 var flag1=1;
@@ -45,17 +64,19 @@ $(document).ready(function () {
                 }
                 else{
                 $.each(allProducts, function (i, product) {
+
                     if(product.accountingType=='income'){
                         str+=`
-                         <tr onclick='trclick(this);'>
-                              <td>💵${product.category}</td>
+                         <tr onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop" >
+                              <td id =${i}>💵${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
+                              <td></td>
                          </tr>`
                     }
                    else{str+=`
-                         <tr style="background: #F8F8FF" onclick='trclick(this);'>
-                              <td>💸${product.category}</td>
+                         <tr style="background: #F8F8FF" onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop">
+                              <td id =${i}>💸${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                               <td></td>
@@ -81,7 +102,7 @@ $(document).ready(function () {
                              <th>種類</th>
                              <th>名稱</th>
                              <th>金額</th>
-                             <th style="cursor: pointer;">X</th>
+                             <th style="cursor: pointer;">🔧</th>
                          </tr>
                          </thead>
                         <tbody>
@@ -127,7 +148,9 @@ $(document).ready(function () {
             success: function (allProducts) {
                 var dayOutcome =0;
                 $.each(allProducts, function (i, product) {
-                    dayOutcome = dayOutcome + product.price;
+                    if(product.accountingType=="expense"){
+                        dayOutcome = dayOutcome + product.price;
+                    }
                 });
                 var outcome = document.querySelector('#todayOutcome');
                 //outcome.value="當天支出 $"+dayOutcome;
@@ -144,6 +167,8 @@ $(document).ready(function () {
             url: "/date?date=" + $('#time').val(),
             success: function (allProducts) {
 
+                dayData = allProducts;
+                console.log(dayData);
                 var str = '';
                 var flag1=1;
                 if (allProducts.length==0) {
@@ -152,17 +177,19 @@ $(document).ready(function () {
                 }
                 else{
                 $.each(allProducts, function (i, product) {
+
                     if(product.accountingType=='income'){
                         str+=`
-                         <tr onclick='trclick(this);'>
-                              <td>💵${product.category}</td>
+                         <tr onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop">
+                              <td id =${i}>💵${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
+                              <td></td>
                          </tr>`
                     }
                    else{str+=`
-                         <tr style="background: #F8F8FF" onclick='trclick(this);'>
-                              <td>💸${product.category}</td>
+                         <tr style="background: #F8F8FF" onclick='trclick(this);' data-bs-toggle="modal" data-bs-target="#updateBackdrop">
+                              <td id =${i}>💸${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                               <td></td>
@@ -187,7 +214,7 @@ $(document).ready(function () {
                              <th>種類</th>
                              <th>名稱</th>
                              <th>金額</th>
-                             <th style="cursor: pointer;">X</th>
+                             <th style="cursor: pointer;">🔧</th>
                          </tr>
                          </thead>
                         <tbody>
@@ -298,6 +325,47 @@ $(document).ready(function () {
 
     });
 
+    $('#updateBtn').click(function(){
+        var data = {
+            "id":dayData[trId].id,
+            "date": $('#Date_name').val(),
+            "category":$('#Category_text').val(),
+            "price": $('#Price_text').val(),
+            "description":$('#description_text').val(),
+            "accountingType": type,
+            "email":localStorage.getItem("email"),
+            "accDate": dayData[trId].accDate,
+            "loginMethod":localStorage.getItem("flag")
+         }
+        $.ajax({
+            url:'/updateProduct',
+            method:'PUT',
+            data: JSON.stringify(data),
+           contentType: "application/json",
+            dataType:'JSON',
+            success:function(result){
+               console.log(result);
+                if(result != null) {
+                    alert("更新成功！");
+                    location.replace("/home.html") ;
+               }
+           },
+            error:function (data) {
+            }
+        });
 
+    });
+
+    $('#deleteBtn').click(function(){
+        $.ajax({
+            type: "DELETE",
+            url: "/deleteProduct?id=" + dayData[trId].id,
+            success: function (allProducts) {
+                alert("刪除成功！");
+                location.replace("/home.html") ;
+            }
+        });
+
+    });
 
 });

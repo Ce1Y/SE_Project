@@ -16,3 +16,11 @@ td {
   display-flex;
    justify-content-end;
 }
+
+.offcanvas {
+  left: 20px;
+  width: 355px;
+  height: 450px;
+  background-color: white;
+  /* 其他樣式 */
+}
