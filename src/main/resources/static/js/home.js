@@ -1,3 +1,8 @@
+function trclick(e){
+
+console.log(e)
+
+};
 $(document).ready(function () {
     var results = $('#display');
     $(function () {//頁面初始
@@ -42,14 +47,14 @@ $(document).ready(function () {
                 $.each(allProducts, function (i, product) {
                     if(product.accountingType=='income'){
                         str+=`
-                         <tr >
+                         <tr onclick='trclick(this);'>
                               <td>💵${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                          </tr>`
                     }
                    else{str+=`
-                         <tr style="background: #F8F8FF">
+                         <tr style="background: #F8F8FF" onclick='trclick(this);'>
                               <td>💸${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
@@ -149,14 +154,14 @@ $(document).ready(function () {
                 $.each(allProducts, function (i, product) {
                     if(product.accountingType=='income'){
                         str+=`
-                         <tr >
+                         <tr onclick='trclick(this);'>
                               <td>💵${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>
                          </tr>`
                     }
                    else{str+=`
-                         <tr style="background: #F8F8FF">
+                         <tr style="background: #F8F8FF" onclick='trclick(this);'>
                               <td>💸${product.category}</td>
                               <td>${product.description}</td>
                               <td>${product.price}</td>

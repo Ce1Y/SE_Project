@@ -9,6 +9,7 @@
     <link href='fullcalendar/main.css' rel='stylesheet' />
     <link rel="stylesheet" href="css/calendar.css" type="text/css">
     <script src='fullcalendar/main.js'></script>
+
     <script>
 
  document.addEventListener('DOMContentLoaded', function() {
@@ -19,34 +20,42 @@
             myCustomButton:
                 {   text:"back",
                     click: function() {
-                    location.replace(" http://localhost:8080/home.html") ;
+                    location.replace("/home.html") ;
                     }
                 }
         },
         editable:'true',
         droppable:'true',
+        allDaySlot: false,
         initialView: 'dayGridMonth',
          locale: 'zh-tw',
          height: 500,
+         eventLimit: 3,
+         slotEventOverlap : false,
+         displayEventTime: false,
+         dayMaxEvents: 2,
          navLinks: true,
          headerToolbar: {
-             left: 'prev,next today',
+             left: 'prev,next',
              center: 'title',
              right: 'dayGridMonth,timeGridDay,myCustomButton'
          },
+
         events: function(fetchInfo, successCallback, failureCallback) {
         $.ajax({
         type: "GET",
-        url: "http://localhost:8080/allProducts",
+        url: "/allProducts",
         dataType: 'JSON',
         success: function(data) {
           var events = [];
           if (data != null) {
             $.each(data, function(i, item) {
               events.push({
-                start: item.accDate,
                 title: item.category + " "+item.price,
+                start: item.accDate,
                 end: item.accDate,
+                color: "#C0FFEE",
+                textColor: "black"
               })
             })
           }
@@ -86,9 +95,9 @@
 
         </table>
     </div>
-
+    <img id="img"
+         src="https://media.tenor.com/RoeZpMDFlBkAAAAi/capoo-bugcat.gif">
 </div>
-
 
 </body>
 

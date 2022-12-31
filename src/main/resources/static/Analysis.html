@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>帳務報表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+          crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/Analysis.css">
+
+</head>
+<body>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="js/Analysis.js"></script>
+
+
+<div class="container custom-container-width">
+  <div class="row  my-3">
+    <button type="button" class="btn col-1" onclick="window.location.href='/home.html'">
+      &#60;
+    </button>
+    <div class="btn-group col-6 offset-2" role="group" id="analysisType_btn" >
+      <input type="radio" class="btn-check" value="expense" name="btnradioFirst" id="analysisTypeExpense" autocomplete="off" checked>
+      <label class="btn btn-outline-warning"  for="analysisTypeExpense">支出</label>
+
+      <input type="radio" class="btn-check" value="income" name="btnradioFirst" id="analysisTypeIncome" autocomplete="off">
+      <label class="btn btn-outline-warning"  for="analysisTypeIncome">收入</label>
+
+      <input type="radio" class="btn-check" value="balance" name="btnradioFirst" id="analysisTypeBalance" autocomplete="off">
+      <label class="btn btn-outline-warning"  for="analysisTypeBalance">結餘</label>
+    </div>
+  </div>
+</div>
+
+<hr />
+
+<div class="container" id="SelectSearchTimeFather">
+  <div class="row" id="SelectSearchTime">
+    <button type="button" class="btn col-1 offset-2" id="selectTimeBack">
+      &#9668;
+    </button>
+    <span class="col-5 ms-3" style="text-align: center; display:block;" id="YearAndDate"></span>
+    <button type="button" class="btn col-1" id="selectTimeForward">
+      &#9658;
+    </button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="btn-group col-12" role="group" id="SelectedTimeType" >
+      <input type="radio" class="btn-check" name="btnradioSecond" value="month" id="SelectedTimeMonth" autocomplete="off" checked>
+      <label class="btn btn-outline-warning col-3"  for="SelectedTimeMonth">月</label>
+
+      <input type="radio" class="btn-check" name="btnradioSecond" value="sixMonth" id="SelectedTimeSixMonth" autocomplete="off">
+      <label class="btn btn-outline-warning col-3"  for="SelectedTimeSixMonth">近六個月</label>
+
+      <input type="radio" class="btn-check" name="btnradioSecond" value="year" id="SelectedTimeYear" autocomplete="off">
+      <label class="btn btn-outline-warning col-3"  for="SelectedTimeYear">年</label>
+
+      <input type="radio" class="btn-check" name="btnradioSecond" value="custom" data-bs-toggle="modal"
+             data-bs-target="#staticBackdrop" id="SelectedTimeCustom" autocomplete="off">
+      <label class="btn btn-outline-warning col-3"  for="SelectedTimeCustom">自訂</label>
+
+      <div class = "modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">請選擇日期範圍</h1>
+            </div>
+            <div class="modal-body">
+              <form action="">
+                <label for="">選擇開始日期：</label>
+                <input type="date" class="form-control" value="2022-12-01" id="dateStart" name="date">
+              </form>
+              <form action="">
+                <label for="">選擇結束日期：</label>
+                <input type="date" class="form-control" value="2022-12-30" id="dateEnd" name="date">
+              </form>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+              <button id="CustomCheckBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">確認</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<span class="container row">
+        <button type="button" class="btn col-1 offset-11" value="donutChart" id="changeChart" >
+            &#128202;
+        </button>
+</span>
+
+<div class="chart-container" style="position: relative; height:200px; width:70%" id="chartFather">
+  <canvas class="offset-2"  id="chart"></canvas>
+</div>
+
+
+<div class="container my-3" id="makeRowDisappear" style="width:95%;  height:100%">
+  <div class="" id="percentageDetails" style="">
+    <div class="row flex-row flex-nowrap py-1" id="percentageDetailsRow">
+      <div class="col-6 ps-4">
+        <div class="row ps-2" style="font-size:14px">
+          <div class="col-1 my-1" style="width: 5px; height: 13px; background-color: #8CEA00"></div>
+          <div class="col-6" >aaa</div>
+          <div class="col-2" style="text-align: right">10%</div>
+        </div>
+        <div class="row ps-2" style="font-size:14px">
+          <div class="col-1 my-1" style="width: 5px; height: 13px; background-color: #8CEA00"></div>
+          <div class="col-6">aaa</div>
+          <div class="col-2 " style="text-align: right">10%</div>
+        </div>
+        <div class="row ps-2" style="font-size:14px">
+          <div class="col-1 my-1" style="width: 5px; height: 13px; background-color: #8CEA00"></div>
+          <div class="col-6">aaa</div>
+          <div class="col-2" style="text-align: right">10%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="py-3">
+</div>
+<div class="py-2">
+</div>
+
+<div class="container py-5 pe-2" id="makeTableDisappear" style="width:96%; height:100%">
+  <table class="table table-hover" style="border: solid 1px black; border-collapse:separate; border-radius: 20px;">
+    <thead>
+    </thead>
+    <tbody id="ExInDetails">
+    <tr >
+      <td width="10%"></td>
+      <th width="50%"> 支出明細</th>
+      <td width="20%" ></td> <!-- fs-4 -->
+      <td width="20%" style="text-align: right;">&#8691;</td>
+    </tr>
+    <!--        <tr >-->
+    <!--            <th colspan="2"></th>-->
+    <!--            <td ></td>-->
+    <!--            <td style="text-align: right;">&#8691;</td> &lt;!&ndash; fs-4 &ndash;&gt;-->
+    <!--        </tr>-->
+    <tr style="border: 1px solid gray">
+      <th  style="text-align: right;">&#128176;</th>
+      <td >早餐</td>
+      <td ></td>
+      <td >$1000000</td>
+    </tr>
+    <tr style="border: 1px solid gray">
+      <th  style="text-align: right;">&#128182;</th>
+      <td >午餐</td>
+      <td ></td>
+      <td >$3000000</td>
+    </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<script src=“https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+</body>
+</html>
