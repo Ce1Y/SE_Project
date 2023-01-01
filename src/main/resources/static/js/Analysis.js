@@ -14,6 +14,13 @@ var ColorInChart = new Array
 
 $(document).ready(function(){
     $(function(){
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         var today = new Date();
         var todayString = today.toISOString().substr(0, 10 );
         currentYear = parseInt( todayString.substring(0,4) );
@@ -51,7 +58,13 @@ $(document).ready(function(){
 
     //按下<鍵
     $("#selectTimeBack").click(function(){
-
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         $("#chart").html("");
         var displayDate;
         let selectedMonthWith0 = 0;
@@ -155,6 +168,13 @@ $(document).ready(function(){
 
     //按下>鍵
     $("#selectTimeForward").click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         $("#chart").html("");
         var displayDate;
         let selectedMonthWith0 = 0;
@@ -257,6 +277,13 @@ $(document).ready(function(){
 
     //SearchWithExpense
     $("#analysisTypeExpense").on("change",function(){
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = "" + selectedYear + "年" + selectedMonth + "月";
@@ -282,6 +309,13 @@ $(document).ready(function(){
 
     //SearchWithIncome
     $("#analysisTypeIncome").on("change",function(){
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = "" + selectedYear + "年" + selectedMonth + "月";
@@ -306,6 +340,13 @@ $(document).ready(function(){
 
     //SearchWithBalance
     $("#analysisTypeBalance").on("change",function(){
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = selectedYear + "年";
@@ -328,6 +369,13 @@ $(document).ready(function(){
 
     //SearchWithMonth
     $("#SelectedTimeMonth").on("change",function(){
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = selectedYear + "年" + selectedMonth + "月";
@@ -349,6 +397,13 @@ $(document).ready(function(){
 
     //SearchWithSixMonth
     $("#SelectedTimeSixMonth").on("change",function(){
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = "";
@@ -388,6 +443,13 @@ $(document).ready(function(){
 
     //SearchWithYear
     $("#SelectedTimeYear").on("change",function(){
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = selectedYear + "年";
@@ -409,6 +471,13 @@ $(document).ready(function(){
     //SearchWithCustom
     $("#SelectedTimeCustom").on("change",function(){
         $("#CustomCheckBtn").click(function(){
+            $.ajax({
+                type: "GET",
+                url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+                 success: function (allProducts) {
+                    console.log("setUser success");
+                 }
+            });
             let customSelectedYearFrom = parseInt( $("#dateStart").val().substring(0,4) );
             let customSelectedMonthFrom = parseInt( $("#dateStart").val().substring(5,7) );
             let customSelectedDayFrom = parseInt( $("#dateStart").val().substring(8,10) );
@@ -473,6 +542,13 @@ $(document).ready(function(){
 
     //由bar換成donut or donut to bar
     $("#changeChart").click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         let donut = "&#11093;";
         let bar = "&#128202;"
         let chartLabelNameFirst = "";

@@ -4,6 +4,13 @@ $(document).ready(function () {
     var results = $('#display');
      var monthTime  = document.getElementById('fc-dom-1').textContent;
     $(function () {//頁面初始
+      $.ajax({
+          type: "GET",
+          url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+           success: function (allProducts) {
+              console.log("setUser success");
+           }
+      });
       monthTime  = document.getElementById('fc-dom-1').textContent;
       $.ajax({
           type: "GET",
@@ -60,6 +67,13 @@ $(document).ready(function () {
 
 
     $('.fc-next-button').click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         monthTime  = document.getElementById('fc-dom-1').textContent;
         $.ajax({
            type: "GET",
@@ -115,6 +129,13 @@ $(document).ready(function () {
          });
     });
     $('.fc-prev-button').click(function(){
+    $.ajax({
+        type: "GET",
+        url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+         success: function (allProducts) {
+            console.log("setUser success");
+         }
+    });
     monthTime  = document.getElementById('fc-dom-1').textContent;
     $.ajax({
        type: "GET",
