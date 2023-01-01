@@ -5,6 +5,9 @@ import SE_Project.demo.service.BudgetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,8 +25,21 @@ public class BudgetController {
     private String userMethod="";
     @GetMapping("/setUserForBudget")
     public ResponseEntity<String> setUserDetails(@RequestParam String email, @RequestParam String flag){
-        userEmail = email;
-        userMethod = flag;
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+
+        if(currentUser.getClass()== OAuth2AuthenticationToken.class){
+            System.out.println("第三方");
+            System.out.println(currentUser.getName());
+            userEmail = currentUser.getName();
+            userMethod = "第三方";
+        }
+        else{
+            System.out.println("local");
+            System.out.println(currentUser.getName());
+            userEmail = currentUser.getName();
+            userMethod = "local";
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body("success set user");
     }
 

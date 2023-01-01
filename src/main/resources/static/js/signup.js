@@ -43,6 +43,9 @@ $(document).ready(function(){
     });
 
     $('#signup').click(function(){
+        console.log("signUpButton Click");
+        console.log($('#verify').val());
+        console.log(validation);
         if($('#verify').val()==validation){
             console.log("EnterSuccess");
             var data = {
