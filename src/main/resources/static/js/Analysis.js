@@ -14,13 +14,6 @@ var ColorInChart = new Array
 
 $(document).ready(function(){
     $(function(){
-        $.ajax({
-            type: "GET",
-            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
-             success: function (allProducts) {
-                console.log("setUser success");
-             }
-        });
         var today = new Date();
         var todayString = today.toISOString().substr(0, 10 );
         currentYear = parseInt( todayString.substring(0,4) );
@@ -58,13 +51,7 @@ $(document).ready(function(){
 
     //按下<鍵
     $("#selectTimeBack").click(function(){
-        $.ajax({
-            type: "GET",
-            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
-             success: function (allProducts) {
-                console.log("setUser success");
-             }
-        });
+
         $("#chart").html("");
         var displayDate;
         let selectedMonthWith0 = 0;
@@ -168,13 +155,6 @@ $(document).ready(function(){
 
     //按下>鍵
     $("#selectTimeForward").click(function(){
-        $.ajax({
-            type: "GET",
-            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
-             success: function (allProducts) {
-                console.log("setUser success");
-             }
-        });
         $("#chart").html("");
         var displayDate;
         let selectedMonthWith0 = 0;
@@ -277,13 +257,6 @@ $(document).ready(function(){
 
     //SearchWithExpense
     $("#analysisTypeExpense").on("change",function(){
-        $.ajax({
-            type: "GET",
-            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
-             success: function (allProducts) {
-                console.log("setUser success");
-             }
-        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = "" + selectedYear + "年" + selectedMonth + "月";
@@ -304,18 +277,11 @@ $(document).ready(function(){
 
         changeYearAndDate(0,displayDate);
         inexResetSelectedTimeType();
-        DealMonthOutcome(selectedYear+"-"+totalMonthBF[selectedMonth] );
+        DealMonthOutcome(selectedYear+"-"+ totalMonthBF[selectedMonth]);
     });
 
     //SearchWithIncome
     $("#analysisTypeIncome").on("change",function(){
-        $.ajax({
-            type: "GET",
-            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
-             success: function (allProducts) {
-                console.log("setUser success");
-             }
-        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = "" + selectedYear + "年" + selectedMonth + "月";
@@ -335,18 +301,11 @@ $(document).ready(function(){
 
         changeYearAndDate(0,displayDate);
         inexResetSelectedTimeType();
-        DealMonthIncome(selectedYear+"-"+totalMonthBF[selectedMonth]);
+        DealMonthIncome(selectedYear+"-"+ totalMonthBF[selectedMonth]);
     });
 
     //SearchWithBalance
     $("#analysisTypeBalance").on("change",function(){
-        $.ajax({
-            type: "GET",
-            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
-             success: function (allProducts) {
-                console.log("setUser success");
-             }
-        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = selectedYear + "年";
@@ -369,13 +328,6 @@ $(document).ready(function(){
 
     //SearchWithMonth
     $("#SelectedTimeMonth").on("change",function(){
-        $.ajax({
-            type: "GET",
-            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
-             success: function (allProducts) {
-                console.log("setUser success");
-             }
-        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = selectedYear + "年" + selectedMonth + "月";
@@ -391,19 +343,12 @@ $(document).ready(function(){
         }
         else if($('#analysisType_btn input:radio:checked').val() == "balance")
         {
-            DealMonthBalance((selectedYear+"-"+selectedMonth));
+            DealMonthBalance((selectedYear+"-"+totalMonthBF[selectedMonth]));
         }
     });
 
     //SearchWithSixMonth
     $("#SelectedTimeSixMonth").on("change",function(){
-        $.ajax({
-            type: "GET",
-            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
-             success: function (allProducts) {
-                console.log("setUser success");
-             }
-        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = "";
@@ -443,13 +388,6 @@ $(document).ready(function(){
 
     //SearchWithYear
     $("#SelectedTimeYear").on("change",function(){
-        $.ajax({
-            type: "GET",
-            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
-             success: function (allProducts) {
-                console.log("setUser success");
-             }
-        });
         selectedYear=currentYear;
         selectedMonth=currentMonth;
         let displayDate = selectedYear + "年";
@@ -471,13 +409,6 @@ $(document).ready(function(){
     //SearchWithCustom
     $("#SelectedTimeCustom").on("change",function(){
         $("#CustomCheckBtn").click(function(){
-            $.ajax({
-                type: "GET",
-                url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
-                 success: function (allProducts) {
-                    console.log("setUser success");
-                 }
-            });
             let customSelectedYearFrom = parseInt( $("#dateStart").val().substring(0,4) );
             let customSelectedMonthFrom = parseInt( $("#dateStart").val().substring(5,7) );
             let customSelectedDayFrom = parseInt( $("#dateStart").val().substring(8,10) );
@@ -542,13 +473,6 @@ $(document).ready(function(){
 
     //由bar換成donut or donut to bar
     $("#changeChart").click(function(){
-        $.ajax({
-            type: "GET",
-            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
-             success: function (allProducts) {
-                console.log("setUser success");
-             }
-        });
         let donut = "&#11093;";
         let bar = "&#128202;"
         let chartLabelNameFirst = "";
@@ -692,7 +616,7 @@ function changeYearAndDate(isSixMonth, displayDate)
 //選結餘時不顯示logo ， 顯示文字
 function chartLogoToText(incomeTotalPrice,expenseTotalPrice, balanceTotalPrice)
 {
-    if(balanceTotalPrice>0)
+    if(incomeTotalPrice>expenseTotalPrice)
         balanceTotalPrice = "+" + balanceTotalPrice;
 
 
@@ -700,7 +624,7 @@ function chartLogoToText(incomeTotalPrice,expenseTotalPrice, balanceTotalPrice)
         `
     <div style="font-size:10px">
         <span>支出 : </span>
-        <span class="text-warning">${expenseTotalPrice}</span>
+        <span class="text-warning">-${expenseTotalPrice}</span>
     </div>
     <div style="font-size:10px">
         <span>收入 : </span>
@@ -809,7 +733,7 @@ function DealMonthOutcome(date)
 {
     $.ajax({
         type: "GET",
-        url: "/monthOutcome?date=" + date,
+        url: "http://localhost:8080/monthOutcome?date=" + date,
         success: function (allProducts) {
             const categoryArr = [];
             $.each(allProducts, function (i, product) {
@@ -857,7 +781,7 @@ function DealMonthIncome(date)
     console.log("income date="+date);
     $.ajax({
         type: "GET",
-        url: "/monthIncome?date=" + date,
+        url: "http://localhost:8080/monthIncome?date=" + date,
         success: function (allProducts) {
             const categoryArr = [];
             $.each(allProducts, function (i, product) {
@@ -898,7 +822,7 @@ function DealMonthBalance(month)
     console.log("month="+month);
     $.ajax({
         type: "GET",
-        url: "/monthBalance?month=" + month,
+        url: "http://localhost:8080/monthBalance?month=" + month,
         success: function (allBalanceProducts) {
             const BalanceDayProductArr = [];
             let monthIncome = 0;
@@ -929,7 +853,7 @@ function DealSixMonthOutcome(dateFrom, dateTo)
     console.log("checksixMonthOutCome"+dateFrom+"  "+dateTo)
     $.ajax({
         type: "GET",
-        url: "/sixMonthOutcome?dateFrom=" + dateFrom + "&dateTo=" + dateTo,
+        url: "http://localhost:8080/sixMonthOutcome?dateFrom=" + dateFrom + "&dateTo=" + dateTo,
         success: function (allProducts) {
             const categoryArr = [];
             $.each(allProducts, function (i, product) {
@@ -969,7 +893,7 @@ function DealSixMonthIncome(dateFrom, dateTo)
 {
     $.ajax({
         type: "GET",
-        url: "/sixMonthIncome?dateFrom=" + dateFrom + "&dateTo=" + dateTo,
+        url: "http://localhost:8080/sixMonthIncome?dateFrom=" + dateFrom + "&dateTo=" + dateTo,
         success: function (allProducts) {
             const categoryArr = [];
             $.each(allProducts, function (i, product) {
@@ -1010,7 +934,7 @@ function DealYearOutcome(date)
 {
     $.ajax({
         type: "GET",
-        url: "/YearOutcome?year=" + date,
+        url: "http://localhost:8080/YearOutcome?year=" + date,
         success: function (allProducts) {
             const categoryArr = [];
             $.each(allProducts, function (i, product) {
@@ -1050,7 +974,7 @@ function DealYearIncome(date)
 {
     $.ajax({
         type: "GET",
-        url: "/YearIncome?year=" + date,
+        url: "http://localhost:8080/YearIncome?year=" + date,
         success: function (allProducts) {
             const categoryArr = [];
             $.each(allProducts, function (i, product) {
@@ -1092,7 +1016,7 @@ function DealYearBalance(year)
     console.log("year="+year);
     $.ajax({
         type: "GET",
-        url: "/yearBalance?year=" + year,
+        url: "http://localhost:8080/yearBalance?year=" + year,
         success: function (allBalanceProducts) {
             const BalanceMonthProductArr = [];
             let yearIncome = 0;
@@ -1156,7 +1080,7 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
         {
             $.ajax({
                 type: "GET",
-                url: "/monthOutcome?date=" + AllMonthSelected[i],
+                url: "http://localhost:8080/monthOutcome?date=" + AllMonthSelected[i],
                 success: function (allProducts) {
                     $.each(allProducts, function (i, product) {
                         if(AllMonthSelected[i]==CustomMonthFrom)
@@ -1247,7 +1171,7 @@ function DealCustomOutcomeIncome(AllMonthSelected, CustomDateFrom, CustomDateTo,
         {
             $.ajax({
                 type: "GET",
-                url: "/monthIncome?date=" + AllMonthSelected[i],
+                url: "http://localhost:8080/monthIncome?date=" + AllMonthSelected[i],
                 success: function (allProducts) {
                     $.each(allProducts, function (i, product) {
                         if(AllMonthSelected[i]==CustomMonthFrom)
@@ -1538,7 +1462,7 @@ function MakeRowDetails(categoryArr)
             if(i==0)
             {
                 let firstDetails =
-                `
+                    `
                 <tr >
                     <td width="10%"></td>
                     <th width="50%"> 收入明細</th>
@@ -1577,7 +1501,7 @@ function MakeRowDetails(categoryArr)
             if(i==0)
             {
                 let firstDetails =
-                `
+                    `
                 <tr >
                     <td width="10%"></td>
                     <th width="50%"> 支出明細</th>
@@ -1634,7 +1558,7 @@ function MakeYearBalanceRowDetails(BalanceProductArr, BalanceProductType)
         if(i==0)
         {
             let firstDetails =
-            `
+                `
             <tr >
                 <th class="ps-3" width="70%"> 日期明細</th>
                 <td class="fs-5" width="30%" style="text-align: right;">&#8691;</td>
@@ -1647,10 +1571,9 @@ function MakeYearBalanceRowDetails(BalanceProductArr, BalanceProductType)
             console.log(BalanceProductArr[i].month);
             let demoDetails =  "";
             let balancePrice = BalanceProductArr[i].monthIncome - BalanceProductArr[i].monthExpense;
-            let displayBalancePrice =balancePrice.toString();
-
+            let displayBalancePrice = balancePrice;
             demoDetails =
-            `
+                `
             <tr style="border: 1px solid gray" onclick="tableClickToCanvas(this)">
                 <td class="ps-3">${BalanceProductArr[i].month}月</td>
                 <td class="text-danger" style="text-align: right">$${displayBalancePrice}</td>
@@ -1771,7 +1694,7 @@ function tableClickToCanvas(tableRow)
                     `
                     <div class="row" style="background-color:#E0E0E0">
                         <div class="col-6 " style="text-align: left">${currentCategoryArr[i].dateArr[j]}</div>
-                        <div class="col-6 text-danger" style="text-align: right">$${currentCategoryArr[i].priceArr[j]}</div>
+                        <div class="col-6 text-danger" style="text-align: right">$-${currentCategoryArr[i].priceArr[j]}</div>
                     </div>
                     `;
                     let demoCanvasRow =
@@ -1821,7 +1744,7 @@ function tableClickToCanvas(tableRow)
                 for(let j=0; j<currentCategoryArr[i].dateArr.length; j++)
                 {
                     let percent = Math.round((currentCategoryArr[i].priceArr[j]/totalPrice)*100);
-                    let percentWithFloat = Math.round((currentCategoryArr[i].priceArr[j]/totalPrice)*1000)/10;
+                    let percentWithFloat = Math.round((currentCategoryArr[i].priceArr[j]/totalPrice)*1000)/00;
                     let demoDate =
                     `
                     <div class="row" style="background-color:#E0E0E0">
@@ -1883,9 +1806,7 @@ function tableClickToCanvas(tableRow)
                     console.log("allCategory="+ currentBalanceDayProductArr[k].AllCategory);
                     let dateIncome=currentBalanceDayProductArr[k].dateIncome;
                     let dateExpense=currentBalanceDayProductArr[k].dateExpense;
-
-
-                    let dateBalance=dateIncome-dateExpense;
+                    let dateBalance=dateIncome+dateExpense;
                     let demoDate =
                     `
                     <div class="row" style="background-color:#E0E0E0">
@@ -1941,7 +1862,7 @@ function tableClickToCanvas(tableRow)
                                      </div>
                                  </div>
                                  <div class="col-4 text-warning" style="text-align: right">
-                                     $-${tmpCOP.price}
+                                     $${tmpCOP.price}
                                  </div>
                              </div>
                             `;
@@ -1981,8 +1902,7 @@ function tableClickToCanvas(tableRow)
 
                     for(let i=0; i<currentBalanceMonthProductArr[k].AllBalanceDayProduct.length; i++)
                     {
-                        let dateBalance = currentBalanceMonthProductArr[k].AllBalanceDayProduct[i].dateIncome - currentBalanceMonthProductArr[k].AllBalanceDayProduct[i].dateExpense;
-
+                        let dateBalance = currentBalanceMonthProductArr[k].AllBalanceDayProduct[i].dateIncome + currentBalanceMonthProductArr[k].AllBalanceDayProduct[i].dateExpense;
                         let demoDate =
                         `
                         <div class="row" style="background-color:#E0E0E0">
@@ -2338,7 +2258,7 @@ function MakeLineChart(categoryArr, chartLabelName)
             AllIncomeTotalPrice += categoryArr[k].monthIncome;
 
             totalOutComePriceArr[k] = categoryArr[k].monthExpense;
-            AllOutComeTotalPrice -= categoryArr[k].monthExpense;
+            AllOutComeTotalPrice += categoryArr[k].monthExpense;
 
             totalBalancePriceArr[k] = totalIncomePriceArr[k]-totalOutComePriceArr[k];
             if(Math.abs(categoryArr[k].monthIncome-categoryArr[k].monthExpense) > maxGap)
@@ -2358,7 +2278,7 @@ function MakeLineChart(categoryArr, chartLabelName)
             AllIncomeTotalPrice += categoryArr[k].dateIncome;
 
             totalOutComePriceArr[k] = categoryArr[k].dateExpense;
-            AllOutComeTotalPrice -= categoryArr[k].dateExpense;
+            AllOutComeTotalPrice += categoryArr[k].dateExpense;
 
             totalBalancePriceArr[k] = totalIncomePriceArr[k]-totalOutComePriceArr[k];
             if(Math.abs(categoryArr[k].dateIncome-categoryArr[k].dateExpense) > maxGap)
@@ -2381,7 +2301,7 @@ function MakeLineChart(categoryArr, chartLabelName)
     console.log("step="+step);
     minLabel -= step;
     maxLabel = minLabel + step*6;
-    chartLogoToText(AllIncomeTotalPrice, AllOutComeTotalPrice, AllIncomeTotalPrice + AllOutComeTotalPrice);
+    chartLogoToText(AllIncomeTotalPrice, AllOutComeTotalPrice, AllIncomeTotalPrice - AllOutComeTotalPrice);
 
     console.log("balanceArr=",totalBalancePriceArr);
     console.log("incomeArr=",totalIncomePriceArr);
