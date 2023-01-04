@@ -32,6 +32,8 @@ public class QueryController {
     @PutMapping("/updateProduct")
     public ResponseEntity<Product> updateProduct(@RequestBody Product productRequest)
     {
+        productRequest.setLoginMethod(userMethod);
+        productRequest.setEmail(userEmail);
         Product tmp = productService.updateProduct(productRequest);
         if (tmp==null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -125,6 +127,7 @@ public class QueryController {
     @GetMapping("/monthOutcome")//月花費
     public ResponseEntity<List<Product>> monthOutcome(@RequestParam String date){
         String month = date.substring(5,7);
+        System.out.println(month);
         List<Product> temp = productService.getProductByDateLike(month);
 
         List<Product> monthTemp = new ArrayList<>();
@@ -215,6 +218,8 @@ public class QueryController {
 
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody Product productRequest){
+        productRequest.setLoginMethod(userMethod);
+        productRequest.setEmail(userEmail);
         Product product = productService.createProduct(productRequest);
         categoryCountService.checkCategoryCount(product.getCategory());
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
