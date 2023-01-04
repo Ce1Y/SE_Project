@@ -97,9 +97,16 @@ public class Product {
 
     @Override
     public String toString() {
-        return   "Date: " + date + "\n" +
-                "Category: " + category + "\n" +
-                "price: " + price + "\n" +
-                "Type:" + accountingType+ "\n";
+        return "Product{" +
+                "date='" + date + '\'' +
+                ", category='" + category + '\'' +
+                ", price=" + price +
+                ", id='" + id + '\'' +
+                ", description='" + description + '\'' +
+                ", accDate='" + accDate + '\'' +
+                ", accountingType=" + accountingType +
+                ", loginMethod='" + loginMethod + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

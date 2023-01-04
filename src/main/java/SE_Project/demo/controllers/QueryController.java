@@ -126,6 +126,7 @@ public class QueryController {
     }
     @GetMapping("/monthOutcome")//月花費
     public ResponseEntity<List<Product>> monthOutcome(@RequestParam String date){
+        System.out.println(date);
         String month = date.substring(5,7);
         System.out.println(month);
         List<Product> temp = productService.getProductByDateLike(month);
@@ -143,10 +144,12 @@ public class QueryController {
                 result.add(tmp1);
             }
         }
+        System.out.println(result);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     @GetMapping("/monthIncome")//月收入
     public ResponseEntity<List<Product>> monthIncome(@RequestParam String date){
+        System.out.println(date);
         String month = date.substring(5,7);
         List<Product> temp = productService.getProductByDateLike(month);
         List<Product> monthTemp = new ArrayList<>();
@@ -161,6 +164,7 @@ public class QueryController {
                 result.add(tmp1);
             }
         }
+        System.out.println(result);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     @GetMapping("/products/category")
@@ -358,6 +362,10 @@ public class QueryController {
         int dateToMonth =  Integer.parseInt(dateTo.substring(5,7));
         int dateFromYear =  Integer.parseInt(dateFrom.substring(0,4));
         int dateToYear =  Integer.parseInt(dateTo.substring(0,4));
+        System.out.println(dateFromMonth);
+        System.out.println(dateToMonth);
+        System.out.println(dateFromYear);
+        System.out.println(dateToYear);
         String totalMonth[] =  {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
         List<Product> result = new ArrayList<>();
         if(dateToYear==dateFromYear)
@@ -390,7 +398,7 @@ public class QueryController {
                 List<Product> temp = productService.getProductByDateLike(totalMonth[i]);
                 for(Product tmp:temp){
                     if(tmp.getDate().substring(5,7).equals(totalMonth[i])&&tmp.getAccountingType().equals(Type.expense)
-                            &&tmp.getDate().substring(0,4).equals(String.valueOf(dateFromYear) ) ){
+                            &&tmp.getDate().substring(0,4).equals(String.valueOf(dateToYear) ) ){
                         result.add(tmp);
                     }
                 }
@@ -402,6 +410,11 @@ public class QueryController {
                 tmp1.add(tmp2);
             }
         }
+        System.out.println("六個月支出");
+        System.out.println(result);
+        System.out.println(userEmail);
+        System.out.println(userMethod);
+        System.out.println(tmp1);
         return ResponseEntity.status(HttpStatus.OK).body(tmp1);
     }
 
@@ -446,7 +459,7 @@ public class QueryController {
                 List<Product> temp = productService.getProductByDateLike(totalMonth[i]);
                 for(Product tmp:temp){
                     if(tmp.getDate().substring(5,7).equals(totalMonth[i])&&tmp.getAccountingType().equals(Type.income)
-                            &&tmp.getDate().substring(0,4).equals(String.valueOf(dateFromYear) ) ){
+                            &&tmp.getDate().substring(0,4).equals(String.valueOf(dateToYear) ) ){
                         result.add(tmp);
                     }
                 }
@@ -458,6 +471,11 @@ public class QueryController {
                 tmp1.add(tmp2);
             }
         }
+        System.out.println("六個月支出");
+        System.out.println(result);
+        System.out.println(userEmail);
+        System.out.println(userMethod);
+        System.out.println(tmp1);
         return ResponseEntity.status(HttpStatus.OK).body(tmp1);
     }
     @GetMapping("/YearOutcome")

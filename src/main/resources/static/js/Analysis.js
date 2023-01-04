@@ -304,7 +304,7 @@ $(document).ready(function(){
 
         changeYearAndDate(0,displayDate);
         inexResetSelectedTimeType();
-        DealMonthOutcome(selectedYear+"-"+selectedMonth);
+        DealMonthOutcome(selectedYear+"-"+totalMonthBF[selectedMonth] );
     });
 
     //SearchWithIncome
@@ -335,7 +335,7 @@ $(document).ready(function(){
 
         changeYearAndDate(0,displayDate);
         inexResetSelectedTimeType();
-        DealMonthIncome(selectedYear+"-"+selectedMonth);
+        DealMonthIncome(selectedYear+"-"+totalMonthBF[selectedMonth]);
     });
 
     //SearchWithBalance
@@ -383,11 +383,11 @@ $(document).ready(function(){
         msmySelectedTimeType();
         if($('#analysisType_btn input:radio:checked').val() == "income")
         {
-            DealMonthIncome(selectedYear+"-"+selectedMonth);
+            DealMonthIncome(selectedYear+"-"+totalMonthBF[selectedMonth]);
         }
         else if($('#analysisType_btn input:radio:checked').val() == "expense")
         {
-            DealMonthOutcome(selectedYear+"-"+selectedMonth);
+            DealMonthOutcome(selectedYear+"-"+totalMonthBF[selectedMonth]);
         }
         else if($('#analysisType_btn input:radio:checked').val() == "balance")
         {
