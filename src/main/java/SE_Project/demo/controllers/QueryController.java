@@ -32,6 +32,8 @@ public class QueryController {
     @PutMapping("/updateProduct")
     public ResponseEntity<Product> updateProduct(@RequestBody Product productRequest)
     {
+        productRequest.setLoginMethod(userMethod);
+        productRequest.setEmail(userEmail);
         Product tmp = productService.updateProduct(productRequest);
         if (tmp==null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -167,11 +169,14 @@ public class QueryController {
 
         List<Product> tmp1 = new ArrayList<>();
 
+        System.out.println("result = " + result);
         for(Product tmp2:result){
             if(tmp2.getLoginMethod().equals(userMethod)&&tmp2.getEmail().equals(userEmail)){
                 tmp1.add(tmp2);
             }
         }
+        System.out.println("result = " + result);
+        System.out.println("tmp1 = " + tmp1);
 
         if (tmp1.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -215,6 +220,8 @@ public class QueryController {
 
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody Product productRequest){
+        productRequest.setLoginMethod(userMethod);
+        productRequest.setEmail(userEmail);
         Product product = productService.createProduct(productRequest);
         categoryCountService.checkCategoryCount(product.getCategory());
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
