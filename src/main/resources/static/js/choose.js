@@ -50,6 +50,13 @@ $(document).ready(function() {
             "accDate": $('#Date-name').val()+"T"+tempDate.substr(11,19),
             "loginMethod":localStorage.getItem("flag")
             }
+         $.ajax({
+             type: "GET",
+             url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+              success: function (allProducts) {
+                 console.log("setUser success");
+              }
+         });
         var total = 0;
         $.ajax({
             type: "GET",
@@ -62,6 +69,13 @@ $(document).ready(function() {
                 if(type=="expense"){
                 total=total+Number($('#Price-text').val());
                 }
+               $.ajax({
+                   type: "GET",
+                   url: "/setUserForBudget?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+                    success: function (allProducts) {
+                       console.log("setUser success");
+                    }
+               });
                 $.ajax({
                     type:"GET",
                     url: "/monthBudget?month=" + "Month"+$('#Date-name').val().substring(5,7),
@@ -82,6 +96,13 @@ $(document).ready(function() {
                    }
                 });
             }
+        });
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
         });
         console.log( $('#Date-name').val());
         $.ajax({

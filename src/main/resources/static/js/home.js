@@ -161,6 +161,13 @@ $(document).ready(function () {
 
     });
     $('#time').change(function () {//時間更改
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         $("#time").attr("value", $(this).val());
         $.ajax({
             type: "GET",
@@ -280,7 +287,20 @@ $(document).ready(function () {
         "email":localStorage.getItem("email"),
         "loginMethod":localStorage.getItem("flag")
         }
-
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
+        $.ajax({
+            type: "GET",
+            url: "/setUserForBudget?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
         $.ajax({
             type: "GET",
             url: "/monthBudget?month=" + $('#monthChoose').val(),
@@ -337,6 +357,13 @@ $(document).ready(function () {
             "accDate": dayData[trId].accDate,
             "loginMethod":localStorage.getItem("flag")
          }
+         $.ajax({
+             type: "GET",
+             url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+              success: function (allProducts) {
+                 console.log("setUser success");
+              }
+         });
         $.ajax({
             url:'/updateProduct',
             method:'PUT',

@@ -5,6 +5,13 @@ var searchType;
 
 $(document).ready(function(){
     $('#click_search1').click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
+             success: function (allProducts) {
+                console.log("setUser success");
+             }
+        });
        $('#search_display').html("");
        if(searchType=="Date")
        {
