@@ -88,11 +88,11 @@ $(document).ready(function(){
             changeYearAndDate(0,displayDate);
             if($('#analysisType_btn input:radio:checked').val() == "income")
             {
-                DealMonthIncome(selectedYear+"-"+selectedMonthWith0);
+                DealMonthIncome(selectedYear+"-"+selectedMonthWith0+"-01");
             }
             else if($('#analysisType_btn input:radio:checked').val() == "expense")
             {
-                DealMonthOutcome(selectedYear+"-"+selectedMonthWith0);
+                DealMonthOutcome(selectedYear+"-"+selectedMonthWith0+"-01");
             }
             else if($('#analysisType_btn input:radio:checked').val() == "balance")
             {
@@ -197,11 +197,11 @@ $(document).ready(function(){
             changeYearAndDate(0,displayDate);
             if($('#analysisType_btn input:radio:checked').val() == "income")
             {
-                DealMonthIncome(selectedYear+"-"+selectedMonthWith0);
+                DealMonthIncome(selectedYear+"-"+selectedMonthWith0+"-01");
             }
             else if($('#analysisType_btn input:radio:checked').val() == "expense")
             {
-                DealMonthOutcome(selectedYear+"-"+selectedMonthWith0);
+                DealMonthOutcome(selectedYear+"-"+selectedMonthWith0+"-01");
             }
             else if($('#analysisType_btn input:radio:checked').val() == "balance")
             {
@@ -304,7 +304,7 @@ $(document).ready(function(){
 
         changeYearAndDate(0,displayDate);
         inexResetSelectedTimeType();
-        DealMonthOutcome(selectedYear+"-"+selectedMonth);
+        DealMonthOutcome(selectedYear + "-"+ totalMonthBF[selectedMonth] +"-01" );
     });
 
     //SearchWithIncome
@@ -335,7 +335,7 @@ $(document).ready(function(){
 
         changeYearAndDate(0,displayDate);
         inexResetSelectedTimeType();
-        DealMonthIncome(selectedYear+"-"+selectedMonth);
+        DealMonthIncome(selectedYear+"-"+ totalMonthBF[selectedMonth] +"-01");
     });
 
     //SearchWithBalance
@@ -383,11 +383,11 @@ $(document).ready(function(){
         msmySelectedTimeType();
         if($('#analysisType_btn input:radio:checked').val() == "income")
         {
-            DealMonthIncome(selectedYear+"-"+selectedMonth);
+            DealMonthIncome(selectedYear+"-"+ totalMonthBF[selectedMonth] +"-01" );
         }
         else if($('#analysisType_btn input:radio:checked').val() == "expense")
         {
-            DealMonthOutcome(selectedYear+"-"+selectedMonth);
+            DealMonthOutcome(selectedYear+"-"+ totalMonthBF[selectedMonth] +"-01");
         }
         else if($('#analysisType_btn input:radio:checked').val() == "balance")
         {

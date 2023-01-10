@@ -25,9 +25,9 @@ public class QueryController {
     private CategoryCountService categoryCountService;
 
     private final List<Product> virtualDB = new ArrayList<>();
-    public  String userEmail="0524eric@gmail.com";
+    public  String userEmail="";
 
-    public  String userMethod="local";
+    public  String userMethod="";
 
     @PutMapping("/updateProduct")
     public ResponseEntity<Product> updateProduct(@RequestBody Product productRequest)
@@ -49,7 +49,7 @@ public class QueryController {
     @GetMapping("/setUserDetails")
     public ResponseEntity<String> setUserDetails(@RequestParam String email,@RequestParam String flag){
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-
+//        System.out.println("\n\n\nsetting user Details\n\n\n");
         if(currentUser.getClass()== OAuth2AuthenticationToken.class){
             System.out.println("第三方");
             System.out.println(currentUser.getName());
@@ -128,7 +128,7 @@ public class QueryController {
     public ResponseEntity<List<Product>> monthOutcome(@RequestParam String date){
         String month = date.substring(5,7);
         List<Product> temp = productService.getProductByDateLike(month);
-
+//        System.out.println("userMethod="+userMethod+"\n\n");
         List<Product> monthTemp = new ArrayList<>();
         for(Product tmp:temp){
             if(tmp.getDate().substring(0,7).equals(date.substring(0,7))&&tmp.getAccountingType()== Type.expense){
@@ -142,6 +142,7 @@ public class QueryController {
                 result.add(tmp1);
             }
         }
+//        System.out.println("userMethod="+userMethod+"\n\n");
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     @GetMapping("/monthIncome")//月收入

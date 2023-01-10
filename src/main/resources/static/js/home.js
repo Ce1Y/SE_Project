@@ -37,6 +37,7 @@ $(document).ready(function () {
             type: "GET",
             url: "/setUserDetails?email=" + localStorage.getItem("email") + "&flag=" + localStorage.getItem("flag"),
              success: function (allProducts) {
+
                 console.log("setUser success");
              }
         });
