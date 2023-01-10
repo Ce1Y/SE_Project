@@ -25,9 +25,9 @@ public class QueryController {
     private CategoryCountService categoryCountService;
 
     private final List<Product> virtualDB = new ArrayList<>();
-    public  String userEmail="";
+    public  String userEmail="0524eric@gmail.com";
 
-    public  String userMethod="";
+    public  String userMethod="local";
 
     @PutMapping("/updateProduct")
     public ResponseEntity<Product> updateProduct(@RequestBody Product productRequest)
